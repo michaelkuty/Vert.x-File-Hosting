@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/bootstrap-responsive.css">
+		<link rel="stylesheet" href="css/templatemo_style.css">
+		<link rel="stylesheet" href="css/isotop.css">
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+		<script src="./js/bootstrap.js"></script>
+		<script src="./js/bootstrap.file-input.js"></script>
+		<script src="./js/jquery.isotope.min.js"></script>
+		<script src="./js/jquery.isotope.setup.js"></script>
+
+		<title>File-hosting</title>
+	</head>
+	<body id="home">
+		<div class="container">
+			<div id="templatemo_wrapper">
+				
+				<!-- menu -->
+				<div id="templatemo_menu" class="ddsmoothmenu">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="upload.html">Upload</a></li>
+					</ul>
+					<ul class="pull-right">
+						<li><a href="#login" role="button" data-toggle="modal">Login</a></li>
+						<li><a href="registration.html">Registration</a></li>
+					</ul>
+				</div> <!-- end of menu -->
+				
+				<!-- logo -->
+				<div id="templatemo_header_home">
+					<div id="site_title">
+						<a class="rotation" href="index.html">
+							<h1>
+								<img src="./images/title.png" alt="">
+							</h1>
+						</a>
+					</div>
+				</div> <!-- end of logo -->
+
+				<!-- search -->
+				<div id="templatemo_middle">		
+					<form action="search.html" method="get">			
+						<input class="span6 search-input" type="search" name="search" placeholder="Search...">
+						<input type="submit" value="Search" name="hledat" class="search-sub">		
+					</form>        
+					<div class="cleaner"></div>
+				</div> <!-- end of search -->
+
+
+				<div id="content_top" class="row">
+					<div class="span6 offset3">
+						<div class="h40"></div>
+						<a href="#login" role="button" data-toggle="modal" class="btn btn-large btn-block btn-warning btn-upload">UPLOAD FILE</a>
+					</div>
+				</div>
+
+				<div class="row-fluid">
+					<article class="span6">
+						<header>
+							<a class="link" href="registration.html">
+								<h2>Registration</h2>
+							</a>
+						</header>
+						<div class="media">
+							<a class="pull-left" href="registration.html">
+								<img class="media-object" src="images/registration.png" alt="registration">
+							</a>
+							<div class="media-body">
+								<h3 class="home">Benefits of registration</h3>
+								<ul>
+									<li>Integer Sit Amet Dui Lorem</li>
+									<li>Dui Lorem</li>
+									<li>Lorem ipsum dolor</li>
+									<li>Excepteur sint obcaecat</li>
+									<li>Officia deserunt mollit</li>
+								</ul>
+							</div>
+						</div>
+					</article>
+					<article class="span5 offset1">
+						<header>
+							<a class="link" href="#">
+								<h2>Uploading</h2>
+							</a>
+						</header>
+						<div class="media">
+							<a class="pull-left" href="#">
+								<img class="media-object" src="images/upload.png" alt="upload">
+							</a>
+							<div class="media-body">
+								<h3 class="home">Uploading rules</h3>
+								<ul>
+									<li>Integer Sit Amet Dui Lorem</li>
+									<li>Dui Lorem</li>
+									<li>Lorem ipsum dolor</li>
+									<li>Excepteur sint obcaecat</li>
+									<li>Officia deserunt mollit</li>
+								</ul>
+							</div>
+						</div>
+					</article>
+				</div>
+				<div class="cleaner h30"></div>
+			</div> <!-- end of wrapper -->
+		</div>
+		<div id="templatemo_footer_wrapper">
+			<div id="templatemo_footer" class="container">
+				<p>Powered by <a target="_blank" href="http://nodejs.org/">NodeJS</a>,
+					<a target="_blank" href="http://angularjs.org/">AngularJS</a>,
+					<a target="_blank" href="http://vertx.io//">vert.x</a>,
+					<a target="_blank" href="http://www.mongodb.org/">mongoDB</a>,
+					<a target="_blank" href="http://gradle.org">gradle</a>,
+					<a target="_blank" href="http://twitter.github.io/bootstrap/">bootstrap</a>,
+					<a target="_blank" href="http://isotope.metafizzy.co/">isotop</a>.
+				</p>
+				<p>Coded by Jakub Josef, Michal Kutý | Designed by Jan Vaňura.</p>
+			</div> <!-- end of footer -->
+		</div> <!-- end of footer wrapper -->	
+
+
+
+
+		<!-- log in modal form -->
+		<div id="login" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">Log in</h3>
+			</div>
+			<div class="modal-body">		
+				<form class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">Email</label>
+						<div class="controls">
+							<input type="text" id="inputEmail" placeholder="Email">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputPassword">Password</label>
+						<div class="controls">
+							<input type="password" id="inputPassword" placeholder="Password">
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox">
+								<input type="checkbox"> Remember me
+							</label>
+							<button type="submit" class="btn btn-warning">Sign in</button>
+							<br>
+							<br>
+							<a href="#">Forgotten password</a>
+						</div>
+					</div>
+				</form>	
+			</div>		
+		</div>
+	</body>
+</html>

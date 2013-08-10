@@ -1,0 +1,50 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html;charset=windows-1252" >
+<head>
+
+<script src="js/bcrypt.js"></script>
+<script src="js/base64.js"></script>
+<script src="js/isaac.js"></script>
+<script src='js/3rd/sockjs-0.3.min.js'></script>
+<script src='js/app/vertxbus.js'></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src='jbcrypt/crypt.js'></script>
+</head>
+<body ng-app="crypt">
+
+<form ng-controller="HashPass">
+<label for="password">Password: </label><input size=30 type="text" name="password" id="password"></input>
+<br />
+<label for="salt">Salt (Optional): </label><input size=30 type="text" name="salt" id="salt"></input>
+<br />
+<label for="rounds">Rounds: </label>
+<select id="rounds" name="rounds">
+  <option value=5>5</option>
+  <option value=6>6</option>
+  <option value=7>7</option>
+  <option value=8>8</option>
+  <option value=9>9</option>
+  <option value=10>10</option>
+  <option value=11>11</option>
+  <option value=12>12</option>
+</select>
+<br />
+<INPUT TYPE="button" NAME="button" value="Waiting for PRNG..." onClick="crypt()" id="submit"/>
+<br />
+<br />
+<label for="hash">Hash: </label><input size=60 type="text" name="hash" id="hash" READONLY></input>{{2+3}}
+<button ng-click="submitt()">{{ready}}</button>
+<br>
+{{saltt}}
+<br>
+{{HassPass}}
+<label for="pass">Password: </label><input size=30 type="text" name="pass" id="pass"></input>{{comp}}
+<button ng-click="compar()">Porovnej</button>
+</form>
+
+
+
+</body>
+</html>

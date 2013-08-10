@@ -1,0 +1,15 @@
+<div class="sidebar-login">
+    <form class="form-stacked" ng-controller="LoginModalFrame" ng-submit="login()" method"post">
+      <label for="username"><i class="icon-user icon-black"></i>Username</label>
+      <input type="text" id="username" class="span2" ng-model="jmeno"/>
+      <label for="password">Password</label>
+      <input type="password" id="password" class="span2" ng-model="password"/>
+      <br><br>
+      <i class="icon-user icon-black"></i>
+      <input type="submit" class="btn primary" value="Login" ng-click="login()"/>
+      <h2>{{jmeno}}</h2>
+      <p1>{{sessionID}}</p1><br>
+      <p2>Přihlášení: {{loggedIn}}</p2>
+    </form>
+    
+</div>
