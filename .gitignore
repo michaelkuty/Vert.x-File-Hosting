@@ -2,8 +2,8 @@
 ## Eclipse
 #################
 
-files
-mods
+files/
+mods/
 
 *.pydevproject
 .project
