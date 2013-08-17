@@ -2,8 +2,10 @@
 ## Eclipse
 #################
 
-files/
-mods/
+*.uploaded
+*.pdf
+*.jpeg
+*.zip
 
 *.pydevproject
 .project
