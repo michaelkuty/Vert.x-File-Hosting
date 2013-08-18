@@ -10,3 +10,5 @@ simple file upload written in javascipt, java and python
 	"host": "0.0.0.0",
 	"path": "files/"
 }
+
+* path for e.x: files/temp/

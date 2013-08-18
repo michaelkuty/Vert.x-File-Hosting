@@ -1,26 +1,24 @@
-import random
-import string
 import vertx
 
 from core.file_system import FileSystem
-from core.streams import Pump
 from core.http import RouteMatcher 
-from core.http import MultiMap
 from core.event_bus import EventBus
-
-from datetime import datetime
 
 from api import upload
 from api import bus
 
+#inicialize
 server = vertx.create_http_server()
 route_matcher = RouteMatcher()
-
 fs = vertx.file_system()
-
 app_config = vertx.config()
 
-path = app_config['path']
+#set global
+path_web = app_config['path_web']
+#cros module variable
+upload.path_upload = app_config['path_upload']
+upload.path_symlink = app_config['path_temp']
+upload.path_temp = app_config['path_symlink']
 
 
 
@@ -31,7 +29,7 @@ def index_handler(req):
 def source_handler(req):
     if "/js/" in req.uri:
         print req.uri
-        req.response.send_file("web/%s"% (req.uri))
+        req.response.send_file("%s%s"% (path_web,req.uri))
     else:
         #req.response.put_header('Expect', '404-Continue')
         req.response.status_code = 404
@@ -55,4 +53,5 @@ route_matcher.post('/upload', upload.upload_handler)
 route_matcher.get('/:filename', upload.file_handler)
 route_matcher.get('/', index_handler)
 
-server.request_handler(route_matcher).listen(8888, '0.0.0.0')
+#set server
+server.request_handler(route_matcher).listen(app_config['port'], app_config['host'])

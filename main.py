@@ -5,9 +5,12 @@ logger = vertx.logger()
 logger.info("vertx in python")
 
 config = {
-	"port": 8080,
+	"port": 8888,
 	"host": "0.0.0.0",
-	"path": "files/"
+	"path_web": "web/",
+	"path_upload": "files/upload",
+	"path_temp": "files/temp",
+	"path_symlink": "files/symlink"
 }
 
 mongo_config = {
@@ -18,13 +21,17 @@ mongo_config = {
     "pool_size": 20
 }
 
-def deploy_handler_web_server(err, dep_id):
+#called when deploy finish
+def deploy_handler(err, dep_id):
     if err is not None:
         err.printStackTrace()
     else:
-        print "web server been deployed! %s" %dep_id
+        print "%s" %dep_id
 
-vertx.deploy_module('io.vertx~mod-mongo-persistor~2.0.0-final', mongo_config, 1)
+vertx.deploy_module('io.vertx~mod-mongo-persistor~2.0.0-final', None, 1,handler=deploy_handler)
 
-vertx.deploy_verticle('server/upload.py', config)
-print config
+#main server / route matcher / eventbus
+vertx.deploy_verticle('server/server.py', config, 1, handler=deploy_handler)
+
+print "webserver config: %s"% config
+print "mongopersistor config: %s"% mongo_config

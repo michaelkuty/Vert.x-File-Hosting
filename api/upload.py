@@ -11,17 +11,18 @@ from datetime import datetime
 route_matcher = RouteMatcher()
 
 fs = vertx.file_system()
-path = "files/"
+#global
+path_upload = "files/upload/"
+path_symlink = "files/symlink/"
+path_temp = "files/temp/"
 
 def upload_handler(req):
     req.pause()
 
-    path_to_upload = path
-
     req.set_expect_multipart(True)
     print "zaciname"
     #create temp name
-    filename = "%s%s"% (path_to_upload, "temp/") 
+    filename = "%s"% path_temp 
     for i in range(10):
         filename += string.uppercase[random.randrange(26)]
     filename += '.uploaded'
@@ -30,8 +31,8 @@ def upload_handler(req):
     #file move and create link to file
     def upload_handler(upload):
         # create path for file with new name
-        path_to_file = "%supload/%s"% (path_to_upload,upload.filename)
-        path_to_symlink = "%ssymlink/%s"% (path_to_upload,upload.filename)
+        path_to_file = "%s%s"% (path_upload,upload.filename)
+        path_to_symlink = "%s%s"% (path_symlink,upload.filename)
 
         def handle(err,res):
             print("file moved from: %s to: %s")% (filename, path_to_file)
@@ -42,7 +43,7 @@ def upload_handler(req):
             print "create symlink for: %s"% (path_to_symlink)
             if err: print err
         fs.link(path_to_symlink,path_to_file,handler=handle_symlink)
-
+    
     req.upload_handler(handler=upload_handler)
     
     print "Got request storing in %s"% filename

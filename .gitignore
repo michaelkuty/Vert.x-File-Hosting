@@ -5,8 +5,12 @@
 *.uploaded
 *.pdf
 *.jpeg
+*.jpg
 *.zip
 mods/
+files/symlink/
+files/temp/
+files/upload/
 
 *.pydevproject
 .project
