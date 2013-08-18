@@ -53,8 +53,8 @@ route_matcher.get('/:filename', upload.file_handler)
 route_matcher.get('/', index_handler)
 
 #set server
-server.set_send_buffer_size(4 * 1024)
-server.set_receive_buffer_size(100 * 1024)
+#server.set_send_buffer_size(4 * 1024)
+#server.set_receive_buffer_size(100 * 1024)
 logger.info("send buffer: %s"% server.send_buffer_size)
 logger.info("receive buffer: %s"% server.receive_buffer_size)
 #logger.info(server.use_pooled_buffers)
