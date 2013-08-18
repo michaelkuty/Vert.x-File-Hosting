@@ -2,6 +2,7 @@ import vertx
 from core.file_system import FileSystem
 from core.http import MultiMap
 
+logger = vertx.logger()
 fs = vertx.file_system()
 
 #one shot timer
@@ -11,7 +12,7 @@ def set_one_timer(time, path):
     def handler(tid):
        def delete_handler(err,res):
            if err: print res
-           print "file %s was deleted"% path
+           logger.info("file %s was deleted"% path)
        fs.delete(path,handler=delete_handler)
     tid = vertx.set_timer(time, handler)
 
@@ -25,10 +26,10 @@ def periodic_cleaner(time, path,file_filter=None):
             if not err:
                 for result in res:
                     def delete_handler(err,res):
-                        if err: print res
+                        if err: logger.error(res)
                     fs.delete(result, handler=delete_handler)
-                    print "delete %s files type: %s from %s"% (len(res),path,file_filter)
-            else: print err
+                    logger.info("delete %s files type: %s from %s"% (len(res),path,file_filter))
+            else: logger.error(err)
         if file_filter == None:
             fs.read_dir(path, handler=handler)
         else: fs.read_dir(path, file_filter, handler=handler)

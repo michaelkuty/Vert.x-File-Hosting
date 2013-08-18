@@ -9,7 +9,7 @@ from core.http import MultiMap
 from datetime import datetime
 
 route_matcher = RouteMatcher()
-
+logger = vertx.logger()
 fs = vertx.file_system()
 #global
 path_upload = "files/upload/"
@@ -20,7 +20,7 @@ def upload_handler(req):
     req.pause()
 
     req.set_expect_multipart(True)
-    print "zaciname"
+    logger.info("upload beign")
     #create temp name
     filename = "%s"% path_temp 
     for i in range(10):
@@ -35,20 +35,18 @@ def upload_handler(req):
         path_to_symlink = "%s%s"% (path_symlink,upload.filename)
 
         def handle(err,res):
-            print("file moved from: %s to: %s")% (filename, path_to_file)
-            if err: print err
+            logger.info(("file moved from: %s to: %s")% (filename, path_to_file))
+            if err: logger.error(err)
         #file move
         fs.move(filename, path_to_file, handler=handle)
         def handle_symlink(err,res):
-            print "create symlink for: %s"% (path_to_symlink)
-            if err: print err
+            logger.info("create symlink for: %s"% (path_to_symlink))
+            if err: logger.error(err)
         fs.link(path_to_symlink,path_to_file,handler=handle_symlink)
     
     req.upload_handler(handler=upload_handler)
-    def end_handle(req):
-        print "hello from end"
-    req.end_handler(handler=end_handle)
-    print "Got request storing in %s"% filename
+
+    logger.info("Got request storing in %s"% filename)
 
     #file upload with response
     def file_open(err, file):
@@ -58,7 +56,7 @@ def upload_handler(req):
         def end_handler():
             def file_close(err, file):
                 end_time = datetime.now()
-                print "Uploaded %d bytes to %s in %s"%(pump.bytes_pumped, filename, end_time-start_time)
+                logger.info("Uploaded %d bytes to %s in %s"%(pump.bytes_pumped, filename, end_time-start_time))
                 req.response.chunked = True
                 req.response.status_code = 201
                 req.response.status_message = "File uploaded"

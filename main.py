@@ -27,16 +27,16 @@ def deploy_handler(err, dep_id):
     if err is not None:
         err.printStackTrace()
     else:
-        print "%s" %dep_id
+        logger.info("%s" %dep_id)
 
 vertx.deploy_module('io.vertx~mod-mongo-persistor~2.0.0-final', None, 1,handler=deploy_handler)
 #vertx.deploy_module('io.vertx~mod-unzip~1.0.0-final', {"address":"unzip.module"}, 1,handler=deploy_handler)
 
 #main server / route matcher / eventbus
-vertx.deploy_verticle('server/server.py', config, 20, handler=deploy_handler)
+vertx.deploy_verticle('server/server.py', config, 1, handler=deploy_handler)
 
-print "webserver config: %s"% config
-print "mongopersistor config: %s"% mongo_config
+logger.info("webserver config: %s"% config)
+logger.info("mongopersistor config: %s"% mongo_config)
 
 #cleaner.periodic_cleaner(5000,"files/temp/",".*\.uploaded")
 #cleaner.periodic_cleaner(15000,"files/symlink/")
