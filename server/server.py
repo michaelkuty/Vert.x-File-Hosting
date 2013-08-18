@@ -61,6 +61,11 @@ def get_or_create(message):
     bus.get_or_create(message)
 
 EventBus.register_handler('get_or_create', handler=get_or_create)
+
+def read_dir(message):
+    bus.read_dir(message)
+
+EventBus.register_handler('read_dir', handler=read_dir)
 #set server
 #server.set_send_buffer_size(4 * 1024)
 #server.set_receive_buffer_size(100 * 1024)
@@ -72,6 +77,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'get_or_create'
+        },
+        {
+            'address': 'read_dir'
         },
         {
             'address': 'vertx.mongopersistor',

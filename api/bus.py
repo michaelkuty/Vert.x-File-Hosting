@@ -53,8 +53,26 @@ def get_or_create(message):
             fs.exists(path_upload+uid, handler=exists_handler)
         else: message.reply("user not exists")
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
-    
 
+#TODOOO
+#set reply object
+def read_dir(message):
+    uid = message.body["uid"]
+    print uid
+    def read_dir_handler(err,res):
+        if not err: 
+            reply = {}
+            for filename in res:
+                def props_handler(err,res):
+                    if not err: 
+                        print str(res.directory)
+                    else: 
+                        logger.info(err)
+                        print "None"
+                fs.props(filename,handler=props_handler)
+    fs.read_dir(path_upload+uid,handler=read_dir_handler)
+    
+#refactor bus.db
 def db_stats(collection):
     def reply_handler1(message):
         logger.info("message.body")

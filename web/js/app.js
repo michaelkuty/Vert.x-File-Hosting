@@ -27,6 +27,10 @@ function LoginCtrl($scope, $eb){
 			console.log(JSON.stringify(res));
       console.log("sessionID: " + $eb.sessionID);
       console.log("userID: " + $eb.userID);
+      //minimal one file for result
+      $eb.send("read_dir",{"uid": $eb.userID}, function(res){
+        console.log(res);
+      });
 		});
 
 		alert(JSON.stringify(user.login));
