@@ -30,6 +30,7 @@ def deploy_handler(err, dep_id):
         print "%s" %dep_id
 
 vertx.deploy_module('io.vertx~mod-mongo-persistor~2.0.0-final', None, 1,handler=deploy_handler)
+#vertx.deploy_module('io.vertx~mod-unzip~1.0.0-final', {"address":"unzip.module"}, 1,handler=deploy_handler)
 
 #main server / route matcher / eventbus
 vertx.deploy_verticle('server/server.py', config, 20, handler=deploy_handler)
