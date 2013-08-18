@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html ng-app="filehosting">
 	<head>
 		<title>Filehosting PRO3</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -13,8 +13,11 @@
 		<script src="js/config.js"></script>
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-panels.min.js"></script>
-	    <script src="js/vendor/jquery.liteuploader.min.js"></script>
-	    <script src="js/upload.js"></script>
+		<script src="js/vendor/angular/angular.min.js"></script>
+		<script src="js/vendor/angular/angular-route.min.js"></script>
+		<script src="js/vendor/jquery.liteuploader.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/upload.js"></script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -42,7 +45,9 @@
 									<!-- Nav -->
 										<nav id="nav">
 											<ul>
-												<li class="current_page_item"><a href="index.html">Domů</a></li>
+												<li class="current_page_item"><a href="#/">Domů</a></li>
+												<li><a href="#/search">Vyhledávání</a></li>
+												<li><a href="#/login">Přihlásit se</a></li>
 												<li>
 													<span>Dropdown</span>
 													<ul>
@@ -62,9 +67,7 @@
 														<li><a href="#">Nisl tempus</a></li>
 													</ul>
 												</li>
-												<li><a href="right-sidebar.html">Link</a></li>
-												<li><a href="left-sidebar.html">Link</a></li>
-												<li><a href="no-sidebar.html">Link</a></li>
+												
 											</ul>
 										</nav>
 									<!-- /Nav -->
@@ -78,33 +81,7 @@
 			</div>
 		<!-- /Header Wrapper -->
 		
-		<!-- Intro Wrapper -->
-			<div id="intro-wrapper" class="wrapper wrapper-style2">
-				<div class="title">
-					<input type="file" name="files" multiple="multiple" />
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="12u">
-							
-							<!-- Intro -->
-								<section id="intro">
-									<p class="style1">Nahrávejte své soubory ...</p>
-								    <div id="details"></div>
-									<div id="response"></div>
-									<div id="previews"></div>
-								</section>
-							<!-- /Intro -->
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		<!-- /Intro Wrapper -->
-		<!-- Main Wrapper -->
-		<div class="wrapper">
-			&nbsp;
-		</div>
+		<div ng-view></div>
 				
 		<!-- Footer Wrapper -->
 			<div id="footer-wrapper" class="wrapper">
