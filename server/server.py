@@ -22,11 +22,11 @@ upload.path_symlink = app_config['path_symlink']
 upload.path_temp = app_config['path_temp']
 
 def index_handler(req):
-    req.response.send_file( "%slite.html"% path_web)
+    req.response.send_file( "%sindex.html"% path_web)
 
 @route_matcher.no_match 
 def source_handler(req):
-    if "/js/" in req.uri:
+    if ("js" in req.uri) or ("css" in req.uri) or ("images" in req.uri):
         logger.info(req.uri)
         req.response.send_file("%s%s"% (path_web,req.uri))
     else:

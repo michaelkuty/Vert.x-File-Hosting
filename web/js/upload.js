@@ -1,12 +1,8 @@
 $(document).ready(function() {
-	$('.fileUpload').liteUploader({
+	$("input:file[name='files']").liteUploader({
 		script: 'http://localhost:8888/upload',
-		allowedFileTypes: 'image/jpeg,image/png,image/gif,application/zip,application/pdf',
+		disAllowedFileTypes: 'application/javascript',
 		maxSizeInBytes: 999999999999,
-		customParams: {
-			'custom': 'tester',
-			'hovna': 'hovna'
-		},
 		before: function() {
 			$('#details, #previews').empty();
 			$('#response').html('Uploading...');
