@@ -3,6 +3,7 @@ import vertx
 from core.file_system import FileSystem
 from core.http import RouteMatcher 
 from core.event_bus import EventBus
+from core.sock_js import SockJSServer
 
 from api import upload
 from api import bus
@@ -59,4 +60,13 @@ logger.info("send buffer: %s"% server.send_buffer_size)
 logger.info("receive buffer: %s"% server.receive_buffer_size)
 #logger.info(server.use_pooled_buffers)
 
+SockJSServer(server).bridge({"prefix": "/eventbus"}, [
+    {
+      address : 'vertx.mongopersistor',
+      match : {
+        action : 'find',
+        collection : 'users'
+      }
+    }],
+    [{}])
 server.request_handler(route_matcher).listen(app_config['port'], app_config['host'])
