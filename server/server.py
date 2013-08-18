@@ -62,10 +62,10 @@ logger.info("receive buffer: %s"% server.receive_buffer_size)
 
 SockJSServer(server).bridge({"prefix": "/eventbus"}, [
     {
-      address : 'vertx.mongopersistor',
-      match : {
-        action : 'find',
-        collection : 'users'
+      "address" : 'vertx.mongopersistor',
+      "match" : {
+        "action" : 'find',
+        "collection" : 'users'
       }
     }],
     [{}])
