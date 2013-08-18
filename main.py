@@ -18,7 +18,7 @@ mongopersistor_address = "vertx.mongopersistor"
 
 mongo_config = {
     "address": mongopersistor_address,
-    "host": "0.0.0.0",
+    "host": "localhost",
     "port": 8888,
     "db_name": "test",
     "pool_size": 20
