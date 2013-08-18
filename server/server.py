@@ -29,7 +29,7 @@ def index_handler(req):
 @route_matcher.no_match 
 def source_handler(req):
     if ("js" in req.uri) or ("css" in req.uri) or ("images" in req.uri) or ("pages" in req.uri):
-        logger.info(req.uri)
+        #logger.info(req.uri)
         req.response.send_file("%s%s"% (path_web,req.uri))
     else:
         #req.response.put_header('Expect', '404-Continue')
@@ -60,17 +60,6 @@ route_matcher.get('/', index_handler)
 logger.info("send buffer: %s"% server.send_buffer_size)
 logger.info("receive buffer: %s"% server.receive_buffer_size)
 #logger.info(server.use_pooled_buffers)
-"""
-SockJSServer(server).bridge({"prefix": "/eventbus"}, [
-    {
-      "address" : 'vertx.mongopersistor',
-      "match" : {
-        "action" : 'find',
-        "collection" : 'users'
-      }
-    }],
-    [{}])
-"""
 SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
             'address': 'vertx.basicauthmanager.login'
         },
@@ -81,5 +70,5 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
                 'collection': 'users'
             }
         }], [{}])
-sock_server.listen(8889)
+sock_server.listen(app_config['port_bridge'])
 server.request_handler(route_matcher).listen(app_config['port'], app_config['host'])

@@ -42,9 +42,11 @@ var vertx = vertx || {};
     that.onclose = null;
 
     that.login = function(username, password, replyHandler) {
+      console.log(JSON.stringify(that));
       sendOrPub("send", 'vertx.basicauthmanager.login', {username: username, password: password}, function(reply) {
         if (reply.status === 'ok') {
           that.sessionID = reply.sessionID;
+          //console.log(that.sessionID);
         }
         if (replyHandler) {
           delete reply.sessionID;

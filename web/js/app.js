@@ -25,7 +25,8 @@ function LoginCtrl($scope, $eb){
 	$scope.doLogin= function(user){
 
 		$eb.login(user.login,user.pass,function(res){
-			console.log(JSON.stringify(res))
+			console.log(JSON.stringify(res));
+      console.log($eb.sessionID);
 		});
 
 		alert(JSON.stringify(user.login));

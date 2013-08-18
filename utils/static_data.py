@@ -6,24 +6,17 @@ logger = vertx.logger()
 def album_delete_handler(reply):
 
     users = [ {
-        'action': 'save',
-        'collection': 'users',
-        'document': {
             'firstname': 'Michael',
             'lastname': 'Kuty',
             'email': 'kuty.michael@uhk.cz',
             'username': 'admin',
             'password': 'admin'
-        }},{
-        'action': 'save',
-        'collection': 'users',
-        'document': {
+        },{
             'firstname': 'Jakub',
             'lastname': 'Josef',
             'email': 'jakub.josef@uhk.cz',
             'username': 'kuba',
             'password': 'kuba'
-        }
         }
     ]
 

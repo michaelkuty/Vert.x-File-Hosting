@@ -7,6 +7,7 @@ logger.info("vertx in python")
 
 config = {
     "port": 8888,
+    "port_bridge": 8889,
     "host": "0.0.0.0",
     "path_web": "web/",
     "path_upload": "files/upload/",
