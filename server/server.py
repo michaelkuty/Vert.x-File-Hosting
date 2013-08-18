@@ -27,7 +27,6 @@ bus.path_upload = app_config['path_upload']
 
 
 def index_handler(req):
-
     req.response.send_file( "%sindex.html"% path_web)
 
 @route_matcher.no_match 
@@ -58,6 +57,10 @@ route_matcher.post('/upload', upload.upload_handler)
 route_matcher.get('/:filename', upload.file_handler)
 route_matcher.get('/', index_handler)
 
+def get_or_create(message):
+    bus.get_or_create(message)
+
+EventBus.register_handler('get_or_create', handler=get_or_create)
 #set server
 #server.set_send_buffer_size(4 * 1024)
 #server.set_receive_buffer_size(100 * 1024)
@@ -66,6 +69,9 @@ logger.info("receive buffer: %s"% server.receive_buffer_size)
 #logger.info(server.use_pooled_buffers)
 SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
             'address': 'vertx.basicauthmanager.login'
+        },
+        {
+            'address': 'get_or_create'
         },
         {
             'address': 'vertx.mongopersistor',

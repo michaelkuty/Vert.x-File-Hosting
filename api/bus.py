@@ -27,28 +27,31 @@ def create_dir(username):
         fs.mkdir(path_upload+msg.body["result"]["_id"], perms=None, handler=None)
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
 
-#method get user from db and get uid directory in global path
+#method get eventbus message from db and get uid directory in global path
 #if not exists method create dir with user _id
-def get_or_create(username):
+#if not exist user method reply status
+def get_or_create(message):
+    username = message.body["username"]
     def reply_handler(msg):
         #logger.info(msg.body["result"])
         uid = ""
-        if (msg.body["result"]["_id"] != None):
+        if (msg.body.get("result")):
             uid = msg.body["result"]["_id"]
             def exists_handler(err, msg):
                 if not err: 
-                    logger.info(msg)
+                    #logger.info(msg)
                     if (msg == "true"):
-                        return uid
+                        message.reply(uid)
                     else: 
                         def reply_handler(msg):
                              #logger.info(msg.body["result"]["_id"])
                              fs.mkdir(path_upload+uid, perms=None, handler=None)
-                             return uid
+                             message.reply(uid)
                         EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
                 else: err.printStackTrace()
             #logger.info(msg.body["result"]["_id"])
-            fs.exists(path_upload+msg.body["result"]["_id"], handler=exists_handler)
+            fs.exists(path_upload+uid, handler=exists_handler)
+        else: message.reply("user not exists")
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
     
 
