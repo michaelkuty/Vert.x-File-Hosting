@@ -6,6 +6,7 @@
 *.pdf
 *.jpeg
 *.zip
+mods/
 
 *.pydevproject
 .project
