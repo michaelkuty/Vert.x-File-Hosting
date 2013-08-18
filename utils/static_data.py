@@ -29,6 +29,6 @@ def album_delete_handler(reply):
             'collection': 'users',
             'document': users[i]
         }, reply_handler=save_handler)
-        logger.info(users[i]['document']['email'])
+        logger.info(users[i])
     logger.info("add %s users to mongo"% str(len(users)))
 EventBus.send('vertx.mongopersistor', {'action': 'delete', 'collection': 'users', 'matcher': {}}, album_delete_handler)
