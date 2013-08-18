@@ -23,12 +23,10 @@ otherwise({redirectTo:'/'});
 function LoginCtrl($scope, $eb){
 
 	$scope.doLogin= function(user){
-    $eb.send("get_or_create",{username:user.login}, function(res){
-      console.log(res);
-    })
 		$eb.login(user.login,user.pass,function(res){
 			console.log(JSON.stringify(res));
-      console.log($eb.sessionID);
+      console.log("sessionID: " + $eb.sessionID);
+      console.log("userID: " + $eb.userID);
 		});
 
 		alert(JSON.stringify(user.login));

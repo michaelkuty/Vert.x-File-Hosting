@@ -37,20 +37,26 @@ var vertx = vertx || {};
     var state = vertx.EventBus.CONNECTING;
     var sessionID = null;
     var pingTimerID = null;
+    var userID = null;
   
     that.onopen = null;
     that.onclose = null;
 
     that.login = function(username, password, replyHandler) {
-      console.log(JSON.stringify(that));
       sendOrPub("send", 'vertx.basicauthmanager.login', {username: username, password: password}, function(reply) {
         if (reply.status === 'ok') {
           that.sessionID = reply.sessionID;
           //console.log(that.sessionID);
+        } else {
+          that.sessionID = reply.status;
         }
         if (replyHandler) {
           delete reply.sessionID;
-          replyHandler(reply)
+          sendOrPub("send","get_or_create",{username:username}, function(res){
+              //console.log(res); 
+            that.userID = res;
+            replyHandler(reply);
+          });
         }
       });
     }
