@@ -45,7 +45,9 @@ def upload_handler(req):
         fs.link(path_to_symlink,path_to_file,handler=handle_symlink)
     
     req.upload_handler(handler=upload_handler)
-    
+    def end_handle(req):
+        print "hello from end"
+    req.end_handler(handler=end_handle)
     print "Got request storing in %s"% filename
 
     #file upload with response
@@ -73,6 +75,6 @@ def upload_handler(req):
 
 #response file todo if exist etc
 def file_handler(req):
-    name = "%s%s%s"% (path,"symlink/",req.params['filename'])
+    name = "%s%s"% (path_symlink,req.params['filename'])
     
     req.response.send_file(name)

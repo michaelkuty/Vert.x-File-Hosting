@@ -17,13 +17,11 @@ app_config = vertx.config()
 path_web = app_config['path_web']
 #cros module variable
 upload.path_upload = app_config['path_upload']
-upload.path_symlink = app_config['path_temp']
-upload.path_temp = app_config['path_symlink']
-
-
+upload.path_symlink = app_config['path_symlink']
+upload.path_temp = app_config['path_temp']
 
 def index_handler(req):
-    req.response.send_file( "web/lite.html")
+    req.response.send_file( "%slite.html"% path_web)
 
 @route_matcher.no_match 
 def source_handler(req):
@@ -45,7 +43,7 @@ def file_info(req):
             req.response.status_code = 200
             #req.response.status_message = props.symbolic_link
             
-    name = "%s%s%s"% (path,"symlink/",req.params['filename'])
+    name = "%s%s"% (path_symlink,req.params['filename'])
     print name
     #fs.props(name, props_handler)
 
