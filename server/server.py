@@ -59,7 +59,7 @@ route_matcher.get('/', index_handler)
 logger.info("send buffer: %s"% server.send_buffer_size)
 logger.info("receive buffer: %s"% server.receive_buffer_size)
 #logger.info(server.use_pooled_buffers)
-
+"""
 SockJSServer(server).bridge({"prefix": "/eventbus"}, [
     {
       "address" : 'vertx.mongopersistor',
@@ -69,4 +69,5 @@ SockJSServer(server).bridge({"prefix": "/eventbus"}, [
       }
     }],
     [{}])
+"""
 server.request_handler(route_matcher).listen(app_config['port'], app_config['host'])
