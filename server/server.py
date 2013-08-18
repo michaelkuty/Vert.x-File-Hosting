@@ -10,6 +10,7 @@ from api import bus
 
 #inicialize
 server = vertx.create_http_server()
+sock_server = vertx.create_http_server()
 route_matcher = RouteMatcher()
 logger = vertx.logger()
 fs = vertx.file_system()
@@ -70,4 +71,15 @@ SockJSServer(server).bridge({"prefix": "/eventbus"}, [
     }],
     [{}])
 """
+SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
+            'address': 'vertx.basicauthmanager.login'
+        },
+        {
+            'address': 'vertx.mongopersistor',
+            'match': {
+                'action': 'find',
+                'collection': 'users'
+            }
+        }], [{}])
+sock_server.listen(8889)
 server.request_handler(route_matcher).listen(app_config['port'], app_config['host'])

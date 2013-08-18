@@ -1,4 +1,14 @@
-angular.module('filehosting', ['ngRoute']).
+var app = angular.module('filehosting', ['ngRoute']).
+factory('$eb', function() {
+  var eb = null;
+  if (!eb) {
+    //var eb = new vertx.EventBus("http://localhost:8080/eventbus");
+    eb = new vertx.EventBus(window.location.protocol + '//' + window.location.hostname + ':' + 8889 + '/eventbus');
+  } else {
+    return eb;
+  }
+  return eb;
+}).
 config(function($routeProvider) {
 $routeProvider.
 when('/', {controller:UploadCtrl, templateUrl:'pages/upload.html'}).
@@ -9,9 +19,16 @@ otherwise({redirectTo:'/'});
 });
 
 
-function LoginCtrl($scope){
+
+function LoginCtrl($scope, $eb){
+
 	$scope.doLogin= function(user){
-		alert(JSON.stringify(user));
+
+		$eb.login(user.login,user.pass,function(res){
+			console.log(JSON.stringify(res))
+		});
+
+		alert(JSON.stringify(user.login));
 	};
 }
 function UploadCtrl($scope){}
