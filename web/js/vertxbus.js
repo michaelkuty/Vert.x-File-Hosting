@@ -47,17 +47,15 @@ var vertx = vertx || {};
         if (reply.status === 'ok') {
           that.sessionID = reply.sessionID;
           //console.log(that.sessionID);
-        } else {
-          that.sessionID = null;
-          that.userID = null;
-        }
-        if (replyHandler) {
-          delete reply.sessionID;
           sendOrPub("send","get_or_create",{username:username}, function(res){
               //console.log(res); 
             that.userID = res;
             replyHandler(reply);
           });
+        } else {
+          that.sessionID = null;
+          that.userID = null;
+          replyHandler(reply);
         }
       });
     }
