@@ -97,6 +97,7 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
             'address': 'vertx.mongopersistor',
             'match': {
                 'action': 'find',
+                'action': 'findone',
                 'collection': 'users'
             }
         }], [{}])

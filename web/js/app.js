@@ -59,6 +59,9 @@ function UploadCtrl($scope,$eb){
 function HeaderCtrl($scope,$eb){
 	$scope.$on('loggedIn',function(event,data){
 		//TODO: get complete user from DB
+		$eb.send("vertx.mongopersistor", { action: "findone",collection:"users", matcher: {"_id": $eb.userID}},function(res){
+			console.log(JSON.stringify(res));
+		})
 		$scope.user={username:data.userID};
 	});
 }
