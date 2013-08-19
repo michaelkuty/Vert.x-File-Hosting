@@ -51,7 +51,7 @@ function UploadCtrl($scope,$eb){
 		var params={};
 		//send userID if exists
 		if($eb.userID!==null){
-			params.userID=$eb.userID;
+			params.sessionID=$eb.sessionID;
 		}
 		registerFileUploader(params);
 	}

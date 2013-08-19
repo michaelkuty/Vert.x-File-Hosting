@@ -20,7 +20,7 @@ def upload_handler(req):
     req.pause()
 
     req.set_expect_multipart(True)
-    logger.info(req.params())
+    logger.info(req.params.get('sessionID'))
     #create temp name
     filename = "%s"% path_temp 
     for i in range(10):
