@@ -30,7 +30,7 @@
 	<body class="homepage">
 
 		<!-- Header Wrapper -->
-			<div id="header-wrapper" class="wrapper">
+			<div id="header-wrapper" class="wrapper" ng-controller="HeaderCtrl">
 				<div class="container">
 					<div class="row">
 						<div class="12u">
@@ -51,23 +51,14 @@
 												<li class="current_page_item"><a href="#/">Domů</a></li>
 												<li><a href="#/search">Vyhledávání</a></li>
 												<li><a href="#/login">Přihlásit se</a></li>
-												<li>
-													<span>Dropdown</span>
+												<li ng-show="!user"><a href="#/registration">Registrace</a></li>
+												<li ng-show="user">
+													<span>{{user.username}}</span>
 													<ul>
-														<li><a href="#">Lorem ipsum</a></li>
-														<li><a href="#">Magna veroeros</a></li>
-														<li><a href="#">Etiam nisl</a></li>
-														<li>
-															<span>Sed consequat</span>
-															<ul>
-																<li><a href="#">Lorem dolor</a></li>
-																<li><a href="#">Amet consequat</a></li>
-																<li><a href="#">Magna phasellus</a></li>
-																<li><a href="#">Etiam nisl</a></li>
-																<li><a href="#">Sed feugiat</a></li>
-															</ul>
-														</li>
-														<li><a href="#">Nisl tempus</a></li>
+														<li><a href="#">Moje soubory</a></li>
+														<li><a href="#">Statistiky</a></li>
+														<li><a href="#">Kredit</a></li>
+														<li><a href="#">Odhlásit</a></li>
 													</ul>
 												</li>
 												
@@ -87,7 +78,7 @@
 		<div ng-view></div>
 				
 		<!-- Footer Wrapper -->
-			<div id="footer-wrapper" class="wrapper">
+			<div id="footer-wrapper" class="wrapper" ng-controller="FooterCtrl">
 				<div class="title">Nějaký footer</div>
 				<div class="container">
 					<div class="row">
