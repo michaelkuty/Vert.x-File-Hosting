@@ -30,6 +30,8 @@ function LoginCtrl($scope, $rootScope, $eb){
 			console.log("userID: " + $eb.userID);
 			//send event to all controllers
 			$rootScope.$broadcast('loggedIn',{userID: $eb.userID});
+			//re-register uploader
+			registerFileUploader({userID:$eb.userID});
 			//minimal one file for result
 			$eb.send("read_dir",{"sessionID": $eb.sessionID}, function(res){
 				console.log(res);
@@ -44,10 +46,17 @@ function LoginCtrl($scope, $rootScope, $eb){
 	}
 
 }
-function UploadCtrl($scope){
-
+function UploadCtrl($scope,$eb){
+	$scope.initUploader = function(){
+		var params={};
+		//send userID if exists
+		if($eb.userID!==null){
+			params.userID=$eb.userID;
+		}
+		registerFileUploader(params);
+	}
 }
-function HeaderCtrl($scope){
+function HeaderCtrl($scope,$eb){
 	$scope.$on('loggedIn',function(event,data){
 		//TODO: get complete user from DB
 		$scope.user={username:data.userID};
