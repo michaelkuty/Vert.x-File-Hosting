@@ -54,13 +54,20 @@ def get_or_create(message):
         else: message.reply("user not exists")
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
 
-#message{collection:collection, matcher:{ "_id": xxxx}}
+#mongo result_handler
+
+#message{collection:collection,matcher:{filename:asddasads, "type": xxxx}}
+#TODO if user private search on flag result
 def simple_search(message):
     collection = None
     matcher = None
     try:
         collection = message.body.get("collection")
-        matcher = message.body.get("matcher")
+        tmp_matcher = message.body.get("matcher")
+        #use python $regex
+        matcher = {
+            "filename": {'$regex': tmp_matcher.get("filename")},
+        }
     except Exception, e:
         logger.warn("search wrong params")
         collection = None
@@ -68,8 +75,17 @@ def simple_search(message):
     if (collection != None) and(matcher != None):
         def result_handler(msg):
             if (msg.body.get("status") == "ok"):
-                for res in msg.body.get("result"):
-                    logger.info(res)
+                logger.info(msg.body.get("results"))
+                reply = {
+                    "status": "ok",
+                    "files": {}
+                }
+                files = []
+                for res in msg.body.get("results"):
+                    #del res["_id"]
+                    files.append(res)
+                reply["files"] = files
+                message.reply(reply)
         EventBus.send("vertx.mongopersistor", {"action":"find","collection":collection,"matcher":matcher},result_handler)
     else:
         message.reply("search wrong params")

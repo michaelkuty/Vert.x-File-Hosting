@@ -68,6 +68,7 @@ def read_dir(message):
 EventBus.register_handler('read_dir', handler=read_dir)
 
 def simple_search(message):
+    message.body["collection"] = app_config.get("files_collection","files")
     bus.simple_search(message)
 
 EventBus.register_handler('simple_search', handler=simple_search)

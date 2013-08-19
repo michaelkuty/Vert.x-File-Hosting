@@ -59,7 +59,7 @@ function FooterCtrl($scope){
 function SearchCtrl($scope, $eb){
 	//TODO other attribute // filter
 	$scope.publicSearch = function(search){
-		$eb.send("simple_search", {"matcher":{"filename": search.input}}, function(reply){
+		$eb.send("simple_search", {"matcher":{"filename": search.input, "type": "*"}}, function(reply){
 			console.log(JSON.stringify(reply));
 			console.log(reply);
 		})
