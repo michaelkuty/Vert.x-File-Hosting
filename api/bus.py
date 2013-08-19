@@ -9,34 +9,18 @@ def msg_handler(message):
     logger.info("Got message body %s"% message.body)
 
 path_upload = "files/upload/"
-#filebane "C:/Users/Michael/Documents/GitHub/vertxapp/files/symlink/te.zip"
-#target "C:/Users/Michael/Documents/GitHub/vertxapp/files/temp/firma"
-def unzip(filename, target, delete=None):
-    def reply_handler(message):
-            logger.info("unzip module result:  %s"%message.body)
-            if delete: logger.info("zip will be deleted after success unzip")
-    logger.info("send unzip message")
-    if delete != None:
-           EventBus.send('unzip.module', {"zipFile": filename,"destDir":target, "deleteZip": delete},reply_handler)
-    else: EventBus.send('unzip.module', {"zipFile": filename,"destDir":target},reply_handler)
-
-#for debug
-def create_dir(username):
-    def reply_handler(msg):
-        #logger.info(msg.body["result"]["_id"])
-        fs.mkdir(path_upload+msg.body["result"]["_id"], perms=None, handler=None)
-    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
-
 
 #method get eventbus message from db and get uid directory in global path
 #if not exists method create dir with user _id
 #if not exist user method reply status
 def get_or_create(message):
     username = message.body.get("username")
+    #logger.info(username)
     def reply_handler(msg):
         #logger.info(msg.body["result"])
         uid = ""
         if (msg.body.get("result")):
+            #try
             uid = msg.body["result"]["_id"]
             def exists_handler(msg):
                 #logger.info(msg)
@@ -58,6 +42,7 @@ def get_or_create(message):
 
 #message{collection:collection,matcher:{filename:asddasads, "type": xxxx}}
 #TODO if user private search on flag result
+#reply {status:ok, files: []}
 def simple_search(message):
     collection = None
     matcher = None
@@ -74,8 +59,10 @@ def simple_search(message):
         matcher = None
     if (collection != None) and(matcher != None):
         def result_handler(msg):
-            if (msg.body.get("status") == "ok"):
+            status = msg.body.get("status")
+            if (status == "ok"):
                 logger.info(msg.body.get("results"))
+                #if (msg.body.get("results") == []): #message.reply("WARN")
                 reply = {
                     "status": "ok",
                     "files": {}
@@ -86,6 +73,9 @@ def simple_search(message):
                     files.append(res)
                 reply["files"] = files
                 message.reply(reply)
+            else:
+                logger.war("mongo fail %s"% status)
+                message.reply(status)
         EventBus.send("vertx.mongopersistor", {"action":"find","collection":collection,"matcher":matcher},result_handler)
     else:
         message.reply("search wrong params")
@@ -117,16 +107,16 @@ def read_dir(message):
         if (msg.body != None):
             def get_user_id(uid):
                 def exists_handler(msge):
-                    logger.info(msge)
-                    if (msge.body == True):
-                        ##CALL GET PROPS
-                        message.reply("PROPS")
-                    if(msge.body == False):
-                        message.reply("folder not exists")    
-                    else: 
+                    logger.info(msge.body)
+                    if (msge.body == True) or (msge.body == False):
+                        if (msge.body == True):
+                            ##CALL GET PROPS
+                            message.reply("PROPS")
+                        if (msge.body == False): message.reply("no such file or directory")
+                    else:
                         message.reply("error")
-
-                EventBus.send("exists.handler", {"uid":uid} , exists_handler)
+                EventBus.send("exists.handler", {"uid":uid.body} , exists_handler)
+            EventBus.send("get_user_id", {"username":msg.body}, get_user_id)
         else: 
             message.reply("AUTHORISE_FAIL")
     EventBus.send(local_authorize, {"sessionID":sessionID}, authorize_handler)
@@ -154,12 +144,12 @@ def get_exists(message):
     def exists_handler(err, msg):
         if not err: 
             #logger.info(msg)
-            if (msg == "true"):
+            if (msg == True):
                 message.reply(True)
             else: 
                 message.reply(False)
         else: 
-            message.reply(None)
+            message.reply("None")
             err.printStackTrace()
     fs.exists(path_upload+message.body.get("uid"), handler=exists_handler)
 
@@ -169,6 +159,23 @@ def get_user_uid(message):
         #logger.info(msg.body["result"]["_id"])
         message.reply(msg.body["result"]["_id"])
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":message.body.get("username")}}, reply_handler)
+
+def unzip(filename, target, delete=None):
+    def reply_handler(message):
+            logger.info("unzip module result:  %s"%message.body)
+            if delete: logger.info("zip will be deleted after success unzip")
+    logger.info("send unzip message")
+    if delete != None:
+           EventBus.send('unzip.module', {"zipFile": filename,"destDir":target, "deleteZip": delete},reply_handler)
+    else: EventBus.send('unzip.module', {"zipFile": filename,"destDir":target},reply_handler)
+
+#for debug
+def create_dir(username):
+    def reply_handler(msg):
+        #logger.info(msg.body["result"]["_id"])
+        fs.mkdir(path_upload+msg.body["result"]["_id"], perms=None, handler=None)
+    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
+
 
 #register services on eventbus
 local_authorize = 'local.authorize'
