@@ -31,7 +31,7 @@ function LoginCtrl($scope, $rootScope, $eb){
 			//send event to all controllers
 			$rootScope.$broadcast('loggedIn',{userID: $eb.userID});
 			//minimal one file for result
-			$eb.send("read_dir",{"uid": $eb.userID}, function(res){
+			$eb.send("read_dir",{"sessionID": $eb.sessionID}, function(res){
 				console.log(res);
 			});
 		});

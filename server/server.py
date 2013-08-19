@@ -76,6 +76,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
             'address': 'vertx.basicauthmanager.login'
         },
         {
+            'address': 'vertx.basicauthmanager.authorise'
+        },
+        {
             'address': 'get_or_create'
         },
         {
