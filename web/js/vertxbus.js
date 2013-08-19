@@ -48,7 +48,8 @@ var vertx = vertx || {};
           that.sessionID = reply.sessionID;
           //console.log(that.sessionID);
         } else {
-          that.sessionID = reply.status;
+          that.sessionID = null;
+          that.userID = null;
         }
         if (replyHandler) {
           delete reply.sessionID;
