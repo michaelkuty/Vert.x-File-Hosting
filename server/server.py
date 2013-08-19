@@ -7,6 +7,7 @@ from core.sock_js import SockJSServer
 
 from api import upload
 from api import bus
+from api import bus_utils
 
 #inicialize
 server = vertx.create_http_server()
@@ -72,6 +73,11 @@ def simple_search(message):
     bus.simple_search(message)
 
 EventBus.register_handler('simple_search', handler=simple_search)
+def get_user(message):
+    message.body["collection"] = app_config.get("users_collection","users")
+    bus_utils.get_user(message)
+
+EventBus.register_handler('get_user', handler=get_user)
 #set server
 #server.set_send_buffer_size(4 * 1024)
 #server.set_receive_buffer_size(100 * 1024)
@@ -92,6 +98,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'read_dir'
+        },
+        {
+            'address': 'get_user'
         },
         {
             'address': 'vertx.mongopersistor',

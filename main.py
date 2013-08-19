@@ -13,7 +13,8 @@ config = {
     "path_upload": "files/upload/",
     "path_temp": "files/temp/",
     "path_symlink": "files/symlink/",
-    "files_collection": "files"
+    "files_collection": "files",
+    "users_collection": "users"
 }
 
 mongopersistor_address = "vertx.mongopersistor"

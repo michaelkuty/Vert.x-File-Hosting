@@ -20,7 +20,7 @@ def upload_handler(req):
     req.pause()
 
     req.set_expect_multipart(True)
-    logger.info("upload beign")
+    logger.info(req.params())
     #create temp name
     filename = "%s"% path_temp 
     for i in range(10):
