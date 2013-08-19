@@ -1,6 +1,7 @@
 import vertx
 from core.event_bus import EventBus
 from core.file_system import FileSystem
+import bus_utils
 
 logger = vertx.logger()
 fs = vertx.file_system()
@@ -9,6 +10,8 @@ def msg_handler(message):
     logger.info("Got message body %s"% message.body)
 
 path_upload = "files/upload/"
+#propagation
+bus_utils.path_upload = path_upload
 
 #method get eventbus message from db and get uid directory in global path
 #if not exists method create dir with user _id
@@ -29,6 +32,7 @@ def get_or_create(message):
                 if(msg.body == False):
                     def reply_handler(msg):
                          #logger.info(msg.body["result"]["_id"])
+                         #TODO call utils mkdir eventbus
                          fs.mkdir(path_upload+uid, perms=None, handler=None)
                          message.reply(uid)
                     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
@@ -120,77 +124,10 @@ def read_dir(message):
         else: 
             message.reply("AUTHORISE_FAIL")
     EventBus.send(local_authorize, {"sessionID":sessionID}, authorize_handler)
-    
 
-"""
-TODO
-BUS UTILS 
-"""
-
-#return username or None
-#todo propagation auth address
-def authorize(message):
-    def authorise_handler(msg):
-        if (msg.body.get("status") == "ok"):
-            message.reply(msg.body.get("username"))
-        else: 
-            #logger.info("%s !!! %s"% (msg.body.get("session_id"), msg.body.get("status")))
-            message.reply(None)
-    EventBus.send('vertx.basicauthmanager.authorise', {"sessionID":message.body.get("sessionID")},authorise_handler)
-
-#string uid
-#reply True False None
-def get_exists(message):
-    def exists_handler(err, msg):
-        if not err: 
-            #logger.info(msg)
-            if (msg == True):
-                message.reply(True)
-            else: 
-                message.reply(False)
-        else: 
-            message.reply("None")
-            err.printStackTrace()
-    fs.exists(path_upload+message.body.get("uid"), handler=exists_handler)
-
-#return string uid
-def get_user_uid(message):
-    def reply_handler(msg):
-        #logger.info(msg.body["result"]["_id"])
-        message.reply(msg.body["result"]["_id"])
-    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":message.body.get("username")}}, reply_handler)
-
-def unzip(filename, target, delete=None):
-    def reply_handler(message):
-            logger.info("unzip module result:  %s"%message.body)
-            if delete: logger.info("zip will be deleted after success unzip")
-    logger.info("send unzip message")
-    if delete != None:
-           EventBus.send('unzip.module', {"zipFile": filename,"destDir":target, "deleteZip": delete},reply_handler)
-    else: EventBus.send('unzip.module', {"zipFile": filename,"destDir":target},reply_handler)
-
-#for debug
-def create_dir(username):
-    def reply_handler(msg):
-        #logger.info(msg.body["result"]["_id"])
-        fs.mkdir(path_upload+msg.body["result"]["_id"], perms=None, handler=None)
-    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
-
-
-#register services on eventbus
+#register local utils handler
 local_authorize = 'local.authorize'
-get_user_id_handler = EventBus.register_handler("get_user_id", handler = get_user_uid)
-exists_handler = EventBus.register_handler("exists.handler", handler = get_exists)
-local_authorize_handler = EventBus.register_handler(local_authorize, handler = authorize)
-
-#refactor bus.db
-def db_stats(collection):
-    def reply_handler1(message):
-        logger.info("message.body")
-        logger.info(message.body)
-    message = {
-        'action': 'collectionStats',
-        'collection': collection
-    }
-    logger.info("send message")
-    EventBus.send('vertx.mongopersistor', message ,reply_handler1)
+get_user_id_handler = EventBus.register_handler("get_user_id", handler = bus_utils.get_user_uid)
+exists_handler = EventBus.register_handler("exists.handler", handler = bus_utils.get_exists)
+local_authorize_handler = EventBus.register_handler(local_authorize, handler = bus_utils.authorize)
+mkdir_handler = EventBus.register_handler("mkdir_handler", handler = bus_utils.authorize)
