@@ -22,3 +22,14 @@ simple file upload written in javascipt, java and python
     "db_name": "test",
     "pool_size": 20
 }
+
+
+## EventBus API
+
+* get_or_create_dir
+** message {username : username}
+** reply String uid (path to users directory)
+
+* read_dir
+** message {path : uid}
+** reply JSON {}
