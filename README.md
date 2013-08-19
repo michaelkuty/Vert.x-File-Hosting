@@ -26,10 +26,10 @@ simple file upload written in javascipt, java and python
 
 ## EventBus API
 
-* get_or_create_dir
-* * message {username : username}
-* * reply String uid (path to users directory)
+### get_or_create_dir
+* message {username : username}
+* reply String uid (path to users directory)
 
-* read_dir
-* * message {path : uid}
-* * reply JSON {}
+### read_dir
+* message {path : uid}
+* reply JSON {}
