@@ -66,6 +66,11 @@ def read_dir(message):
     bus.read_dir(message)
 
 EventBus.register_handler('read_dir', handler=read_dir)
+
+def simple_search(message):
+    bus.simple_search(message)
+
+EventBus.register_handler('simple_search', handler=simple_search)
 #set server
 #server.set_send_buffer_size(4 * 1024)
 #server.set_receive_buffer_size(100 * 1024)
@@ -77,6 +82,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'vertx.basicauthmanager.authorise'
+        },
+        {
+            'address': 'simple_search'
         },
         {
             'address': 'get_or_create'

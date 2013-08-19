@@ -9,9 +9,12 @@
 							
 							<!-- Intro -->
 								<section id="intro">
-								Název souboru: <input type="text" name="search" /> <input type="Submit" value="Hledat" />
+									<form ng-submit="publicSearch(search)">
+										Název souboru: <input type="text" name="search" ng-model="search.input"/> <input type="Submit" value="Hledat"  />
 									<p class="style1"></p>
 									<div id="previews"></div>
+									</form>
+								
 								</section>
 							<!-- /Intro -->
 							
