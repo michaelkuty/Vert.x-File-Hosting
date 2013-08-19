@@ -101,14 +101,7 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'get_user'
-        },
-        {
-            'address': 'vertx.mongopersistor',
-            'match': {
-                'action': 'find',
-                'action': 'findone',
-                'collection': 'users'
-            }
         }], [{}])
+
 sock_server.listen(app_config['port_bridge'])
 server.request_handler(route_matcher).listen(app_config['port'], app_config['host'])
