@@ -6,18 +6,19 @@
 				<div class="container">
 					<div class="row">
 						<div class="12u">
-							
+							<div class="marginAuto w300">
 							<!-- Intro -->
 								<section id="intro">
 									<form ng-submit="doLogin(user)">
-										Login: <input ng-model="user.login" type="text" name="login" /><br/>
-										Heslo: <input ng-model="user.pass" type="password" name="pass" /><br/>
-										<input type="Submit" value="Odeslat" />
+										<input class="text" ng-model="user.login" type="text" name="login" placeholder="Login"/><br/>
+										<input class="text" ng-model="user.pass" type="password" name="pass" placeholder="Heslo"/><br/>
+										<input class="button white" type="Submit" value="Přihlásit" />
 									</form>
 									<p class="style1"></p>
 									<div id="previews"></div>
 								</section>
 							<!-- /Intro -->
+							</div>
 							
 						</div>
 					</div>

@@ -1,24 +1,17 @@
-var app = angular.module('filehosting', ['ngRoute']).
-factory('$eb', function() {
-  var eb = null;
-  if (!eb) {
-    //var eb = new vertx.EventBus("http://localhost:8080/eventbus");
-    eb = new vertx.EventBus(window.location.protocol + '//' + window.location.hostname + ':' + 8889 + '/eventbus');
-  } else {
-    return eb;
-  }
-  return eb;
-}).
+'use strict';
+angular.module('filehosting', ['filehosting.services', 'filehosting.directives', 'filehosting.controllers','ngRoute']).
 config(function($routeProvider) {
 $routeProvider.
-when('/', {controller:UploadCtrl, templateUrl:'pages/upload.html'}).
+when('/', {controller:'UploadCtrl', templateUrl:'pages/upload.html'}).
 //when('/edit/:projectId', {controller:EditCtrl, templateUrl:'detail.html'}).
-when('/search', {controller:SearchCtrl, templateUrl:'pages/search.html'}).
-when('/login',{controller:LoginCtrl,templateUrl:'pages/login.html'}).
-when('/registration',{controller:LoginCtrl,templateUrl:'pages/registration.html'}).
+when('/search', {controller:'SearchCtrl', templateUrl:'pages/search.html'}).
+when('/login',{controller:'LoginCtrl',templateUrl:'pages/login.html'}).
+when('/registration',{controller:'LoginCtrl',templateUrl:'pages/registration.html'}).
 otherwise({redirectTo:'/'});
 });
 
+<<<<<<< HEAD
+=======
 
 
 function LoginCtrl($scope, $rootScope, $eb){
@@ -77,3 +70,4 @@ function SearchCtrl($scope, $eb){
 		})
 	}
 }
+>>>>>>> 59409df022c423c763901bf5c636a0e068af6443

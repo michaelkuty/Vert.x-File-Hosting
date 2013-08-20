@@ -1,0 +1,28 @@
+<!-- Wrapper -->
+   <div id="wrapper" class="wrapper wrapper-style2">
+        <div class="title">
+          Registrovat
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="12u">
+            <div class="marginAuto w400 txtCenter">
+              <form name="regForm" ng-submit="doRegistration(user);">
+                <input type="text" class="text" name="username" ng-model="user.username" ng-change="validateFormInput('username');" required placeholder="Login"/>
+                <span class="error" ng-show="regForm.username.$error.required">Povinné pole</span><br/>
+                <input type="email" class="text" name="email" ng-model="user.email" required placeholder="Email">
+                <span class="error" ng-show="regForm.email.$error.required">Povinné pole</span>
+                <span class="error" ng-show="regForm.email.$error.email"> Není validní mail</span><br>
+                <input type="password" class="text" name="pass" ng-model="user.password" ng-minlength="3" ng-maxlength="16" required placeholder="Heslo">
+                <span class="error" ng-show="regForm.pass.$error.required">Povinné pole</span>
+                <span class="error" ng-show="regForm.pass.$error.minlength">Příliš krátké heslo</span>
+                <span class="error" ng-show="regForm.pass.$error.maxlength">Moc dlouhé heslo</span><br>
+                <input type="password" class="text" name="pass2" ng-model="user.password2" ng-minlength="3" ng-maxlength="16" required placeholder="Znovu heslo"><br/>
+                <input class="button white" type="Submit" value="Registrovat"/>
+              </form>
+        </div> 
+        </div> 
+        </div>
+        </div>
+  </div>
+<!-- /Wrapper -->
