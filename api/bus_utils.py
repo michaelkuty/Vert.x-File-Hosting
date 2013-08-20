@@ -9,6 +9,7 @@ mongopersistor_address = 'vertx.mongopersistor'
 
 path_upload = "files/upload/"
 
+#reply Object {}
 def get_user(message):
     def reply_handler(msg):
         logger.info(msg.body["result"]["_id"])
