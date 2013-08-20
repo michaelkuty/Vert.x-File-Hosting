@@ -7,11 +7,14 @@ simple file upload written in javascipt, java and python
 
 * config = {
     "port": 8888,
+    "port_bridge": 8889,
     "host": "0.0.0.0",
     "path_web": "web/",
     "path_upload": "files/upload/",
     "path_temp": "files/temp/",
-    "path_symlink": "files/symlink/"
+    "path_symlink": "files/symlink/",
+    "files_collection": "files",
+    "users_collection": "users"
 }
 * path for e.x: files/temp/
 
@@ -26,10 +29,18 @@ simple file upload written in javascipt, java and python
 
 ## EventBus API
 
-### get_or_create_dir
-* message {username : username}
-* reply String uid (path to users directory)
+### def get_or_create(message):
+* message = {username:username}
 
-### read_dir
-* message {path : uid}
-* reply JSON {}
+### def read_dir(message):
+* message = {sessionID:sessionID}
+* reply String userID
+
+
+### def simple_search(message):
+* message{matcher:{filename:asddasads, "type": xxxx}}
+* reply {status:ok, files: []}
+
+### def get_user(message):
+* message{sessionID:sessionID}
+* reply Object {user}
