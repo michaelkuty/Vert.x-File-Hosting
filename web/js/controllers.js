@@ -36,9 +36,8 @@ function LoginCtrl($scope,$rootScope,$eb){
 }
 function HeaderCtrl($scope,$eb){
 	$scope.$on('loggedIn',function(){
-		$eb.send("get_user", { userID: $eb.userID},function(res){
-				console.log(JSON.stringify(res));
-				$scope.user=res.result;
+		$eb.send("get_user", { userID: $eb.userID},function(user){
+				$scope.user=user;
 		});
 		
 	});
