@@ -1,7 +1,7 @@
 """
 GLOBAL config
 """
-config = {
+main = {
     "port": 8888,
     "port_bridge": 8889,
     "host": "0.0.0.0",
@@ -19,7 +19,7 @@ mongopersistor_address = "vertx.mongopersistor"
 mongo db persistor 
 lehká vrstva EB || Mongo db server
 """
-mongo_config = {
+mongo = {
     "address": mongopersistor_address,
     "host": "localhost",
     "port": 27017,
@@ -31,7 +31,7 @@ mongo_config = {
 default
 zatim None
 """
-auth_config = {
+auth = {
     "address": "vertx.basicauthmanager.login",
     "user_collection": "users",
     "persistor_address": mongopersistor_address,
