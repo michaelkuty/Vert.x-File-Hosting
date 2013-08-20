@@ -36,10 +36,9 @@ function LoginCtrl($scope,$rootScope,$eb){
 }
 function HeaderCtrl($scope,$eb){
 	$scope.$on('loggedIn',function(){
-		$eb.send("vertx.mongopersistor", { action: "findone",collection:"users", matcher: {"_id": $eb.userID}},function(res){
-			if(res.status==="ok"){
+		$eb.send("get_user", { userID: $eb.userID},function(res){
+				console.log(JSON.stringify(res));
 				$scope.user=res.result;
-			}
 		});
 		
 	});
