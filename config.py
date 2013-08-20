@@ -17,14 +17,15 @@ mongopersistor_address = "vertx.mongopersistor"
 
 """
 mongo db persistor 
-lehká vrstva EB || Mongo db server
+ligh vrstva EB || Mongo db server
 """
 mongo = {
     "address": mongopersistor_address,
     "host": "localhost",
     "port": 27017,
     "db_name": "default_db",
-    "pool_size": 20
+    "pool_size": 20,
+    "fake": True
 }
 
 """
