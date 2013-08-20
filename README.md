@@ -50,4 +50,7 @@ simple file upload written in javascipt, java and python
 *mkdir
 *move
 *readprops
-*link
+*update user
+*rename all files or dir
+*link(flag files)
+*mongo files
