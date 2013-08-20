@@ -1,10 +1,13 @@
 import vertx
 from utils import cleaner
-import config
+from config import config_test
+
+#get config for spec enviroment
+config = config_test
 
 logger = vertx.logger()
 
-logger.info("vertx in python")
+logger.info("deploy vertx app in python start   ")
 
 #called when deploy finish
 def deploy_handler(err, dep_id):
@@ -21,7 +24,7 @@ def deploy_mongo(err, dep_id):
             else: logger.info("%s"% dep_id)
         vertx.deploy_verticle('utils/static_data.py', handler=static_handler)
         logger.info("%s"% dep_id)
-logger.info(config.mongo)
+
 vertx.deploy_module('io.vertx~mod-mongo-persistor~2.0.0-final', config.mongo, 1,handler=deploy_mongo)
 
 def deploy_auth(err, dep_id):
