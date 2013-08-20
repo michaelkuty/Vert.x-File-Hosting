@@ -44,3 +44,10 @@ simple file upload written in javascipt, java and python
 ### def get_user(message):
 * message{sessionID:sessionID}
 * reply Object {user}
+
+
+*handle logout
+*mkdir
+*move
+*readprops
+*link
