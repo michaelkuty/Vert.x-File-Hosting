@@ -12,7 +12,7 @@ function UploadCtrl($scope,$eb){
 			params.userID=$eb.userID;
 		}
 		registerFileUploader(params);
-	}
+	};
 }
 function LoginCtrl($scope,$rootScope,$eb){
 	$scope.doLogin= function(user){
@@ -21,7 +21,7 @@ function LoginCtrl($scope,$rootScope,$eb){
 			console.log("sessionID: " + $eb.sessionID);
 			console.log("userID: " + $eb.userID);
 			//send event to all controllers
-			$rootScope.$broadcast('loggedIn',{userID: $eb.userID});
+			$rootScope.$broadcast('loggedIn');
 			//minimal one file for result
 			$eb.send("read_dir",{"sessionID": $eb.sessionID}, function(res){
 				console.log(res);
@@ -35,7 +35,7 @@ function LoginCtrl($scope,$rootScope,$eb){
 	};
 }
 function HeaderCtrl($scope,$eb){
-	$scope.$on('loggedIn',function(event,data){
+	$scope.$on('loggedIn',function(){
 		$eb.send("vertx.mongopersistor", { action: "findone",collection:"users", matcher: {"_id": $eb.userID}},function(res){
 			if(res.status==="ok"){
 				$scope.user=res.result;
@@ -53,6 +53,6 @@ function SearchCtrl($scope, $eb){
 		$eb.send("simple_search", {"matcher":{"filename": search.input, "type": "*"}}, function(reply){
 			console.log(JSON.stringify(reply));
 			console.log(reply);
-		})
-	}
+		});
+	};
 }
