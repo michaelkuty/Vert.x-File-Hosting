@@ -106,16 +106,20 @@ def read_dir(message):
         logger.warn("authorize crash %s"% e)
         sessionID = None
     if (sessionID == None): message.reply("sessionID is not valid")
-
+    userID = ""
     def authorize_handler(msg):
         if (msg.body != None):
             def get_user_id(uid):
+                userID = uid.body
                 def exists_handler(msge):
-                    logger.info(msge.body)
+                    #logger.info(msge.body)
                     if (msge.body == True) or (msge.body == False):
                         if (msge.body == True):
                             ##CALL GET PROPS
-                            message.reply("PROPS")
+                            def read_dir_handler(result):
+                                logger.info(result)
+                                message.reply("PROPS")
+                            EventBus.send("read_dir_handler",userID,read_dir_handler)
                         if (msge.body == False): message.reply("no such file or directory")
                     else:
                         message.reply("error")
@@ -131,3 +135,4 @@ get_user_id_handler = EventBus.register_handler("get_user_id", handler = bus_uti
 exists_handler = EventBus.register_handler("exists.handler", handler = bus_utils.get_exists)
 local_authorize_handler = EventBus.register_handler(local_authorize, handler = bus_utils.authorize)
 mkdir_handler = EventBus.register_handler("mkdir_handler", handler = bus_utils.authorize)
+read_dir_handler = EventBus.register_handler("read_dir_handler", handler = bus_utils.read_dir)

@@ -68,6 +68,26 @@ def mkdir(message):
         else: message.reply(False)
     fs.mkdir(path_upload+message.body.get("username"), perms=None, handler=reply_handler)
 
+def read_dir(message):
+    logger.info("heeloo %s"% message.body)
+    def reply_handler(err,result):
+        if not err:
+            reply = {
+                    "status": "ok",
+                    "files": {}
+                }
+            files = []
+            for res in result:
+                #del res["_id"]
+                message.reply("PROPS")
+                logger.info(res.creation_time())
+                {"file": {
+
+                }}
+                files.append(res)
+            reply["files"] = files
+    name = "files/upload/%s"% message.body
+    fs.props(name, handler=reply_handler)
 #refactor bus.db
 def db_stats(collection):
     def reply_handler1(message):
