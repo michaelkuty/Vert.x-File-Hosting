@@ -1151,6 +1151,7 @@
 .w1000{width: 1000px!important;}
 
 .white{color:white!important;}
+span.error{color:red;}
 
 .left{float:left!important;}
 .right{float:right!important;}

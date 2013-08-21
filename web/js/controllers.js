@@ -14,7 +14,9 @@ function UploadCtrl($scope,$eb){
 		registerFileUploader(params);
 	};
 }
-function LoginCtrl($scope,$rootScope,$eb){
+function LoginCtrl($scope,$rootScope,$location,$eb){
+	$scope.user={};
+	
 	$scope.doLogin= function(user){
 		$eb.login(user.login,user.pass,function(res){
 			console.log(JSON.stringify(res));
@@ -26,12 +28,20 @@ function LoginCtrl($scope,$rootScope,$eb){
 			$eb.send("read_dir",{"sessionID": $eb.sessionID}, function(res){
 				console.log(res);
 			});
+			$location.path("upload");
 		});
 
 		alert(JSON.stringify("Logged in: "+user.login));
 	};
 
 	$scope.doRegistration=function(user){
+		$eb.send("registration",{user:user},function(userID){
+			$eb.send("get_user",{userID:userID},function(user){
+				$scope.user=user;
+				$rootScope.$broadcast('loggedIn');
+				$location.path("upload");
+			})
+		});
 	};
 }
 function HeaderCtrl($scope,$eb){
