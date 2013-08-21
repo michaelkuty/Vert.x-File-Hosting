@@ -52,15 +52,26 @@ function HeaderCtrl($scope,$eb){
 		
 	});
 }
+
 function FooterCtrl($scope){
 
 }
 function SearchCtrl($scope, $eb){
+	$scope.tableColumns=[
+		{label: 'ID', map: '_id'},
+		{label: 'Nazev',map: 'filename'}
+	];
+	$scope.files=[];
 	//TODO other attribute // filter
 	$scope.publicSearch = function(search){
+		/*$scope.files=[
+		{_id:"IDčkoa",filename:"nazev_filety"},
+		{_id:"IDčkoa2",filename:"nazev_filety2"}
+		];*/
 		$eb.send("simple_search", {"matcher":{"filename": search.input, "type": "*"}}, function(reply){
-			console.log(JSON.stringify(reply));
-			console.log(reply);
+			console.log(JSON.stringify(reply.files));
+			$scope.$apply(function(){$scope.files=reply.files});
 		});
 	};
+
 }

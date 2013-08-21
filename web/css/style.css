@@ -1138,6 +1138,7 @@
 /*********************************************************************************/
 /* Custom classes                                                                     */
 /*********************************************************************************/
+.pagewrapper{padding-top:0px!important;}
 .marginAuto{margin:0px auto !important;}
 .w100{width: 100px!important;}
 .w200{width: 200px!important;}

@@ -28,16 +28,18 @@
 
     // load all of the dependencies asynchronously.
     $script([
-      'js/vendor/angular/angular.min.js',
-      'js/vendor/angular/angular-route.min.js',
+      'https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js',
+      //ANGULAR 1.2.0
+      //'js/vendor/angular/angular.min.js',
+      //'js/vendor/angular/angular-route.min.js',
       'js/vendor/sockjs-min-0.3.4.js',
+      'js/vendor/smart.table.min.js',
       'js/app.js',
       'js/services.js',
       'js/controllers.js',
       'js/directives.js',
       'js/upload.js',
-      'js/vertxbus.js',
-      'js/vendor/smart.table.min.js'
+      'js/vertxbus.js'
     ]); 
     
   </script>
@@ -53,6 +55,7 @@
 		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="js/skel.min.js"></script>
 		<script type="text/javascript" src="js/skel-panels.min.js"></script>
+		<link rel="stylesheet" href="css/smart-table.css" />
 		
 		<noscript>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
