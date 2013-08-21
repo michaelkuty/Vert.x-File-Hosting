@@ -61,6 +61,9 @@ function SearchCtrl($scope, $eb){
 		{label: 'ID', map: '_id'},
 		{label: 'Nazev',map: 'filename'}
 	];
+	$scope.globalConfig={
+        isPaginationEnabled:true
+    };
 	$scope.files=[];
 	//TODO other attribute // filter
 	$scope.publicSearch = function(search){
