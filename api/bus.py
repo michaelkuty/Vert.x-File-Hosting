@@ -124,7 +124,7 @@ def read_dir(message):
                     else:
                         message.reply("error")
                 EventBus.send("exists.handler", {"uid":uid.body} , exists_handler)
-            EventBus.send("get_user_id", {"username":msg.body}, get_user_id)
+            EventBus.send("get_user_uid", {"username":msg.body}, get_user_id)
         else: 
             message.reply("AUTHORISE_FAIL")
     EventBus.send(local_authorize, {"sessionID":sessionID}, authorize_handler)
@@ -136,7 +136,7 @@ def registratiton(message):
 
 #register local utils handler
 local_authorize = 'local.authorize'
-get_user_id_handler = EventBus.register_handler("get_user_id", handler = bus_utils.get_user_uid)
+get_user_uid_handler = EventBus.register_handler("get_user_uid", handler = bus_utils.get_user_uid)
 exists_handler = EventBus.register_handler("exists.handler", handler = bus_utils.get_exists)
 local_authorize_handler = EventBus.register_handler(local_authorize, handler = bus_utils.authorize)
 mkdir_handler = EventBus.register_handler("mkdir_handler", handler = bus_utils.authorize)

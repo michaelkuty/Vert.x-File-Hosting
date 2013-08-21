@@ -80,11 +80,11 @@ def get_user(message):
 
 EventBus.register_handler('get_user', handler=get_user)
 
-def registratiton(message):
+def registration(message):
     message.body["collection"] = app_config.get("users_collection","users")
     bus_utils.save_or_update(message)
 
-EventBus.register_handler('get_user', handler=registratiton)
+EventBus.register_handler('registration', handler=registration)
 #set server
 #server.set_send_buffer_size(4 * 1024)
 #server.set_receive_buffer_size(100 * 1024)
@@ -107,7 +107,7 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
             'address': 'get_or_create'
         },
         {
-            'address': 'registratiton'
+            'address': 'registration'
         },
         {
             'address': 'read_dir'

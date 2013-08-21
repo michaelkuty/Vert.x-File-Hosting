@@ -36,7 +36,9 @@ function LoginCtrl($scope,$rootScope,$location,$eb){
 
 	$scope.doRegistration=function(user){
 		$eb.send("registration",{user:user},function(userID){
+			//console.log(JSON.stringify(userID));
 			$eb.send("get_user",{userID:userID},function(user){
+				console.log(JSON.stringify(user));
 				$scope.user=user;
 				$rootScope.$broadcast('loggedIn');
 				$location.path("upload");
@@ -47,6 +49,7 @@ function LoginCtrl($scope,$rootScope,$location,$eb){
 function HeaderCtrl($scope,$eb){
 	$scope.$on('loggedIn',function(){
 		$eb.send("get_user", { userID: $eb.userID},function(user){
+			//console.log(JSON.stringify(user));
 				$scope.user=user;
 		});
 		

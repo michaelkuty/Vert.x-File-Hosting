@@ -10,14 +10,22 @@ mongopersistor_address = 'vertx.mongopersistor'
 path_upload = "files/upload/"
 
 #reply Object {}
+#PUBLIC
 def get_user(message):
     def reply_handler(msg):
-        logger.info(msg.body["result"]["_id"])
-        message.reply(msg.body["result"])
+        #logger.info(msg.body)
+        #logger.info(msg.body.get('result'))
+        try:
+            del msg.body['result']['password']
+        except Exception, e:
+            message.reply(None)
+        else:
+            message.reply(msg.body['result'])
+            
     EventBus.send(mongopersistor_address, {'action': 'findone', 'collection': 'users', 'matcher': {"_id":message.body.get("userID")}}, reply_handler)
 
 #return username or None
-#todo propagation auth address
+#PRIVATE
 def authorize(message):
     def authorise_handler(msg):
         if (msg.body.get("status") == "ok"):
@@ -42,12 +50,36 @@ def get_exists(message):
             err.printStackTrace()
     fs.exists(path_upload+message.body.get("uid"), handler=exists_handler)
 
-#return string uid
+#PUBLIC
 def get_user_uid(message):
     def reply_handler(msg):
         #logger.info(msg.body["result"]["_id"])
-        message.reply(msg.body["result"]["_id"])
+        uid = ""
+        try:
+            uid = msg.body["result"].get("_id")
+        except Exception, e:
+            uid = None
+            message.reply(None)
+        else:
+            message.reply(uid)
+            
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":message.body.get("username")}}, reply_handler)
+
+#PUBLIC
+def user_exist_in_db(message):
+    def reply_handler(msg):
+        #logger.info(msg.body["result"]["_id"])
+        exist = ""
+        try:
+            exist = msg.body["result"].get("username")
+        except Exception, e:
+            uid = None
+        if (uid != None):
+            message.reply(True)
+        else: 
+            message.reply(False)
+    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":message.body.get("username")}}, reply_handler)
+
 
 #simple unzip
 def unzip(filename, target, delete=None):
@@ -91,10 +123,19 @@ def read_dir(message):
     
 #{collection:String,user:Object}
 def save_or_update(message):
-    def result_handler(msg):
-        logger.info(msg.body.get("status"))
-        message.reply(msg.body.get("_id"))
-    EventBus.send("vertx.mongopersistor",{"action":"save", "collection":message.body.get("collection"), "document": message.body.get("user")},handler=result_handler)
+    user = message.body.get("user")
+    if 'password2' in user: del user['password2']
+    #logger.info(user)
+    def user_existss(msg):
+        #logger.info(msg.body)
+        if (msg.body == None):
+            #logger.info(msg.body)
+            def save_result_handler(msg):
+                message.reply(msg.body.get("_id"))
+            EventBus.send("vertx.mongopersistor",{"action":"save", "collection":message.body.get("collection"), "document": user},save_result_handler)
+        else: message.reply(None)
+    EventBus.send("get_user_uid", {"username": user.get("username")}, user_existss)
+    
 #refactor bus.db
 def db_stats(collection):
     def reply_handler1(message):
