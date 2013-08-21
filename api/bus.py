@@ -129,6 +129,10 @@ def read_dir(message):
             message.reply("AUTHORISE_FAIL")
     EventBus.send(local_authorize, {"sessionID":sessionID}, authorize_handler)
 
+#validate user and reply ID
+def registratiton(message):
+    logger.info("registration")
+
 #register local utils handler
 local_authorize = 'local.authorize'
 get_user_id_handler = EventBus.register_handler("get_user_id", handler = bus_utils.get_user_uid)
