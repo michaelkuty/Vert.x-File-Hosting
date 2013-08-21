@@ -85,6 +85,12 @@ def registration(message):
     bus_utils.save_or_update(message)
 
 EventBus.register_handler('registration', handler=registration)
+
+def user_exist_in_db(message):
+    message.body["collection"] = app_config.get("users_collection","users")
+    bus_utils.user_exist_in_db(message)
+
+EventBus.register_handler('user_exist_in_db', handler=user_exist_in_db)
 #set server
 #server.set_send_buffer_size(4 * 1024)
 #server.set_receive_buffer_size(100 * 1024)
@@ -114,6 +120,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'get_user'
+        },
+        {
+            'address': 'user_exist_in_db'
         }], [{}])
 
 sock_server.listen(app_config['port_bridge'])

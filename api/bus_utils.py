@@ -66,6 +66,7 @@ def get_user_uid(message):
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":message.body.get("username")}}, reply_handler)
 
 #PUBLIC
+#{collection,username}
 def user_exist_in_db(message):
     def reply_handler(msg):
         #logger.info(msg.body["result"]["_id"])
@@ -73,12 +74,10 @@ def user_exist_in_db(message):
         try:
             exist = msg.body["result"].get("username")
         except Exception, e:
-            uid = None
-        if (uid != None):
-            message.reply(True)
-        else: 
             message.reply(False)
-    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":message.body.get("username")}}, reply_handler)
+        else: 
+            message.reply(True)
+    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {"username":message.body.get("username")}}, reply_handler)
 
 
 #simple unzip

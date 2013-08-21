@@ -18,6 +18,10 @@ function LoginCtrl($scope,$rootScope,$location,$eb){
 	$scope.user={};
 	
 	$scope.doLogin= function(user){
+						//example call
+		$eb.send("user_exist_in_db",{username:user.login}, function(reply){
+			console.log(JSON.stringify(reply));
+		});
 		$eb.login(user.login,user.pass,function(res){
 			console.log(JSON.stringify(res));
 			console.log("sessionID: " + $eb.sessionID);
@@ -35,6 +39,7 @@ function LoginCtrl($scope,$rootScope,$location,$eb){
 	};
 
 	$scope.doRegistration=function(user){
+
 		$eb.send("registration",{user:user},function(userID){
 			//console.log(JSON.stringify(userID));
 			$eb.send("get_user",{userID:userID},function(user){
@@ -74,6 +79,7 @@ function SearchCtrl($scope, $eb){
 		{_id:"IDčkoa",filename:"nazev_filety"},
 		{_id:"IDčkoa2",filename:"nazev_filety2"}
 		];*/
+
 		$eb.send("simple_search", {"matcher":{"filename": search.input, "type": "*"}}, function(reply){
 			console.log(JSON.stringify(reply.files));
 			$scope.$apply(function(){$scope.files=reply.files});
