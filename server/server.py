@@ -63,9 +63,9 @@ def get_or_create(message):
 
 EventBus.register_handler('get_or_create', handler=get_or_create)
 
+#bus.read_dir(message)
 def read_dir(message):
-    #bus.read_dir(message)
-
+    logger.info("read_dir_comment")
 EventBus.register_handler('read_dir', handler=read_dir)
 
 def simple_search(message):
