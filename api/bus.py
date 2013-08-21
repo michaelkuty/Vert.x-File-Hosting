@@ -118,7 +118,7 @@ def read_dir(message):
                             ##CALL GET PROPS
                             def read_dir_handler(result):
                                 logger.info(result)
-                                message.reply("PROPS")
+                                message.reply(result.body)
                             EventBus.send("read_dir_handler",userID,read_dir_handler)
                         if (msge.body == False): message.reply("no such file or directory")
                     else:

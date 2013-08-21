@@ -101,6 +101,7 @@ def mkdir(message):
 
 def read_dir(message):
     logger.info("heeloo %s"% message.body)
+    name = "files/upload/%s"% message.body
     def reply_handler(err,result):
         if not err:
             reply = {
@@ -110,15 +111,33 @@ def read_dir(message):
             files = []
             for res in result:
                 #del res["_id"]
-                message.reply("PROPS")
-                logger.info(res.creation_time())
-                {"file": {
+                logger.info(res)
+                one_file = {
+                    "filename": res.split(message.body)[1],
+                }
+                def props_hander(err,props):
+                    props_ = {
+                        #"creation_time":props.creation_time,
+                        #"last_access_time": props.last_access_time,
+                        #"last_modify_time": props.last_modify_time,
+                        "directory": str(props.directory),
+                        "regular_file": str(props.regular_file),
+                        "symbolic_link": str(props.symbolic_link),
+                        "size": props.size
+                    }
+                    #logger.info(props_)
+                    one_file["props"] = props_
+                    #logger.info(one_file)
+                fs.props(res, handler=props_hander)
+                
+                files.append(one_file)
+                #logger.info(files)
+                reply["files"] = files
+                logger.info(reply)
+                message.reply(reply)
 
-                }}
-                files.append(res)
-            reply["files"] = files
-    name = "files/upload/%s"% message.body
-    fs.props(name, handler=reply_handler)
+    
+    fs.read_dir(name, handler=reply_handler)
     
 #{collection:String,user:Object}
 def save_or_update(message):
