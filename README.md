@@ -45,8 +45,13 @@ simple file upload written in javascipt, java and python
 * message{sessionID:sessionID}
 * reply Object {user}
 
+### def registration(message):
+* message{user:{Object}}
+* reply _id
 
-*handle logout
+
+###TODO
+*handle logout SOLVED
 *mkdir
 *move
 *readprops

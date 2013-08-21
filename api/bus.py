@@ -129,9 +129,10 @@ def read_dir(message):
             message.reply("AUTHORISE_FAIL")
     EventBus.send(local_authorize, {"sessionID":sessionID}, authorize_handler)
 
-#validate user and reply ID
+#TODO validate user and reply ID
 def registratiton(message):
     logger.info("registration")
+
 
 #register local utils handler
 local_authorize = 'local.authorize'
@@ -140,3 +141,4 @@ exists_handler = EventBus.register_handler("exists.handler", handler = bus_utils
 local_authorize_handler = EventBus.register_handler(local_authorize, handler = bus_utils.authorize)
 mkdir_handler = EventBus.register_handler("mkdir_handler", handler = bus_utils.authorize)
 read_dir_handler = EventBus.register_handler("read_dir_handler", handler = bus_utils.read_dir)
+save_or_update = EventBus.register_handler("save_or_update", handler = bus_utils.save_or_update)

@@ -88,6 +88,13 @@ def read_dir(message):
             reply["files"] = files
     name = "files/upload/%s"% message.body
     fs.props(name, handler=reply_handler)
+    
+#{collection:String,user:Object}
+def save_or_update(message):
+    def result_handler(msg):
+        logger.info(msg.body.get("status"))
+        message.reply(msg.body.get("_id"))
+    EventBus.send("vertx.mongopersistor",{"action":"save", "collection":message.body.get("collection"), "document": message.body.get("user")},handler=result_handler)
 #refactor bus.db
 def db_stats(collection):
     def reply_handler1(message):

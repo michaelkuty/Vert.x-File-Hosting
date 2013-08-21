@@ -66,6 +66,7 @@ EventBus.register_handler('get_or_create', handler=get_or_create)
 #bus.read_dir(message)
 def read_dir(message):
     logger.info("read_dir_comment")
+
 EventBus.register_handler('read_dir', handler=read_dir)
 
 def simple_search(message):
@@ -81,7 +82,7 @@ EventBus.register_handler('get_user', handler=get_user)
 
 def registratiton(message):
     message.body["collection"] = app_config.get("users_collection","users")
-    bus.registratiton(message)
+    bus_utils.save_or_update(message)
 
 EventBus.register_handler('get_user', handler=registratiton)
 #set server
