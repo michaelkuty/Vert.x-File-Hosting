@@ -91,6 +91,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
             'address': 'vertx.basicauthmanager.authorise'
         },
         {
+            'address': 'vertx.basicauthmanager.logout'
+        },
+        {
             'address': 'simple_search'
         },
         {
