@@ -122,8 +122,10 @@ def read_dir(message):
                         "regular_file": str(props.regular_file),
                         "symbolic_link": str(props.symbolic_link),
                         "size": props.size,
-                        "type": res.split(message.body)[1].split(".")[len(res.split(message.body)[1].split("."))-1]
                     }
+                    if not (props.directory):
+                        props_["type"] = res.split(message.body)[1].split(".")[len(res.split(message.body)[1].split("."))-1]
+                    else: props_["type"] = "dir"
                     #logger.info(props_)
                     one_file = {
                         "filename": res.split(message.body)[1],
