@@ -1,12 +1,16 @@
 import random
 import string
 import vertx
+import time
+from datetime import date
 
+from core.event_bus import EventBus
 from core.file_system import FileSystem
 from core.streams import Pump
 from core.http import RouteMatcher
 from core.http import MultiMap
 from datetime import datetime
+from api import bus_utils
 
 route_matcher = RouteMatcher()
 logger = vertx.logger()
@@ -21,6 +25,10 @@ def upload_handler(req):
 
     req.set_expect_multipart(True)
     logger.info(req.params.get('sessionID'))
+    try:
+        sessionID = req.params.get('sessionID')
+    except Exception, e:
+        sessionID = None
     #create temp name
     filename = "%s"% path_temp 
     for i in range(10):
@@ -31,19 +39,29 @@ def upload_handler(req):
     #file move and create link to file
     def upload_handler(upload):
         # create path for file with new name
-        path_to_file = "%s%s"% (path_upload,upload.filename)
-        path_to_symlink = "%s%s"% (path_symlink,upload.filename)
-
-        def handle(err,res):
-            logger.info(("file moved from: %s to: %s")% (filename, path_to_file))
-            if err: logger.error(err)
-        #file move
-        fs.move(filename, path_to_file, handler=handle)
-        def handle_symlink(err,res):
-            logger.info("create symlink for: %s"% (path_to_symlink))
-            if err: logger.error(err)
-        fs.link(path_to_symlink,path_to_file,handler=handle_symlink)
-    
+        #TODO SEPARATION collections
+        document = {
+            "filename": upload.filename,
+            "size": upload.size,
+            "ext": upload.filename.split('.')[len(upload.filename.split('.'))-1],
+            "content_transfer_encoding": upload.content_transfer_encoding,
+            "charset": upload.charset,
+            "create_time": date.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+            }
+        if (sessionID == None):
+            document["public"] = True
+            def save_file_db(message):
+                logger.info(message.body)
+            EventBus.send("vertx.mongopersistor", {"action": "save","collection":"files","document":document}, reply_handler=save_file_db)
+        else:
+            document["public"] = False
+            def get_auth_uid(msg):
+                if (msg.body != None):
+                    document["userID"] = msg.body
+                    def save_file_db(message):
+                        logger.info(message.body) 
+                    EventBus.send("vertx.mongopersistor", {"action": "save","collection":"files","document":document}, reply_handler=save_file_db)
+            EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
     req.upload_handler(handler=upload_handler)
 
     logger.info("Got request storing in %s"% filename)
@@ -75,5 +93,8 @@ def upload_handler(req):
 #response file todo if exist etc
 def file_handler(req):
     name = "%s%s"% (path_symlink,req.params['filename'])
-    
+    def handle_symlink(err,res):
+        #logger.info("create symlink for: %s"% (path_to_symlink))
+        if err: logger.error(err)
+    fs.link(path_to_symlink,path_to_file,handler=handle_symlink)
     req.response.send_file(name)

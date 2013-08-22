@@ -1,4 +1,4 @@
-## vertxapp
+﻿## vertxapp
 ========
 
 simple file upload written in javascipt, java and python
@@ -59,7 +59,18 @@ simple file upload written in javascipt, java and python
 * rename all files or dir
 * link(flag files)
 * mongo files
+* save props with upload file
 
+file_document = {
+    "filename": filename,
+    "size": size,
+    "ext": file_type
+    "content_transfer_encoding": content_transfer_encoding,
+    "charset": charset,
+    "create_time": ('%Y-%m-%d %H:%M:%S'),
+    "public": boolean,
+    if private "userID":uid
+    }
 
 ### Prace se soubory
 Ukladame soubory do files/<user-id>/<libovolna-struktura>/soubor.ext.

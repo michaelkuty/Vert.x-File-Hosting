@@ -66,6 +66,19 @@ def get_user_uid(message):
             
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":message.body.get("username")}}, reply_handler)
 
+#PRIVATE from sessionID reply user uid
+def get_auth_uid(message):
+    def authorize_handler(msg):
+        if (msg.body != None):
+            def get_user_id(uid):
+                if (uid.body != None):
+                    message.reply(uid.body)
+                else: message.reply(None)
+            EventBus.send("get_user_uid", {"username":msg.body}, get_user_id)
+        else: 
+            message.reply("AUTHORISE_FAIL")
+    EventBus.send("local.authorize", {"sessionID":message.body.get("sessionID")}, authorize_handler)
+
 #PUBLIC
 #{collection,username}
 def user_exist_in_db(message):

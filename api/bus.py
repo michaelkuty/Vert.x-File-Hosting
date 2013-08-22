@@ -167,3 +167,5 @@ local_authorize_handler = EventBus.register_handler(local_authorize, handler = b
 mkdir_handler = EventBus.register_handler("mkdir_handler", handler = bus_utils.mkdir)
 read_dir_handler = EventBus.register_handler("read_dir_handler", handler = bus_utils.read_dir)
 save_or_update = EventBus.register_handler("save_or_update", handler = bus_utils.user_save_or_update)
+get_user_uid_auth = EventBus.register_handler("get_auth_uid", handler = bus_utils.get_auth_uid)
+

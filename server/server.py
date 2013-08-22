@@ -1,13 +1,13 @@
 import vertx
-
+from core.event_bus import EventBus
 from core.file_system import FileSystem
 from core.http import RouteMatcher 
 from core.event_bus import EventBus
 from core.sock_js import SockJSServer
 
-from api import upload
 from api import bus
 from api import bus_utils
+from api import upload
 
 #inicialize
 server = vertx.create_http_server()
