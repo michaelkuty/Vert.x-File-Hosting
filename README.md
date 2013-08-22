@@ -59,3 +59,23 @@ simple file upload written in javascipt, java and python
 *rename all files or dir
 *link(flag files)
 *mongo files
+
+### Prace se soubory
+Ukladame soubory do files/<user-id>/<libovolna-struktura>/soubor.ext.
+DB záznam? tvar {filename:'soubor',ext:'ext',userID:'asdsadassdad',content:'image/jpeg',public:'1',dir:'mojeslozka/dokumenty/'}
+Nahrané soubory bych nechal implicitně public s možností změny potom (případně globální změny implicitiní hodnoty pak v nastavení).
+
+?Budou moci nahrávat i nepřihlášení uživatelé? Pokud ano, asi bych nechal userID prazdne a nahraval do nějakého speciálního adresáře (public).
+Ty by potom mohli po měsíci mizet (není priorita), u přihlášených souborů bych vůbec zatím nemazal.
+DL servisa se pak rozhodne co použít jak složit link.
+
+### Odkazování souborů
+Skutečné umístění bych vůbec nepropagoval, jestli je ta možnost vracet přímo soubor (nevím jestli to umí Jython).
+DL linky by tedy byli něco jako: http://www.filehosting.pro3/dl/sadasfsfasfasfdgriuhiuhgigiaguz4668
+Případně nepoužívat ID souboru, ale jinde ten údaj nevyužijeme.
+DL servisa vrátí přímo file, který najde podle IDčka v databázi.
+Vysral bych se na symlinky osobně, jenom to komplikují, sdílení veřejných souborů odkazem půjde implicitně vždy.
+To je klasickej přístup všech filehostingů a případně můžeme "naučit" tu dl-servisu aby uměla vygenerovat nějakej hezčí link.
+Něco jako: http://www.filehosting.pro/dl/1234546-muj-soubor.rar, jenže zas kde brát unikátnost pokud nemáme klasické IDčka.
+
+
