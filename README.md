@@ -51,14 +51,15 @@ simple file upload written in javascipt, java and python
 
 
 ###TODO
-*handle logout SOLVED
-*mkdir
-*move
-*readprops
-*update user
-*rename all files or dir
-*link(flag files)
-*mongo files
+* handle logout SOLVED
+* mkdir SOLVED
+* move 
+* readprops SOLVED
+* update user SOLVED
+* rename all files or dir
+* link(flag files)
+* mongo files
+
 
 ### Prace se soubory
 Ukladame soubory do files/<user-id>/<libovolna-struktura>/soubor.ext.
