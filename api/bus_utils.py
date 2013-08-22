@@ -122,7 +122,7 @@ def read_dir(message):
                         "regular_file": str(props.regular_file),
                         "symbolic_link": str(props.symbolic_link),
                         "size": props.size,
-                        "type": res.split(message.body)[1].split(".")[1]
+                        "type": res.split(message.body)[1].split(".")[len(res.split(message.body)[1].split("."))-1]
                     }
                     #logger.info(props_)
                     one_file = {
