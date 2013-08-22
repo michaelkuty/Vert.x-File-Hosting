@@ -115,9 +115,8 @@ def read_dir(message):
                     #logger.info(msge.body)
                     if (msge.body == True) or (msge.body == False):
                         if (msge.body == True):
-                            ##CALL GET PROPS
                             def read_dir_handler(result):
-                                logger.info(result)
+                                #logger.info(result.body)
                                 message.reply(result.body)
                             EventBus.send("read_dir_handler",userID,read_dir_handler)
                         if (msge.body == False): message.reply("no such file or directory")
@@ -129,9 +128,35 @@ def read_dir(message):
             message.reply("AUTHORISE_FAIL")
     EventBus.send(local_authorize, {"sessionID":sessionID}, authorize_handler)
 
-#TODO validate user and reply ID
-def registratiton(message):
-    logger.info("registration")
+def mkdir_path(message):
+    logger.info(message.body)
+    try:
+        sessionID = message.body.get("sessionID")
+    except Exception, e:
+        logger.warn("authorize crash %s"% e)
+        sessionID = None
+    if (sessionID == None): message.reply("sessionID is not valid")
+    userID = ""
+    def authorize_handler(msg):
+        if (msg.body != None):
+            def get_user_id(uid):
+                userID = uid.body
+                def exists_handler(msge):
+                    #logger.info(msge.body)
+                    if (msge.body == True) or (msge.body == False):
+                        if (msge.body == True):
+                            def mkdir_handler(result):
+                                logger.info(result.body)
+                                message.reply(result.body)
+                            EventBus.send("mkdir_handler",{"userID":userID,"name":message.body.get("name")},mkdir_handler)
+                        if (msge.body == False): message.reply("user directory not found")
+                    else:
+                        message.reply("error")
+                EventBus.send("exists.handler", {"uid":uid.body} , exists_handler)
+            EventBus.send("get_user_uid", {"username":msg.body}, get_user_id)
+        else: 
+            message.reply("AUTHORISE_FAIL")
+    EventBus.send(local_authorize, {"sessionID":sessionID}, authorize_handler)
 
 
 #register local utils handler
@@ -139,6 +164,6 @@ local_authorize = 'local.authorize'
 get_user_uid_handler = EventBus.register_handler("get_user_uid", handler = bus_utils.get_user_uid)
 exists_handler = EventBus.register_handler("exists.handler", handler = bus_utils.get_exists)
 local_authorize_handler = EventBus.register_handler(local_authorize, handler = bus_utils.authorize)
-mkdir_handler = EventBus.register_handler("mkdir_handler", handler = bus_utils.authorize)
+mkdir_handler = EventBus.register_handler("mkdir_handler", handler = bus_utils.mkdir)
 read_dir_handler = EventBus.register_handler("read_dir_handler", handler = bus_utils.read_dir)
-save_or_update = EventBus.register_handler("save_or_update", handler = bus_utils.save_or_update)
+save_or_update = EventBus.register_handler("save_or_update", handler = bus_utils.user_save_or_update)

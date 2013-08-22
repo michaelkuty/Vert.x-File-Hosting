@@ -91,15 +91,18 @@ def unzip(filename, target, delete=None):
            EventBus.send('unzip.module', {"zipFile": filename,"destDir":target, "deleteZip": delete},reply_handler)
     else: EventBus.send('unzip.module', {"zipFile": filename,"destDir":target},reply_handler)
 
-#for debug
+#PRIVATE
 def mkdir(message):
-    def reply_handler(err,res):
-        #logger.info(msg.body["result"]["_id"])
-        if not err:
-        	message.reply(True)
-        else: message.reply(False)
-    fs.mkdir(path_upload+message.body.get("username"), perms=None, handler=reply_handler)
-
+    def check_exist(msg):
+        def reply_handler(err,res):
+            #logger.info(msg.body["result"]["_id"])
+            if not err:
+            	message.reply(True)
+            else: message.reply(False)
+        if (msg.body != None or True):
+            fs.mkdir(path_upload+message.body.get("userID")+"/"+message.body.get("name"), perms=None, handler=reply_handler)
+        else: message.reply(None)
+    EventBus.send("exists.handler", {"uid":path_upload+message.body.get("userID")+message.body.get("name")},check_exist)
 #only sync :-(
 def read_dir(message):
     #logger.info("heeloo %s"% message.body)
@@ -140,7 +143,7 @@ def read_dir(message):
     fs.read_dir(name, handler=reply_handler)
     
 #{collection:String,user:Object}
-def save_or_update(message):
+def user_save_or_update(message):
     user = message.body.get("user")
     if 'password2' in user: del user['password2']
     #logger.info(user)
