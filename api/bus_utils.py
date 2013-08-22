@@ -99,8 +99,9 @@ def mkdir(message):
         else: message.reply(False)
     fs.mkdir(path_upload+message.body.get("username"), perms=None, handler=reply_handler)
 
+#only sync :-(
 def read_dir(message):
-    logger.info("heeloo %s"% message.body)
+    #logger.info("heeloo %s"% message.body)
     name = "files/upload/%s"% message.body
     def reply_handler(err,result):
         if not err:
@@ -109,13 +110,9 @@ def read_dir(message):
                     "files": {}
                 }
             files = []
-            for res in result:
-                #del res["_id"]
-                logger.info(res)
-                one_file = {
-                    "filename": res.split(message.body)[1],
-                }
-                def props_hander(err,props):
+            if (len(result) != 0):
+                for res in result:
+                    props = fs.props_sync(res)          
                     props_ = {
                         #"creation_time":props.creation_time,
                         #"last_access_time": props.last_access_time,
@@ -126,17 +123,16 @@ def read_dir(message):
                         "size": props.size
                     }
                     #logger.info(props_)
-                    one_file["props"] = props_
-                    #logger.info(one_file)
-                fs.props(res, handler=props_hander)
-                
-                files.append(one_file)
+                    one_file = {
+                        "filename": res.split(message.body)[1],
+                        "props": props_
+                    }
+                    files.append(one_file)
                 #logger.info(files)
                 reply["files"] = files
-                logger.info(reply)
+                #logger.info(reply)
                 message.reply(reply)
-
-    
+            else: logger.info(None)
     fs.read_dir(name, handler=reply_handler)
     
 #{collection:String,user:Object}
