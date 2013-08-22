@@ -1,6 +1,28 @@
 ﻿## vertxapp
 ========
 
+###TODO
+* update user
+* * client
+* * server
+* check boxs for public private and both searchs
+* call user_exist_in_db on registration form
+* move 
+* email
+* * smtp
+* * email_exist_in_db
+* * email_sender
+* * email_model
+* handle logout SOLVED
+* mkdir SOLVED
+* readprops SOLVED
+* save user with validation SOLVED
+* rename all files or dir
+* link(flag files)
+* mongo files
+* save props with upload file SOLVED
+
+
 simple file upload written in javascipt, java and python
 
 * start with main.py 
@@ -35,9 +57,9 @@ def simple_search(message):
 * sessionID
 * collection:collection
 * matcher:json
-** filename
-** TODO content-type
-** public:true,false,none (PRIVATE/PUBLIC/BOTH)
+* * filename
+* * TODO content-type
+* * public:true,false,none (PRIVATE/PUBLIC/BOTH)
 *reply {status:ok, files: []}
 
 ### def read_dir(message):
@@ -53,35 +75,22 @@ def simple_search(message):
 * reply Object {user}
 
 ### def registration(message):
-* message{user:{Object}}
-* reply _id
+* message user:JSON
+* reply _id String
 
 ###def mkdir_path(message):
-#public
-#messageJSON{
-#collection:collection:serverSide
-#sessionID
-#relative path e.x uid/hello
-#}
-#reply {boolean}
+* public
+* messageJSON
+* collection:collection:serverSide
+* sessionID
+* relative path e.x uid/hello
+* reply {boolean}
 
-#public
-#collection:serverSide
-#username
-#reply {boolean}
-
-###TODO
-* handle logout SOLVED
-* mkdir SOLVED
-* move 
-* readprops SOLVED
-* save user with validation SOLVED
-* update user
-* rename all files or dir
-* link(flag files)
-* mongo files
-* save props with upload file SOLVED
-* check boxs for public private and both searchs
+###def user_exist_in_db(message):
+* public
+* collection:serverSide
+* username
+* reply {boolean}
 
 file_document = {
     "filename": filename,
