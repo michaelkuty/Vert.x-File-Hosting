@@ -42,14 +42,16 @@ def get_or_create(message):
         else: message.reply("user not exists")
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
 
-#mongo result_handler
-
-#message{collection:collection,matcher:{filename:asddasads, "type": xxxx}}
-#TODO if user private search on flag result
+#public
+#message{collection:collection,matcher:json
+#if sessionID else only pulic files
+#public:true,false,none
 #reply {status:ok, files: []}
 def simple_search(message):
     collection = None
     matcher = None
+    sessionID = None
+    public = None
     try:
         collection = message.body.get("collection")
         tmp_matcher = message.body.get("matcher")
@@ -61,73 +63,65 @@ def simple_search(message):
         logger.warn("search wrong params")
         collection = None
         matcher = None
-    if (collection != None) and(matcher != None):
-        def result_handler(msg):
-            status = msg.body.get("status")
-            if (status == "ok"):
-                logger.info(msg.body.get("results"))
-                #if (msg.body.get("results") == []): #message.reply("WARN")
-                reply = {
-                    "status": "ok",
-                    "files": {}
-                }
-                files = []
-                for res in msg.body.get("results"):
-                    #del res["_id"]
-                    files.append(res)
-                reply["files"] = files
-                message.reply(reply)
-            else:
-                logger.war("mongo fail %s"% status)
-                message.reply(status)
-        EventBus.send("vertx.mongopersistor", {"action":"find","collection":collection,"matcher":matcher},result_handler)
-    else:
-        message.reply("search wrong params")
-#get serialize object
-def json_dir_props(message):
-    def read_dir_handler(err,res):
-        if not err: 
-            reply = {}
-            for filename in res:
-                def props_handler(err,res):
-                    if not err: 
-                        print str(res.directory)
-                    else: 
-                        logger.info(err)
-                        print "None"
-                fs.props(filename,handler=props_handler)
-    fs.read_dir(path_upload+message.body,handler=read_dir_handler)
-#TODOOO
-#example eventbus server side
-def read_dir(message):
     try:
         sessionID = message.body.get("sessionID")
     except Exception, e:
-        logger.warn("authorize crash %s"% e)
         sessionID = None
+
+    public = message.body.get("public", None)
+
+    if ((sessionID != None) and (collection != None) and (matcher != None)):
+        def get_auth_uid(uid):
+            if (uid.body == None): message.reply("AUTHORISE_FAIL")
+            else:
+                userID = uid.body
+                if ((public != None) and (public == True)):
+                    matcher["public"] = True
+                    matcher["userID"] = userID
+                if (public == False):
+                    matcher["public"] = False
+                def reply_handler(msg):
+                    message.reply(msg.body)
+                EventBus.send("search",{"collection":collection,"matcher":matcher}, reply_handler)
+        EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
+    else:
+        matcher["public"] = True
+        def reply_handler(msg):
+            message.reply(msg.body)
+        EventBus.send("search",{"collection":collection,"matcher":matcher}, reply_handler)
+
+#public
+#messageJSON{collection:collection:serverSide}
+#sessionID
+#relative path e.x uid/file.zip or uid/hello
+#reply {status:ok, files: [{filename,props}]}
+def read_dir(message):
+    sessionID = message.body.get("sessionID", None)
     if (sessionID == None): message.reply("sessionID is not valid")
     userID = ""
-    def authorize_handler(msg):
-        if (msg.body != None):
-            def get_user_id(uid):
-                userID = uid.body
-                def exists_handler(msge):
-                    #logger.info(msge.body)
-                    if (msge.body == True) or (msge.body == False):
-                        if (msge.body == True):
-                            def read_dir_handler(result):
-                                #logger.info(result.body)
-                                message.reply(result.body)
-                            EventBus.send("read_dir_handler",userID,read_dir_handler)
-                        if (msge.body == False): message.reply("no such file or directory")
-                    else:
-                        message.reply("error")
-                EventBus.send("exists.handler", {"uid":uid.body} , exists_handler)
-            EventBus.send("get_user_uid", {"username":msg.body}, get_user_id)
-        else: 
-            message.reply("AUTHORISE_FAIL")
-    EventBus.send(local_authorize, {"sessionID":sessionID}, authorize_handler)
+    def get_auth_uid(uid):
+        if (uid.body == None): message.reply("AUTHORISE_FAIL")
+        else:
+            userID = uid.body
+            def exists_handler(msge):
+                #logger.info(msge.body)
+                if (msge.body == True) or (msge.body == False):
+                    if (msge.body == True):
+                        def read_dir_handler(result):
+                            #logger.info(result.body)
+                            message.reply(result.body)
+                        EventBus.send("read_dir_handler",userID,read_dir_handler)
+                    if (msge.body == False): message.reply("no such file or directory")
+                else:
+                    message.reply("error")
+            EventBus.send("exists.handler", {"uid":userID} , exists_handler)
+    EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
 
+#public
+#messageJSON{collection:collection:serverSide}
+#sessionID
+#relative path e.x uid/hello
+#reply {boolean}
 def mkdir_path(message):
     logger.info(message.body)
     try:
@@ -137,27 +131,23 @@ def mkdir_path(message):
         sessionID = None
     if (sessionID == None): message.reply("sessionID is not valid")
     userID = ""
-    def authorize_handler(msg):
-        if (msg.body != None):
-            def get_user_id(uid):
-                userID = uid.body
-                def exists_handler(msge):
-                    #logger.info(msge.body)
-                    if (msge.body == True) or (msge.body == False):
-                        if (msge.body == True):
-                            def mkdir_handler(result):
-                                logger.info(result.body)
-                                message.reply(result.body)
-                            EventBus.send("mkdir_handler",{"userID":userID,"name":message.body.get("name")},mkdir_handler)
-                        if (msge.body == False): message.reply("user directory not found")
-                    else:
-                        message.reply("error")
-                EventBus.send("exists.handler", {"uid":uid.body} , exists_handler)
-            EventBus.send("get_user_uid", {"username":msg.body}, get_user_id)
-        else: 
-            message.reply("AUTHORISE_FAIL")
-    EventBus.send(local_authorize, {"sessionID":sessionID}, authorize_handler)
-
+    def get_auth_uid(uid):
+        if (uid.body == None): message.reply("AUTHORISE_FAIL")
+        else:
+            userID = uid.body
+            def exists_handler(msge):
+                #logger.info(msge.body)
+                if (msge.body == True) or (msge.body == False):
+                    if (msge.body == True):
+                        def mkdir_handler(result):
+                            logger.info(result.body)
+                            message.reply(result.body)
+                        EventBus.send("mkdir_handler",{"userID":userID,"name":message.body.get("name")},mkdir_handler)
+                    if (msge.body == False): message.reply("user directory not found")
+                else:
+                    message.reply("error")
+            EventBus.send("exists.handler", {"uid":uid.body} , exists_handler)
+    EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
 
 #register local utils handler
 local_authorize = 'local.authorize'
@@ -168,4 +158,5 @@ mkdir_handler = EventBus.register_handler("mkdir_handler", handler = bus_utils.m
 read_dir_handler = EventBus.register_handler("read_dir_handler", handler = bus_utils.read_dir)
 save_or_update = EventBus.register_handler("save_or_update", handler = bus_utils.user_save_or_update)
 get_user_uid_auth = EventBus.register_handler("get_auth_uid", handler = bus_utils.get_auth_uid)
+search_handler = EventBus.register_handler("search", handler = bus_utils.search)
 

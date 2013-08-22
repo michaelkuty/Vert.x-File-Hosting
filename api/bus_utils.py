@@ -80,7 +80,9 @@ def get_auth_uid(message):
     EventBus.send("local.authorize", {"sessionID":message.body.get("sessionID")}, authorize_handler)
 
 #PUBLIC
-#{collection,username}
+#collection
+#username
+#reply {boolean}
 def user_exist_in_db(message):
     def reply_handler(msg):
         #logger.info(msg.body["result"]["_id"])
@@ -169,7 +171,34 @@ def user_save_or_update(message):
             EventBus.send("vertx.mongopersistor",{"action":"save", "collection":message.body.get("collection"), "document": user},save_result_handler)
         else: message.reply(None)
     EventBus.send("get_user_uid", {"username": user.get("username")}, user_existss)
-    
+
+#PRIVATE
+#message{collection:collection,matcher:{filename:asddasads, "type": xxxx}}
+def search(message):
+    collection = message.body.get("collection")
+    matcher = message.body.get("matcher")
+    if (collection != None) and (matcher != None):
+        def result_handler(msg):
+            status = msg.body.get("status")
+            if (status == "ok"):
+                logger.info(msg.body.get("results"))
+                #if (msg.body.get("results") == []): #message.reply("WARN")
+                reply = {
+                    "status": "ok",
+                    "files": {}
+                }
+                files = []
+                for res in msg.body.get("results"):
+                    #del res["_id"]
+                    files.append(res)
+                reply["files"] = files
+                message.reply(reply)
+            else:
+                logger.war("mongo fail %s"% status)
+                message.reply(status)
+        EventBus.send("vertx.mongopersistor", {"action":"find","collection":collection,"matcher":matcher},result_handler)
+    else:
+        message.reply("search wrong params")
 #refactor bus.db
 def db_stats(collection):
     def reply_handler1(message):

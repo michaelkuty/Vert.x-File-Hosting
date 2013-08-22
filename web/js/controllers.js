@@ -82,11 +82,19 @@ function SearchCtrl($scope, $eb){
 		{_id:"IDčkoa",filename:"nazev_filety"},
 		{_id:"IDčkoa2",filename:"nazev_filety2"}
 		];*/
-
-		$eb.send("simple_search", {"matcher":{"filename": search.input, "type": "*"}}, function(reply){
+		//TODO check boxs for public private and both searchs for logged users
+		if ($eb.sessionID != null) {
+			$eb.send("simple_search",{"sessionID":$eb.sessionID,"matcher":{"filename": search.input, "type": "*"}}, function(reply){
 			console.log(JSON.stringify(reply.files));
 			$scope.$apply(function(){$scope.files=reply.files});
-		});
+			});
+		} else {
+			$eb.send("simple_search",{"matcher":{"filename": search.input, "type": "*"}}, function(reply){
+			console.log(JSON.stringify(reply.files));
+			$scope.$apply(function(){$scope.files=reply.files});
+			});
+		}
+
 	};
 
 }

@@ -29,17 +29,24 @@ simple file upload written in javascipt, java and python
 
 ## EventBus API
 
-### def get_or_create(message):
-* message = {username:username}
+def simple_search(message):
+* public
+* message
+* sessionID
+* collection:collection
+* matcher:json
+** filename
+** TODO content-type
+** public:true,false,none (PRIVATE/PUBLIC/BOTH)
+*reply {status:ok, files: []}
 
 ### def read_dir(message):
-* message = {sessionID:sessionID}
-* reply String userID
-
-
-### def simple_search(message):
-* message{matcher:{filename:asddasads, "type": xxxx}}
-* reply {status:ok, files: []}
+* public
+* messageJSON{
+* collection:collection:serverSide}
+* sessionID
+* relative path e.x uid/file.zip or uid/hello
+* reply {status:ok, files: [{filename,props}]}
 
 ### def get_user(message):
 * message{sessionID:sessionID}
@@ -49,17 +56,32 @@ simple file upload written in javascipt, java and python
 * message{user:{Object}}
 * reply _id
 
+###def mkdir_path(message):
+#public
+#messageJSON{
+#collection:collection:serverSide
+#sessionID
+#relative path e.x uid/hello
+#}
+#reply {boolean}
+
+#public
+#collection:serverSide
+#username
+#reply {boolean}
 
 ###TODO
 * handle logout SOLVED
 * mkdir SOLVED
 * move 
 * readprops SOLVED
-* update user SOLVED
+* save user with validation SOLVED
+* update user
 * rename all files or dir
 * link(flag files)
 * mongo files
-* save props with upload file
+* save props with upload file SOLVED
+* check boxs for public private and both searchs
 
 file_document = {
     "filename": filename,

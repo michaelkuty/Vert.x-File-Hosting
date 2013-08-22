@@ -37,12 +37,15 @@ def files_delete_handler(reply):
 
     files = [ {
             'filename': 'hovnnaaa.jpg',
-            'size': 1554645
+            'size': 1554645,
+            "public": True
         },{
-            'filename': 'ahoj.zip'
+            'filename': 'ahoj.zip',
+            "public": True
         }
         ,{
             'filename': 'ahoj',
+            "public": False
         }
     ]
 
