@@ -1,6 +1,7 @@
 import vertx
 from core.event_bus import EventBus
 from core.file_system import FileSystem
+import time
 
 logger = vertx.logger()
 fs = vertx.file_system()
@@ -114,7 +115,7 @@ def read_dir(message):
                 for res in result:
                     props = fs.props_sync(res)          
                     props_ = {
-                        #"creation_time":props.creation_time,
+                        #"creation_time":props.creation_time().time(),
                         #"last_access_time": props.last_access_time,
                         #"last_modify_time": props.last_modify_time,
                         "directory": str(props.directory),
