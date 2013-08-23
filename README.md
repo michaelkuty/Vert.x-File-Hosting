@@ -82,7 +82,7 @@ config_mailer = {
 
 ### def get_user(message):
 * message{sessionID:sessionID}
-* reply Object {user}
+* reply JSON{user}
 
 ### def registration(message):
 * message user:JSON
@@ -94,13 +94,13 @@ config_mailer = {
 * collection:collection:serverSide
 * sessionID
 * relative path e.x uid/hello
-* reply {boolean}
+* reply JSON{boolean}
 
 ###def user_exist_in_db(message):
 * public
 * collection:serverSide
 * username
-* reply {boolean}
+* reply JSON{boolean}
 
 file_document = {
     "filename": filename,
@@ -112,6 +112,11 @@ file_document = {
     "public": boolean,
     if private "userID":uid
     }
+
+### Mailers 
+simple smtp mail sender, load model mail from db and add custom text with link on file and send to addresTo
+header, main, foter 
+main is body from client (link, Welcome or ex.)
 
 ### Prace se soubory
 Ukladame soubory do files/<user-id>/<libovolna-struktura>/soubor.ext.

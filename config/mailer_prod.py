@@ -5,5 +5,6 @@ config = {
     "ssl": True,
     "auth": True,
     "username": "kuty@koncepthk.cz",
-    "password": "MKmk+987"
+    "password": "MKmk+987",
+    "content-type": "text/html"
 }
