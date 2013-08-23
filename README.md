@@ -9,7 +9,8 @@
 * call user_exist_in_db on registration form
 * move 
 * email
-* * smtp
+* * smtp SOLVED
+* * deploy mailer SOLVED
 * * email_exist_in_db
 * * email_sender
 * * email_model
@@ -48,6 +49,15 @@ simple file upload written in javascipt, java and python
     "pool_size": 20
 }
 
+config_mailer = {
+    "address": "mailer",
+    "host": "smtp.googlemail.com",
+    "port": 465,
+    "ssl": True,
+    "auth": True,
+    "username": "xxx",
+    "password": "xxx"
+}
 
 ## EventBus API
 
