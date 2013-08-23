@@ -61,10 +61,10 @@ config_mailer = {
 
 ## EventBus API
 
-def simple_search(message):
+### def simple_search(message):
 * public
 * message
-* sessionID
+* sessionID = nullable
 * collection:collection
 * matcher:json
 * * filename
