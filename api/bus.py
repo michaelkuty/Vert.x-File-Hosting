@@ -77,8 +77,8 @@ def simple_search(message):
                 userID = uid.body
                 if ((public != None) and (public == True)):
                     matcher["public"] = True
-                    matcher["userID"] = userID
                 if (public == False):
+                    matcher["userID"] = userID
                     matcher["public"] = False
                 def reply_handler(msg):
                     message.reply(msg.body)

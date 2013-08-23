@@ -2,9 +2,9 @@
 GLOBAL config
 """
 main = {
-    "port": 8888,
+    "port": 80,
     "port_bridge": 8889,
-    "host": "0.0.0.0",
+    "host": "master.majklk.cz",
     "path_web": "web/",
     "path_upload": "files/upload/",
     "path_temp": "files/temp/",

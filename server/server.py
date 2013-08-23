@@ -8,6 +8,7 @@ from core.sock_js import SockJSServer
 from api import bus
 from api import bus_utils
 from api import upload
+from api import mailer
 
 #inicialize
 server = vertx.create_http_server()

@@ -167,6 +167,9 @@ def user_save_or_update(message):
         if (msg.body == None):
             #logger.info(msg.body)
             def save_result_handler(msg):
+                def reply(res):
+                    logger.info(res.body)
+                EventBus.send("registration_mail",{"user":user},reply)
                 message.reply(msg.body.get("_id"))
             EventBus.send("vertx.mongopersistor",{"action":"save", "collection":message.body.get("collection"), "document": user},save_result_handler)
         else: message.reply(None)
