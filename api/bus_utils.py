@@ -159,7 +159,7 @@ def read_dir(message):
     
 #{collection:String,user:Object}
 def user_save_or_update(message):
-    user = message.body.get("user")
+    user = message.body.get("user", None)
     if 'password2' in user: del user['password2']
     #logger.info(user)
     def user_existss(msg):
@@ -172,7 +172,17 @@ def user_save_or_update(message):
                 EventBus.send("registration_mail",{"user":user},reply)
                 message.reply(msg.body.get("_id"))
             EventBus.send("vertx.mongopersistor",{"action":"save", "collection":message.body.get("collection"), "document": user},save_result_handler)
-        else: message.reply(None)
+        else: 
+            #TODO upsert create new document when 0 result from criteria :-)
+            update = {"action":"update", "collection": message.body.get("collection"),
+                "criteria": {"_id": msg.body},
+                "objNew" : user,
+                "upsert": False,
+                "multi": False
+            }
+            def update_result_handler(msg):
+                message.reply(msg.body)
+            EventBus.send("vertx.mongopersistor",update,update_result_handler)
     EventBus.send("get_user_uid", {"username": user.get("username")}, user_existss)
 
 #PRIVATE

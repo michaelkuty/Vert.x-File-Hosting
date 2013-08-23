@@ -40,6 +40,10 @@ def registration_mail(message):
         def reply(msg):
             message.reply(msg.body) #TODO rich reply
         EventBus.send("send_mail",mail,reply)
+
+#TODO LINK MAIL
+#TODO FORGOT PASS MAIL
+
 #TODO propagation upstairs
 send_mail = EventBus.register_handler("send_mail", handler = send_mail)
 registration_mail = EventBus.register_handler("registration_mail", handler = registration_mail)

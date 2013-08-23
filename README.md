@@ -3,17 +3,19 @@
 
 ###TODO
 * update user
-* * client
-* * server
-* check boxs for public private and both searchs
-* call user_exist_in_db on registration form
+* * client HIGHT update user form
+* * server SOLVED
+* rewrite client to english or two languages support and translate dictionary on server
+* forgot pass mail form LOW
+* check boxs for public private and both searchs HIGHT
+* call user_exist_in_db on registration form HIGHT
 * move 
 * email
 * * smtp SOLVED
 * * deploy mailer SOLVED
 * * email_exist_in_db
-* * email_sender
-* * email_model
+* * email_sender SOLVED
+* * email_model INITIAL
 * handle logout SOLVED
 * mkdir SOLVED
 * readprops SOLVED

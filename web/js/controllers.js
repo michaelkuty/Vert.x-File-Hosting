@@ -28,6 +28,11 @@ function LoginCtrl($scope,$rootScope,$location,$eb){
 			console.log("userID: " + $eb.userID);
 			//send event to all controllers
 			$rootScope.$broadcast('loggedIn');
+				user["_id"] = $eb.userID
+				user["username"] = "TEST UPDATE"
+				$eb.send("registration",{user:user},function(res) {
+					console.log("user update");
+				})
 			//minimal one file for result
 			$eb.send("mkdir_path",{"sessionID": $eb.sessionID,"name":"ahoj"}, function(res){
 				console.log(res);
@@ -47,6 +52,7 @@ function LoginCtrl($scope,$rootScope,$location,$eb){
 			//console.log(JSON.stringify(userID));
 			$eb.send("get_user",{userID:userID},function(user){
 				console.log(JSON.stringify(user));
+				
 				$scope.user=user;
 				$rootScope.$broadcast('loggedIn');
 				$location.path("upload");
