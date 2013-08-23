@@ -1,11 +1,11 @@
-﻿## vertxapp
+﻿## vertxapp LIVE DEMO - http://master.majklk.cz
 ========
 
 ###TODO
 * update user
 * * client HIGHT update user form
 * * server SOLVED
-* rewrite client to english or two languages support and translate dictionary on server
+* rewrite client to english or two languages support and translate dictionary on server 
 * forgot pass mail form LOW
 * check boxs for public private and both searchs HIGHT
 * call user_exist_in_db on registration form HIGHT
@@ -86,8 +86,10 @@ config_mailer = {
 * message{sessionID:sessionID}
 * reply JSON{user}
 
+//todo rename save_or_update
 ### def registration(message):
 * message user:JSON
+* * if user._id == update !!!
 * reply _id String
 
 ###def mkdir_path(message):
