@@ -198,7 +198,7 @@ def user_save_or_update(message):
                 "multi": False
             }
             def update_result_handler(msg):
-                message.reply(msg.body)
+                message.reply(user.get('_id'))
             EventBus.send("vertx.mongopersistor",update,update_result_handler)
     EventBus.send("get_user_uid", {"username": user.get("username")}, user_existss)
 
