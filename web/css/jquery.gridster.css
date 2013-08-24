@@ -16,8 +16,8 @@
 }
 
 .gridster .gs_w{
-    background: url("images/overlay.png") repeat scroll 0% 0% rgb(40, 43, 52);
-    color:rgb(238,238,238);
+    background: url("images/bg_dir.png") no-repeat;
+    background-size: 100% 100%;
     padding:5px 10px;
     z-index: 2;
     position: absolute;
@@ -40,8 +40,8 @@
 .gridster .preview-holder {
     z-index: 1;
     position: absolute;
-    background: url("images/overlay.png") repeat scroll 0% 0% rgb(40, 43, 52);
-    border-color: #fff;
+    background: url("images/bg_dir.png") no-repeat;
+    background-size: 100% 100%;
     opacity: 0.3;
 }
 
