@@ -36,12 +36,25 @@ EventBus.send('vertx.mongopersistor', {'action': 'delete', 'collection': 'users'
 def files_delete_handler(reply):
 
     files = [ {
-            'filename': 'hovnnaaa.jpg',
+            'filename': 'ahoj hovnnaaa.jpg',
             'size': 1554645,
-            "public": True
+            "public": True,
+            "ext": "jpg",
+            "size": 15788
         },{
             'filename': 'ahoj.zip',
-            "public": True
+            "public": True,
+            "ext": "zip",
+            "size": 15788
+        },{
+            'filename': 'ahojayYYDA sdd ASd.rar',
+            "public": True,
+            "ext": "rar",
+            "size": 15788
+        },{
+            'filename': 'ahoj DIRECTORYa',
+            "public": True,
+            "ext": "dir"
         }
         ,{
             'filename': 'ahoj',
