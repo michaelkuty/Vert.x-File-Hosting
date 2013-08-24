@@ -1,5 +1,5 @@
 'use strict';
-angular.module('filehosting', ['filehosting.services', 'filehosting.directives','filehosting.controllers','smartTable.table']).
+angular.module('filehosting', ['filehosting.services', 'filehosting.directives','filehosting.controllers','LocalStorageModule']).
 config(function($routeProvider) {
 $routeProvider.
 when('/', {controller:'UploadCtrl', templateUrl:'pages/upload.html'}).
