@@ -85,33 +85,33 @@ def get_auth_uid(message):
 #username
 #reply {boolean}
 def user_exist_in_db(message):
+    username = message.body.get("username", None)
     def reply_handler(msg):
-        #logger.info(msg.body["result"]["_id"])
-        exist = ""
-        try:
-            exist = msg.body["result"].get("username")
-        except Exception, e:
-            message.reply(False)
-        else: 
+        res = msg.body.get("result", None)
+        if (res != None):
             message.reply(True)
-    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {"username":message.body.get("username")}}, reply_handler)
-
+        else:
+            message.reply(False)
+    if (username != None):
+        EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {"username":username}}, reply_handler)
+    else: 
+        message.reply("wrong param name")
 #PUBLIC
 #collection
 #email
 #reply {boolean}
 def email_exist_in_db(message):
+    email = message.body.get("email", None)
     def reply_handler(msg):
-        #logger.info(msg.body["result"]["_id"])
-        exist = ""
-        try:
-            exist = msg.body["result"].get("email")
-        except Exception, e:
-            message.reply(False)
-        else: 
+        res = msg.body.get("result", None)
+        if (res != None):
             message.reply(True)
-    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {"email":message.body.get("email")}}, reply_handler)
-
+        else:
+            message.reply(False)
+    if (email != None):
+        EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {"email":email}}, reply_handler)
+    else: 
+        message.reply("wrong param email")
 
 #simple unzip
 def unzip(filename, target, delete=None):

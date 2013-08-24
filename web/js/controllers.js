@@ -45,12 +45,17 @@ function LoginCtrl($scope,$rootScope,$location,$eb){
 
 		alert(JSON.stringify("Logged in: "+user.login));
 	};
-	$scope.checkUser = function(username){
-		$eb.send("user_exist_in_db",{"username":username},function(userID){
-
+	$scope.checkUsername = function(username){
+		$eb.send("user_exist_in_db",{username:username},function(res){
+			console.log(res);
 		});
 	}
-	$scope.doRegistration=function(user){
+	$scope.checkEmail = function(email){
+		$eb.send("email_exist_in_db",{"email":email},function(res){
+			console.log(res);
+		});
+	}
+	$scope.doRegistration = function(user){
 
 		$eb.send("registration",{user:user},function(userID){
 			//console.log(JSON.stringify(userID));

@@ -129,6 +129,12 @@ def user_exist_in_db(message):
 
 EventBus.register_handler('user_exist_in_db', handler=user_exist_in_db)
 
+def email_exist_in_db(message):
+    message.body["collection"] = app_config.get("users_collection","users")
+    bus_utils.email_exist_in_db(message)
+
+EventBus.register_handler('email_exist_in_db', handler=email_exist_in_db)
+
 #{sessionID, name}
 def mkdir_path(message):
     bus.mkdir_path(message)
@@ -170,6 +176,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'user_exist_in_db'
+        },
+        {
+            'address': 'email_exist_in_db'
         }], [{}])
 
 sock_server.listen(app_config['port_bridge'])
