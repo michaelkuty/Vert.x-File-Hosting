@@ -15,9 +15,20 @@
     transition: height .4s;
 }
 
-.gridster .gs_w{
+.dir {
     background: url("images/bg_dir.png") no-repeat;
     background-size: 100% 100%;
+}
+.zip {
+    background: url("images/bg_zip.jpg") no-repeat;
+    background-size: 100% 100%;
+}
+.rar {
+    background: url("images/bg_rar.png") no-repeat;
+    background-size: 100% 100%;
+}
+
+.gridster .gs_w{
     padding:5px 10px;
     z-index: 2;
     position: absolute;
@@ -40,8 +51,6 @@
 .gridster .preview-holder {
     z-index: 1;
     position: absolute;
-    background: url("images/bg_dir.png") no-repeat;
-    background-size: 100% 100%;
     opacity: 0.3;
 }
 

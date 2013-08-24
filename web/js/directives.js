@@ -39,6 +39,7 @@ directive('gridster', function($timeout) {
             var widget = $scope.model[index];
             widget.row = li.attr('data-row');
             widget.col = li.attr('data-col');
+
           });
           $scope.$apply();
         };
@@ -47,10 +48,12 @@ directive('gridster', function($timeout) {
       var attachElementsToGridster = function(lis) {
         //attaches elements to gridster
         gridster.remove_all_widgets();
-        
         angular.forEach(lis, function(value, key){
             var li = angular.element(value);
             gridster.add_widget(li);
+            //TODO changing by type
+            li.addClass('dir').appendTo(gridster.$el);
+
             /*var $w = li.addClass('gs_w').appendTo(gridster.$el).hide();
             gridster.$widgets = gridster.$widgets.add($w);
             gridster.register_widget($w).add_faux_rows(1).set_dom_grid_height();
@@ -58,8 +61,10 @@ directive('gridster', function($timeout) {
         });
 
       };
+
       $scope.$watch('model', function() {
-       $timeout(function() { attachElementsToGridster(ul.find('li')); }); //attach to gridster
+       $timeout(function() { 
+          attachElementsToGridster(ul.find('li')); }); //attach to gridster
       });
     }
   };
