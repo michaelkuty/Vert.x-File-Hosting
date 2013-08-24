@@ -117,12 +117,10 @@ function SearchCtrl($scope, $eb){
 			$scope.settings.mode=1;
 		}
 	};
-	$scope.table=true;
 	$scope.tableColumns=[
 		{label: 'ID', map: '_id'},
 		{label: 'Nazev',map: 'filename'}
 	];
-	$scope.files=false;
 	//TODO other attribute // filter
 	$scope.publicSearch = function(search){
 		$scope.messages.initial=false;
