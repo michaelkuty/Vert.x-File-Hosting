@@ -4,11 +4,14 @@ GLOBAL config
 main = {
     "port": 80,
     "port_bridge": 8889,
-    "host": "master.majklk.cz",
-    "path_web": "web/",
-    "path_upload": "files/upload/",
-    "path_temp": "files/temp/",
-    "path_symlink": "files/symlink/",
+    "host": "0.0.0.0",
+    "paths": {
+        "web": "web/",
+        "path_private":"files/private/",
+        "path_symlink":"files/symlink/",
+        "path_temp":"files/temp/",
+        "path_public":"files/public/"
+    },
     "files_collection": "files",
     "users_collection": "users"
 }

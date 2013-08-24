@@ -2,18 +2,18 @@
 ========
 
 ###TODO
-* update user
+* update user SOLVED
 * * client HIGHT update user form
 * * server SOLVED
 * rewrite client to english or two languages support and translate dictionary on server 
 * forgot pass mail form LOW
 * check boxs for public private and both searchs HIGHT
-* call user_exist_in_db on registration form HIGHT
+* call user_exist_in_db on registration form HIGHT SOLVED
 * move 
 * email
 * * smtp SOLVED
 * * deploy mailer SOLVED
-* * email_exist_in_db
+* * email_exist_in_db SOLVED
 * * email_sender SOLVED
 * * email_model INITIAL
 * handle logout SOLVED
