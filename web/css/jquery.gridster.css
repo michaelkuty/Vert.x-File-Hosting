@@ -40,7 +40,7 @@
 .gridster .preview-holder {
     z-index: 1;
     position: absolute;
-    background-color: #fff;
+    background: url("images/overlay.png") repeat scroll 0% 0% rgb(40, 43, 52);
     border-color: #fff;
     opacity: 0.3;
 }
