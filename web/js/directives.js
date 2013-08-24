@@ -46,13 +46,15 @@ directive('gridster', function($timeout) {
       
       var attachElementsToGridster = function(lis) {
         //attaches elements to gridster
-        //gridster.remove_all_widgets();
+        gridster.remove_all_widgets();
+        
         angular.forEach(lis, function(value, key){
             var li = angular.element(value);
-            var $w = li.addClass('gs_w').appendTo(gridster.$el).hide();
+            gridster.add_widget(li);
+            /*var $w = li.addClass('gs_w').appendTo(gridster.$el).hide();
             gridster.$widgets = gridster.$widgets.add($w);
             gridster.register_widget($w).add_faux_rows(1).set_dom_grid_height();
-            $w.fadeIn();
+            $w.fadeIn();*/
         });
 
       };

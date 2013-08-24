@@ -25,13 +25,14 @@
 		<div class="container wrapper pagewrapper">
 		<p ng-show="messages.initial" class="txtCenter">Nejdříve vyhledejte soubor </p>
 		<p ng-show="messages.noFiles" class="txtCenter">Nic nenalezeno</p>
-			<div ng-show="files.length != 0">
+			<div ng-show="files.length != 0"><!--
 				<input type="button" ng-show="settings.mode == 0" value="Zobrazit jako mřížku" ng-click="switchView()">
 				<input type="button" ng-show="settings.mode == 1" value="Zobrazit jako tabulku" ng-click="switchView()">
 				<br/>
 				<div ng-show="settings.mode == 0">
-					<smart-table config="settings.tableSettings" class="table table-striped" table-title="Nalezené soubory" rows="files" columns="tableColumns"></smart-table>
-				</div>
+					<smart-table config="settings.tableSettings" class="table table-stripped" rows="files" columns="settings.tableColumns"></smart-table>
+				</div>-->
+				<div class="cleaner"></div>
 				<div ng-show="settings.mode == 1">
 					<div class="gridster" model="file_widgets" options="{ widget_margins: [3, 3],widget_base_dimensions: [140, 140] }"></div>
 				</div>

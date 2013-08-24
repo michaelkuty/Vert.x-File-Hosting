@@ -74,8 +74,13 @@ function FooterCtrl($scope){
 
 }
 function SearchCtrl($scope, $eb){
+	//mode 0 table 1 grid
 	$scope.settings ={
 		mode:1,
+		tableColumns:[
+			{label: 'ID', map: '_id'},
+			{label: 'Nazev',map: 'filename'}
+		],
 		tableSettings :{
 			isPaginationEnabled:false
 		},
@@ -87,29 +92,28 @@ function SearchCtrl($scope, $eb){
 		initial: true,
 		noFile : false
 	};
-	$scope.file_widgets=[];
 	var setFiles = function(files){
 		$scope.$apply(function(){
 			$scope.files=files;
 			setWidgets();
 		});
 	};
-  	var setWidgets=function(){
-  		$scope.file_widgets=[];
-  		if($scope.files.length!=0){
-  			$scope.messages.noFiles=false;
-  			var rowIndex=1,colIndex;
-  				for (var i = 0; i < $scope.files.length; i++) {
-  					var colIndex = i+1;
-  					if(colIndex>$scope.settings.gridSettings.widgetsInRow){
-  						rowIndex++;
-  					}
-  					$scope.file_widgets.push({text:$scope.files[i].filename,row:rowIndex,col:colIndex,sizex:1,sizey:1});
-  				};
-  			}else{
-  				$scope.messages.noFiles=true;
-  			}
-  	};
+	var setWidgets=function(){
+		$scope.file_widgets=[];
+		if($scope.files.length!=0){
+			$scope.messages.noFiles=false;
+			var rowIndex=1,colIndex;
+				for (var i = 0; i < $scope.files.length; i++) {
+					var colIndex = i+1;
+					if(colIndex>$scope.settings.gridSettings.widgetsInRow){
+						rowIndex++;
+					}
+					$scope.file_widgets.push({text:$scope.files[i].filename,row:rowIndex,col:colIndex,sizex:1,sizey:1});
+				};
+			}else{
+				$scope.messages.noFiles=true;
+			}
+	};
 	$scope.switchView=function(){
 		if($scope.settings.mode==1){
 			$scope.settings.mode=0;
@@ -117,10 +121,6 @@ function SearchCtrl($scope, $eb){
 			$scope.settings.mode=1;
 		}
 	};
-	$scope.tableColumns=[
-		{label: 'ID', map: '_id'},
-		{label: 'Nazev',map: 'filename'}
-	];
 	//TODO other attribute // filter
 	$scope.publicSearch = function(search){
 		$scope.messages.initial=false;
