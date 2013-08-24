@@ -19,13 +19,14 @@ fs = vertx.file_system()
 app_config = vertx.config()
 
 #set global
-path_web = app_config['path_web']
+path_web = app_config['paths']['web']
 #cros module variable
-upload.path_upload = app_config['path_upload']
-upload.path_symlink = app_config['path_symlink']
-upload.path_temp = app_config['path_temp']
+##TODO
+upload.path_upload = app_config['paths']['path_private']
+upload.path_symlink = app_config['paths']['path_symlink']
+upload.path_temp = app_config['paths']['path_temp']
 
-bus.path_upload = app_config['path_upload']
+bus.path_upload = app_config['paths']['path_private']
 
 
 def index_handler(req):

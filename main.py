@@ -2,13 +2,27 @@ import vertx
 from utils import cleaner
 from config import config_test
 from config import mailer_prod
-
+from core.file_system import FileSystem
+fs = vertx.file_system()
 #get config for spec enviroment
 config = config_test
 
 logger = vertx.logger()
 
 logger.info("deploy vertx app in python start   ")
+
+###only create path from config
+paths = config.main.get("paths")
+
+def create_upload_dirs(paths):
+    for path in paths:
+        exist = fs.exists_sync(paths.get(path))
+        if not exist:
+            fs.mkdir_with_parents(paths.get(path))
+
+create_upload_dirs(paths)
+
+
 
 #TODO rewrite this module
 

@@ -32,9 +32,11 @@ def upload_handler(req):
         sessionID = None
     #create temp name
     filename = "%s"% path_temp 
+    file_id = ""
+    ##create more sofisticate uid
     for i in range(10):
-        filename += string.uppercase[random.randrange(26)]
-    filename += '.uploaded'
+        file_id += string.uppercase[random.randrange(26)]
+    filename = file_id + '.uploaded'
     size = 0
     #call when fileupload was complete
     #file move and create link to file
@@ -51,8 +53,13 @@ def upload_handler(req):
             }
         if (sessionID == None):
             document["public"] = True
+            document["_id"] = file_id
             def save_file_db(message):
-                fs.move(filename, path_public+upload.filename, handler = None)
+                def mkdir_handler(err, mkdir_res):
+                    if not err:
+                        fs.move(filename, path_public+ file_id + "/" + upload.filename, handler = None)
+                fs.mkdir(path_public + file_id + "/",perms=None,handler=mkdir_handler)
+                #TODO create dir from uid in public section and move file into
             EventBus.send("vertx.mongopersistor", {"action": "save","collection":"files","document":document}, reply_handler=save_file_db)
         else:
             document["public"] = False

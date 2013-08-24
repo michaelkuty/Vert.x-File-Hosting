@@ -38,6 +38,7 @@ def authorize(message):
 
 #string uid
 #reply True False None
+# todo rewrite to complete path
 def get_exists(message):
     def exists_handler(err, msg):
         if not err: 
@@ -131,7 +132,7 @@ def mkdir(message):
             	message.reply(True)
             else: message.reply(False)
         if (msg.body != None or True):
-            fs.mkdir(path_upload+message.body.get("userID")+"/"+message.body.get("name"), perms=None, handler=reply_handler)
+            fs.mkdir_with_parents(path_upload+message.body.get("userID")+"/"+message.body.get("name"), perms=None, handler=reply_handler)
         else: message.reply(None)
     EventBus.send("exists.handler", {"uid":path_upload+message.body.get("userID")+message.body.get("name")},check_exist)
 #only sync :-(

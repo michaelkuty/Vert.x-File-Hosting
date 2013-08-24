@@ -5,10 +5,13 @@ main = {
     "port": 8888,
     "port_bridge": 8889,
     "host": "0.0.0.0",
-    "path_web": "web/",
-    "path_upload": "files/private/",
-    "path_temp": "files/temp/",
-    "path_symlink": "files/symlink/",
+    "paths": {
+        "web": "web/",
+        "path_private":"files/private/",
+        "path_symlink":"files/symlink/",
+        "path_temp":"files/temp/",
+        "path_public":"files/public/"
+    },
     "files_collection": "files",
     "users_collection": "users"
 }
