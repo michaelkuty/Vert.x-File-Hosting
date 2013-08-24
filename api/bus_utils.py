@@ -163,7 +163,7 @@ def read_dir(message):
                     else: props_["type"] = "dir"
                     #logger.info(props_)
                     one_file = {
-                        "filename": res.split(message.body)[1],
+                        "filename": res.split(message.body)[1][:1],
                         "props": props_
                     }
                     files.append(one_file)

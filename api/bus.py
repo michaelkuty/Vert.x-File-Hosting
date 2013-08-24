@@ -57,7 +57,10 @@ def simple_search(message):
         tmp_matcher = message.body.get("matcher")
         #use python $regex
         matcher = {
-            "filename": {'$regex': tmp_matcher.get("filename")},
+            "filename": {
+                '$regex': tmp_matcher.get("filename"),
+                '$options': 'ix'
+            },
         }
     except Exception, e:
         logger.warn("search wrong params")
