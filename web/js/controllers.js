@@ -74,30 +74,68 @@ function FooterCtrl($scope){
 
 }
 function SearchCtrl($scope, $eb){
+	$scope.settings ={
+		mode:1,
+		tableSettings :{
+			isPaginationEnabled:false
+		},
+		gridSettings :{
+			widgetsInRow: 8
+		},
+	};
+	$scope.messages = {
+		initial: true,
+		noFile : false
+	};
+	$scope.file_widgets=[];
+	var setFiles = function(files){
+		$scope.$apply(function(){
+			$scope.files=files;
+			setWidgets();
+		});
+	};
+  	var setWidgets=function(){
+  		$scope.file_widgets=[];
+  		if($scope.files.length!=0){
+  			$scope.messages.noFiles=false;
+  			var rowIndex=1,colIndex;
+  				for (var i = 0; i < $scope.files.length; i++) {
+  					var colIndex = i+1;
+  					if(colIndex>$scope.settings.gridSettings.widgetsInRow){
+  						rowIndex++;
+  					}
+  					$scope.file_widgets.push({text:$scope.files[i].filename,row:rowIndex,col:colIndex,sizex:1,sizey:1});
+  				};
+  			}else{
+  				$scope.messages.noFiles=true;
+  			}
+  	};
+	$scope.switchView=function(){
+		if($scope.settings.mode==1){
+			$scope.settings.mode=0;
+		}else if($scope.settings.mode==0){
+			$scope.settings.mode=1;
+		}
+	};
+	$scope.table=true;
 	$scope.tableColumns=[
 		{label: 'ID', map: '_id'},
 		{label: 'Nazev',map: 'filename'}
 	];
-	$scope.globalConfig={
-        isPaginationEnabled:true
-    };
-	$scope.files=[];
+	$scope.files=false;
 	//TODO other attribute // filter
 	$scope.publicSearch = function(search){
-		/*$scope.files=[
-		{_id:"IDčkoa",filename:"nazev_filety"},
-		{_id:"IDčkoa2",filename:"nazev_filety2"}
-		];*/
+		$scope.messages.initial=false;
 		//TODO check boxs for public private and both searchs for logged users
 		if ($eb.sessionID != null) {
 			$eb.send("simple_search",{"sessionID":$eb.sessionID,"matcher":{"filename": search.input, "type": "*"}}, function(reply){
 			console.log(JSON.stringify(reply.files));
-			$scope.$apply(function(){$scope.files=reply.files});
+			setFiles(reply.files);
 			});
 		} else {
 			$eb.send("simple_search",{"matcher":{"filename": search.input, "type": "*"}}, function(reply){
 			console.log(JSON.stringify(reply.files));
-			$scope.$apply(function(){$scope.files=reply.files});
+			setFiles(reply.files);
 			});
 		}
 

@@ -9,11 +9,10 @@
 							
 							<!-- Intro -->
 								<section id="intro">
-									<form ng-submit="publicSearch(search)">
-										<input type="text" class="text left w1000" name="search" placeholder="Název souboru" ng-model="search.input"/> 
-										<input type="Submit" class="button white left marginLeft10" value="Hledat"  />
+									<form name="searchForm" ng-submit="publicSearch(search)">
+										<input type="text" class="text left w1000" name="search" placeholder="Název souboru" ng-model="search.input" required/> 
+										<input type="Submit" class="button white left marginLeft10" value="Hledat" ng-disabled="searchForm.$invalid"/>
 									</form>
-								
 								</section>
 							<!-- /Intro -->
 							
@@ -24,6 +23,18 @@
 		<!-- /Intro Wrapper -->
 		<!-- Main Wrapper -->
 		<div class="container wrapper pagewrapper">
-			<smart-table class="table table-striped" table-title="Nalezené soubory" rows="files" columns="tableColumns"></smart-table>
+		<p ng-show="messages.initial" class="txtCenter">Nejdříve vyhledejte soubor </p>
+		<p ng-show="messages.noFiles" class="txtCenter">Nic nenalezeno</p>
+			<div ng-show="files.length != 0">
+				<input type="button" ng-show="settings.mode == 0" value="Zobrazit jako mřížku" ng-click="switchView()">
+				<input type="button" ng-show="settings.mode == 1" value="Zobrazit jako tabulku" ng-click="switchView()">
+				<br/>
+				<div ng-show="settings.mode == 0">
+					<smart-table config="settings.tableSettings" class="table table-striped" table-title="Nalezené soubory" rows="files" columns="tableColumns"></smart-table>
+				</div>
+				<div ng-show="settings.mode == 1">
+					<div class="gridster" model="file_widgets" options="{ widget_margins: [3, 3],widget_base_dimensions: [140, 140] }"></div>
+				</div>
+			</div>
 		</div>
 		<!-- /Main Wrapper -->
