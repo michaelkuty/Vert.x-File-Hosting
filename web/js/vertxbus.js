@@ -59,6 +59,16 @@ var vertx = vertx || {};
         }
       });
     }
+    that.logout = function(username, password, replyHandler) {
+      sendOrPub("send", 'vertx.basicauthmanager.logout', {"sessionID": sessionID}, function(reply) {
+        if (reply.status === 'ok') {
+          that.sessionID = null;
+          that.userID = null;
+          //console.log(that.sessionID);
+        } 
+          replyHandler(reply);
+      });
+    }
   
     that.send = function(address, message, replyHandler) {
       sendOrPub("send", address, message, replyHandler)
