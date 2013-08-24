@@ -20,12 +20,15 @@ app_config = vertx.config()
 
 #set global
 path_web = app_config['paths']['web']
-#cros module variable
-##TODO
-upload.path_upload = app_config['paths']['path_private']
-upload.path_symlink = app_config['paths']['path_symlink']
-upload.path_temp = app_config['paths']['path_temp']
+path_public = app_config['paths']['path_public']
+path_symlink = app_config['paths']['path_symlink']
 
+#cros module variable
+##TODO  
+upload.path_public = path_public
+upload.path_symlink = path_symlink
+upload.path_upload = app_config['paths']['path_private']
+upload.path_temp = app_config['paths']['path_temp']
 bus.path_upload = app_config['paths']['path_private']
 
 
@@ -56,8 +59,40 @@ def file_info(req):
     logger.info(name)
     #fs.props(name, props_handler)
 
+#response file todo if exist etc
+def file_handler(req):
+    filename = req.params.get("filename", None)
+    uid = req.params.get("uid", None)
+    if (filename != None and uid != None):
+        def uid_exists(err, res):
+            if not err:
+                def mkdir(err, res):
+                    if not err:
+                        def handle_symlink(err,res):
+                            if not err:
+
+                                req.response.status_code = 200
+                                #req.response.put_header("Content-Type", "image/jpeg")
+                                req.response.send_file(path_symlink + uid + "/" + filename)
+                            else:
+                                req.response.status_code = 200
+                                req.response.send_file(path_symlink + uid + "/" + filename) 
+
+                        fs.link(path_symlink + uid + "/" + filename,path_public + uid + "/" + filename,handler=handle_symlink)
+                    else:
+                        req.response.status_code = 200
+                        req.response.send_file(path_symlink + uid + "/" + filename) 
+                fs.mkdir(path_symlink + uid, handler = mkdir)
+            else:
+                req.response.status_code = 404
+                req.response.end("No such file or directory")
+        fs.exists(path_public + uid, handler = uid_exists)
+    else:
+        req.response.status_code = 404
+        req.response.end("missing params")
+
 route_matcher.post('/upload', upload.upload_handler)
-route_matcher.get('/:filename', upload.file_handler)
+route_matcher.get('/dl/:uid/:filename', file_handler)
 route_matcher.get('/', index_handler)
 
 def get_or_create(message):

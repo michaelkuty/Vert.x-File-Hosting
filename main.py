@@ -18,6 +18,7 @@ def create_upload_dirs(paths):
     for path in paths:
         exist = fs.exists_sync(paths.get(path))
         if not exist:
+            logger.info("created %s")% paths.get(path)
             fs.mkdir_with_parents(paths.get(path))
 
 create_upload_dirs(paths)

@@ -100,13 +100,4 @@ def upload_handler(req):
     fs.open(filename, handler=file_open,create_new=True,flush=True)
     #cleaner.set_one_timer(10000, filename)
 
-#response file todo if exist etc
-def file_handler(req):
-    name = "%s%s"% (path_symlink,req.params['filename'])
-    """
-    def handle_symlink(err,res):
-        #logger.info("create symlink for: %s"% (path_to_symlink))
-        if err: logger.error(err)
-    fs.link(path_to_symlink,path_to_file,handler=handle_symlink)
-    """
-    req.response.send_file(name)
+
