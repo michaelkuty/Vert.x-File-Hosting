@@ -57,7 +57,6 @@
 		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="js/skel.min.js"></script>
 		<script type="text/javascript" src="js/skel-panels.min.js"></script>
-		<link rel="stylesheet" href="css/smart-table.css" />
 		<link rel="stylesheet" href="css/jquery.gridster.css" />
 
 		<noscript>
@@ -89,8 +88,9 @@
 											<ul>
 												<li class="current_page_item"><a href="#/">Nahrát soubory</a></li>
 												<li><a href="#/search">Vyhledávání</a></li>
-												<li><a href="#/login">Přihlásit se</a></li>
-												<li ng-show="!user"><a href="#/registration">Registrace</a></li>
+												<li ng-hide="user"><a href="#/login">Přihlásit se</a></li>
+												<li ng-hide="user"><a href="#/registration">Registrace</a></li>
+												<li ng-show="user"><a href="#/account">Můj účet</a></li>
 												<li ng-show="user">
 													<span>{{user.username}}</span>
 													<ul>
