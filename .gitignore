@@ -8,7 +8,8 @@
 mods/
 files/symlink/
 files/temp/
-files/upload/
+files/public/
+files/private/
 
 *.pydevproject
 .project

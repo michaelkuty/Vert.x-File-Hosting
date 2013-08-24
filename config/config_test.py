@@ -6,7 +6,7 @@ main = {
     "port_bridge": 8889,
     "host": "0.0.0.0",
     "path_web": "web/",
-    "path_upload": "files/upload/",
+    "path_upload": "files/private/",
     "path_temp": "files/temp/",
     "path_symlink": "files/symlink/",
     "files_collection": "files",

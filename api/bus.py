@@ -9,7 +9,7 @@ fs = vertx.file_system()
 def msg_handler(message):
     logger.info("Got message body %s"% message.body)
 
-path_upload = "files/upload/"
+path_upload = "files/private/"
 #propagation
 bus_utils.path_upload = path_upload
 

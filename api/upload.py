@@ -16,9 +16,10 @@ route_matcher = RouteMatcher()
 logger = vertx.logger()
 fs = vertx.file_system()
 #global
-path_upload = "files/upload/"
+path_upload = "files/private/"
 path_symlink = "files/symlink/"
 path_temp = "files/temp/"
+path_public = "files/public/"
 
 def upload_handler(req):
     req.pause()
@@ -34,7 +35,7 @@ def upload_handler(req):
     for i in range(10):
         filename += string.uppercase[random.randrange(26)]
     filename += '.uploaded'
-    
+    size = 0
     #call when fileupload was complete
     #file move and create link to file
     def upload_handler(upload):
@@ -42,7 +43,7 @@ def upload_handler(req):
         #TODO SEPARATION collections
         document = {
             "filename": upload.filename,
-            "size": upload.size,
+            "size": size,
             "ext": upload.filename.split('.')[len(upload.filename.split('.'))-1],
             "content_transfer_encoding": upload.content_transfer_encoding,
             "charset": upload.charset,
@@ -51,7 +52,7 @@ def upload_handler(req):
         if (sessionID == None):
             document["public"] = True
             def save_file_db(message):
-                logger.info(message.body)
+                fs.move(filename, path_public+upload.filename, handler = None)
             EventBus.send("vertx.mongopersistor", {"action": "save","collection":"files","document":document}, reply_handler=save_file_db)
         else:
             document["public"] = False
@@ -59,7 +60,8 @@ def upload_handler(req):
                 if (msg.body != None):
                     document["userID"] = msg.body
                     def save_file_db(message):
-                        logger.info(message.body) 
+                        fs.move(filename, path_upload+msg.body+"/"+upload.filename, handler = None)
+                        #logger.info(message.body) 
                     EventBus.send("vertx.mongopersistor", {"action": "save","collection":"files","document":document}, reply_handler=save_file_db)
             EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
     req.upload_handler(handler=upload_handler)
@@ -76,6 +78,7 @@ def upload_handler(req):
             def file_close(err, file):
                 end_time = datetime.now()
                 logger.info("Uploaded %d bytes to %s in %s"%(pump.bytes_pumped, filename, end_time-start_time))
+                size = pump.bytes_pumped
                 req.response.chunked = True
                 req.response.status_code = 201
                 req.response.status_message = "File uploaded"

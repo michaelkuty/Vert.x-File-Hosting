@@ -30,9 +30,9 @@ function LoginCtrl($scope,$rootScope,$location,$eb){
 			$rootScope.$broadcast('loggedIn');
 				user["_id"] = $eb.userID
 				user["username"] = "TEST UPDATE"
-				$eb.send("registration",{user:user},function(res) {
-					console.log("user update");
-				})
+				//$eb.send("registration",{user:user},function(res) {
+				//		console.log("user update");
+				//})
 			//minimal one file for result
 			$eb.send("mkdir_path",{"sessionID": $eb.sessionID,"name":"ahoj"}, function(res){
 				console.log(res);

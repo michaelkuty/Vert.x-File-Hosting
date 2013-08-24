@@ -8,7 +8,7 @@ fs = vertx.file_system()
 
 mongopersistor_address = 'vertx.mongopersistor'
 
-path_upload = "files/upload/"
+path_upload = "files/private/"
 
 #reply Object {}
 #PUBLIC
@@ -95,6 +95,22 @@ def user_exist_in_db(message):
             message.reply(True)
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {"username":message.body.get("username")}}, reply_handler)
 
+#PUBLIC
+#collection
+#email
+#reply {boolean}
+def email_exist_in_db(message):
+    def reply_handler(msg):
+        #logger.info(msg.body["result"]["_id"])
+        exist = ""
+        try:
+            exist = msg.body["result"].get("email")
+        except Exception, e:
+            message.reply(False)
+        else: 
+            message.reply(True)
+    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {"email":message.body.get("email")}}, reply_handler)
+
 
 #simple unzip
 def unzip(filename, target, delete=None):
@@ -121,7 +137,7 @@ def mkdir(message):
 #only sync :-(
 def read_dir(message):
     #logger.info("heeloo %s"% message.body)
-    name = "files/upload/%s"% message.body
+    name = "%s%s"% (path_upload,message.body)
     def reply_handler(err,result):
         if not err:
             reply = {
