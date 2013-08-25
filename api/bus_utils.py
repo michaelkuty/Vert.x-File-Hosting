@@ -193,7 +193,22 @@ def read_dir(message):
             else: logger.info(None)
     fs.read_dir(name, handler=reply_handler)
     
+#{username,pass}
+def login_user(message):
+    username = message.body.get("username", None)
+    password = message.body.get("password", None)
+    if (username != None) and (password  != None):
+        def login_handler(msg):
+            if msg.body.get("status") == "ok":
+                message.reply(msg.body.get("sessionID"))
+            else:
+                message.reply(False)
+        EventBus.send("vertx.basicauthmanager.login", {"username":username,"password":password}, login_handler)      
+ 
+EventBus.register_handler("login_user", handler = login_user)
+
 #{collection:String,user:Object}
+#reply sessionID
 def user_save_or_update(message):
     user = message.body.get("user", None)
     if 'password2' in user: del user['password2']
@@ -203,10 +218,12 @@ def user_save_or_update(message):
         if (msg.body == None):
             #logger.info(msg.body)
             def save_result_handler(msg):
+                def login(login):
+                    message.reply(login.body) 
                 def reply(res):
-                    logger.info(res.body)
+                    #logger.info(res.body)
+                EventBus.send("login_user", {"username":user.get("username"),"password":user.get("password")}, login)
                 EventBus.send("registration_mail",{"user":user},reply)
-                message.reply(msg.body.get("_id"))
             EventBus.send("vertx.mongopersistor",{"action":"save", "collection":message.body.get("collection"), "document": user},save_result_handler)
         else: 
             #TODO upsert create new document when 0 result from criteria :-)
