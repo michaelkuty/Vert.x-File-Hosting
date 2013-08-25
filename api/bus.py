@@ -68,7 +68,6 @@ def simple_search(message):
             if (uid.body == None): message.reply("AUTHORISE_FAIL")
             else:
                 userID = uid.body
-                logger.info(userID)
                 if (public == None):
                     matcher["public"] = True
                 else:
@@ -118,35 +117,34 @@ def read_dir(message):
 #reply {boolean}
 def mkdir_path(message):
     logger.info(message.body)
-    try:
-        sessionID = message.body.get("sessionID")
-    except Exception, e:
-        logger.warn("authorize crash %s"% e)
-        sessionID = None
+    sessionID = message.body.get("sessionID", None)
     if (sessionID == None): message.reply("sessionID is not valid")
     userID = ""
     def get_auth_uid(uid):
         if (uid.body == None): message.reply("AUTHORISE_FAIL")
         else:
             userID = uid.body
-            logger.info(userID)
-
-            def exists_handler(msge):
-                logger.info(msge.body)
-                if (msge.body == True) or (msge.body == False):
-                    if (msge.body == True):
-                        def mkdir_handler(result):
-                            logger.info(result.body)
-                            message.reply(result.body)
-                        folder = message.body.get("name", None)
-                        if (folder != None):
-                            EventBus.send("mkdir_handler",{"userID":userID,"name":folder},mkdir_handler)
-                        else: 
+            if (userID != None):
+                def exists_handler(msge):
+                    if (msge.body == True) or (msge.body == False):
+                        if (msge.body == True):
+                            def mkdir_handler(result):
+                                logger.info(result.body)
+                                message.reply(result.body)
+                            folder = message.body.get("name", None)
+                            if (folder != None):
+                                EventBus.send("mkdir_handler",{"userID":userID,"name":folder},mkdir_handler)
+                        elif (msge.body == False): 
+                            logger.info("must be created")
+                            def mkdir_handler(result):
+                                logger.info(result.body)
+                                message.reply(result.body)
                             EventBus.send("mkdir_handler",{"userID":userID,"name":""},mkdir_handler)
+                    else:
+                        message.reply("error")
+            else: 
+                message.reply("error")
 
-                    if (msge.body == False): message.reply("user directory not found")
-                else:
-                    message.reply("error")
             EventBus.send("exists.handler", {"uid":uid.body} , exists_handler)
     EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
 

@@ -222,7 +222,7 @@ function SearchCtrl($scope, $eb){
 };
 
 }
-function MyFiles($scope, $eb){
+function MyFiles($scope, $eb, localStorageService){
 	$scope.settings ={
 		gridSettings :{
 			widgetsInRow: 8
@@ -233,11 +233,11 @@ function MyFiles($scope, $eb){
 		noFile : false
 	};
 	$eb.onopen = function(){
-			if ($eb.sessionID !== null){
-		$eb.send("mkdir_path",{"sessionID": $eb.sessionID}, function(res){
+		console.log(this.sessionID);
+		$eb.send("mkdir_path",{"sessionID":localStorageService.get("sessionID")}, function(res){
 			console.log(res);
 		});
-	}
+	
 	}
 	var setFiles = function(files){
 		$scope.$apply(function(){
