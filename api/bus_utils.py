@@ -96,7 +96,7 @@ def get_auth_uid(message):
                 else: message.reply(None)
             EventBus.send("get_user_uid", {"username":msg.body}, get_user_id)
         else: 
-            message.reply("AUTHORISE_FAIL")
+            message.reply(None)
     EventBus.send("local.authorize", {"sessionID":message.body.get("sessionID")}, authorize_handler)
 
 #PUBLIC
