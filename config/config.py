@@ -5,7 +5,7 @@ enviroments = [
     {
         "name": "production",
         "enabled": True,
-        "version": 0.9.0,
+        "version": "0.9.0",
         "port": 80,
         "port_bridge": 8889,
         "host": "http://master.majklk.cz",
@@ -39,7 +39,7 @@ enviroments = [
     {
         "name": "TEST",
         "enabled": True,
-        "version": 0.9.0
+        "version": "0.9.0",
         "port": 8888,
         "port_bridge": 8889,
         "host": "0.0.0.0",
