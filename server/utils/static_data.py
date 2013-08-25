@@ -3,6 +3,7 @@ from core.event_bus import EventBus
 
 logger = vertx.logger()
 # Delete albums
+
 def album_delete_handler(reply):
 
     users = [ {
@@ -22,15 +23,14 @@ def album_delete_handler(reply):
 
     # Insert albums - in real life 'price' would probably be stored in a different collection, but, hey, this is a demo.
     for i in range(0, len(users)):
-        def save_handler(res):
-            logger.info(res.body)
         EventBus.send('vertx.mongopersistor', {
             'action': 'save',
             'collection': 'users',
             'document': users[i]
-        }, reply_handler=save_handler)
-        logger.info(users[i])
-    logger.info("add %s users to mongo"% str(len(users)))
+        }, reply_handler=None)
+        #logger.info("add %s users to mongo"% str(len(users)))
+
+        #logger.info(users[i])
 EventBus.send('vertx.mongopersistor', {'action': 'delete', 'collection': 'users', 'matcher': {}}, album_delete_handler)
 
 def files_delete_handler(reply):
@@ -64,12 +64,11 @@ def files_delete_handler(reply):
 
     # Insert albums - in real life 'price' would probably be stored in a different collection, but, hey, this is a demo.
     for i in range(0, len(files)):
-        def save_handler(res):
-            logger.info(res.body)
+
         EventBus.send('vertx.mongopersistor', {
             'action': 'save',
             'collection': 'files',
             'document': files[i]
-        }, reply_handler=save_handler)
+        }, reply_handler=None)
 
 EventBus.send('vertx.mongopersistor', {'action': 'delete', 'collection': 'files', 'matcher': {}}, files_delete_handler)
