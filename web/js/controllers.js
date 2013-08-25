@@ -4,6 +4,43 @@
 
 angular.module('filehosting.controllers', []);
 
+function AppCtrl($scope){
+	var viewMessage = function(data) {
+		if(typeof data === 'object' && !(data instanceof Array)){
+			var notice = {
+				type: data.type,
+				text: data.text,
+				opacity: 0.8,
+				delay: 3000,
+				hide: false,
+				nonblock: true,
+				closer_hover: true,
+				history: true
+			}
+			$.pnotify(notice);
+		}else if(data instanceof Array){
+			angular.forEach(data, function(value, key){
+				var notice = {
+					type: alert.type,
+					text: alert.text,
+					opacity: 0.8,
+					delay: 3000,
+					hide: true,
+					nonblock: true,
+					closer_hover: true,
+					history: false
+				}
+				$.notify(notice);
+			});
+		}else{
+			console.log("error in message");
+		}
+	}
+	$scope.$on('message',function(event,message){
+		viewMessage(message);
+	});
+}
+
 function UploadCtrl($scope,$eb){
 	$scope.initUploader = function(){
 		var params={};
@@ -41,6 +78,7 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 				$scope.user=user;
 				$rootScope.$broadcast('loggedIn',{user:$scope.user});
 				localStorageService.add('user',$scope.user);
+				$scope.$emit('message',{type:"error",text:"Přihlášeno"});
 			});
 			console.log("sessionID: " + $eb.sessionID);
 			console.log("userID: " + $eb.userID);
@@ -156,34 +194,34 @@ function SearchCtrl($scope, $eb){
 		}
 
 	};
-      
+	  
 /*$.pnotify.defaults.history = false;
-      $.pnotify.defaults.styling = 'bootstrap';
+	  $.pnotify.defaults.styling = 'bootstrap';
  * method accept array of json [{}]
  * param type, text
  * anywhere you can call $scope.checkAlert([{}])
  */$scope.checkAlerts = function(data) {
-  if (Object.prototype.toString.call(data) === '[object Array]') {
-    data.forEach(function(alert) {
-      //console.log(JSON.stringify(alert));
-      notice = {
-        type: alert.type,
-        text: alert.text,
-        opacity: 0.8,
-        delay: 3000,
-        hide: true,
-        nonblock: true,
-        closer_hover: true,
-        history: false
-      }
-      //console.log('notice', notice);
-      $.pnotify(notice);
-    });
+ 	if (Object.prototype.toString.call(data) === '[object Array]') {
+	data.forEach(function(alert) {
+	  //console.log(JSON.stringify(alert));
+	  notice = {
+		type: alert.type,
+		text: alert.text,
+		opacity: 0.8,
+		delay: 3000,
+		hide: true,
+		nonblock: true,
+		closer_hover: true,
+		history: false
+	  }
+	  //console.log('notice', notice);
+	  $.pnotify(notice);
+	});
   } else {
-    $.pnotify({
-      type: "error",
-      text: "checkAlerts() data is not array of alerts"
-    });
+	$.pnotify({
+	  type: "error",
+	  text: "checkAlerts() data is not array of alerts"
+	});
   }
 }
 
