@@ -4,12 +4,14 @@ from core.file_system import FileSystem
 from core.http import RouteMatcher 
 from core.event_bus import EventBus
 from core.sock_js import SockJSServer
-from api.messages import bus_messages
 
-from api import bus
-from api import bus_utils
-from api import upload
-from api import mailer
+#from server.bus.messages import bus_messages
+
+from server.bus import bus
+from server.bus import bus_utils
+from server import upload
+
+from server.bus import hovno
 
 #inicialize
 server = vertx.create_http_server()
@@ -143,7 +145,7 @@ def get_hostname(message):
 
 EventBus.register_handler('get_hostname', handler=get_hostname)
 
-EventBus.register_handler('get_locale_messages', handler=bus_messages.get_locale_messages)
+#EventBus.register_handler('get_locale_messages', handler=bus_messages.get_locale_messages)
 
 #set server
 #server.set_send_buffer_size(4 * 1024)

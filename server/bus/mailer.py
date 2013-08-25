@@ -1,6 +1,5 @@
 import vertx
 from core.event_bus import EventBus
-from bus_utils import get_user_uid
 
 logger = vertx.logger()
 

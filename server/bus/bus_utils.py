@@ -2,7 +2,7 @@ import vertx
 from core.event_bus import EventBus
 from core.file_system import FileSystem
 import time
-
+from server.bus import mailer
 logger = vertx.logger()
 fs = vertx.file_system()
 

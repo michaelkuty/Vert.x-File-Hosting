@@ -10,7 +10,6 @@ from core.streams import Pump
 from core.http import RouteMatcher
 from core.http import MultiMap
 from datetime import datetime
-from api import bus_utils
 
 route_matcher = RouteMatcher()
 logger = vertx.logger()
