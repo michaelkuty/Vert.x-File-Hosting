@@ -2,11 +2,8 @@
 ========
 
 ###TODO
-* automatic css for gridster widget SOLVED
-* update form + validation SOLVED
 * rewrite client to english or two languages support and translate dictionary on server 
 * forgot pass mail form LOW
-* check boxs for public private and both searchs HIGHT
 * call user_exist_in_db on registration form HIGHT SOLVED
 * move 
 * handle logout SOLVED

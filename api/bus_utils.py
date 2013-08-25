@@ -105,7 +105,7 @@ def get_auth_uid(message):
 #reply {boolean}
 def exist_in_db(message):
     key = message.body.get("key", None)
-    key = message.body.get("value", None)
+    value = message.body.get("value", None)
     def reply_handler(msg):
         res = msg.body.get("result", None)
         if (res != None):
