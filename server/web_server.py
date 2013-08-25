@@ -109,10 +109,10 @@ EventBus.register_handler('mkdir_path', handler=mkdir_path)
 #def get_hostname
 def get_hostname(message):
     message.reply("%s:%s"% (app_config['host'],app_config['port']))
+EventBus.register_handler('get_hostname',handler=get_hostname)
 
 def get_version(message):
     message.reply("%s"% (app_config.get("version", None)))
-
 EventBus.register_handler('get_version', handler=get_version)
 
 #EventBus.register_handler('get_locale_messages', handler=bus_messages.get_locale_messages)

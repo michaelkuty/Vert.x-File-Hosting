@@ -6,19 +6,19 @@ angular.module('filehosting.controllers', []);
 
 function AppCtrl($scope,$eb,localStorageService){
 	// first init
-	$eb.onopen=function(){
+	$eb.addOpenCall(function(){
 		viewMessage({type:'info',text:"Spojení se serverem navázáno"});
-		this.send("get_locale_messages",{"locale":"EN"},function(messages){
+		$eb.send("get_locale_messages",{"locale":"EN"},function(messages){
 			console.log(messages);
 		});
-		if(typeof this.sessionID !== 'undefined' && this.sessionID !== null){
-			$eb.send("get_auth_user",{sessionID: this.sessionID},function(user){
+		if(typeof $eb.sessionID !== 'undefined' && $eb.sessionID !== null){
+			$eb.send("get_auth_user",{sessionID: $eb.sessionID},function(user){
 				if(user !== null){
 					$scope.$apply(function(){
 						$scope.user=user;
 					});
 				}else{
-					this.sessionID = null;
+					$eb.sessionID = null;
 				}
 			});
 		}else if(localStorageService.get("sessionID")!=null){
@@ -34,22 +34,23 @@ function AppCtrl($scope,$eb,localStorageService){
 				}
 			});
 		}
-	}
-	$eb.onclose=function(){
+	});
+	$eb.addCloseCall(function(){
 		viewMessage({type:'info',text:'Spojení se serverem bylo ukončeno'});
-	};
+	});
 
 	var viewMessage = function(data) {
-		var stack_left = {"dir1": "down", "dir2": "right", "push": "top"};
+		var stack_bar_bottom = {"dir1": "up", "dir2": "right", "spacing1": 0, "spacing2": 0};
 		if(typeof data === 'object' && !(data instanceof Array)){
 			var notice = {
 				icon: false,
 				closer: false,
 				sticker: false,
-				addclass:'stack-topleft',
-				stack:stack_left, 
+				addclass:'stack-bar-bottom',
+				stack:stack_bar_bottom, 
 				type: data.type,
 				text: data.text,
+				width: "70%",
 				opacity: 0.8,
 				delay: 3000,
 				hide: true,
@@ -64,10 +65,11 @@ function AppCtrl($scope,$eb,localStorageService){
 					icon: false,
 					closer: false,
 					sticker: false,
-					addclass:'stack-topleft',
-					stack:stack_left, 
-					type: alert.type,
+					addclass:'stack-bar-bottom',
+					stack:stack_bar_bottom, 
+					type: alert.typ,
 					text: alert.text,
+					width: "70%",
 					opacity: 0.8,
 					delay: 3000,
 					hide: false,
@@ -93,21 +95,21 @@ function AppCtrl($scope,$eb,localStorageService){
 }
 
 function UploadCtrl($scope,$eb){
-	$scope.initUploader = function(){
+	$eb.addOpenCall(function(){
 		var params={};
-		//send userID if exists
-		if($eb.sessionID != null){
-			params.sessionID=$eb.sessionID;
-		}
-		registerFileUploader(params);
-	};
+		$eb.send("get_hostname",function(hostname){
+			//send userID if exists
+			if($eb.sessionID != null){
+				params.sessionID=$eb.sessionID;
+			}
+			registerFileUploader(hostname,params);
+			$scope.$apply(function(){$scope.uploaderInited=true});
+		});
+
+	});
 }
 function LoginCtrl($scope,$location,$eb,localStorageService){
 	$scope.doLogin= function(user){
-		//example call
-		$eb.send("user_exist_in_db",{username:user.login}, function(reply){
-			console.log(JSON.stringify(reply));
-		});
 		$eb.login(user.login,user.pass,function(res){
 			$eb.send("get_auth_user", {sessionID: $eb.sessionID},function(user){
 				$scope.user=user;
@@ -170,7 +172,15 @@ function HeaderCtrl($scope,$eb,localStorageService){
 		});
 	};
 };
-function FooterCtrl(){}
+function FooterCtrl($scope,$eb){
+$eb.addOpenCall(function(){
+	$eb.send("get_version",function(version){
+		$scope.$apply(function(){
+			$scope.version = version;
+		});
+	});
+});
+}
 function SearchCtrl($scope, $eb){
 	$scope.settings ={
 		gridSettings :{

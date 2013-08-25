@@ -1,7 +1,7 @@
 		<!-- Intro Wrapper -->
 			<div id="intro-wrapper" class="wrapper wrapper-style2">
-				<div class="title" ng-init="initUploader();">
-					<input type="file" name="files" multiple="multiple" />
+				<div class="title">
+					<div ng-show="uploaderInited"><input type="file" name="files" multiple="multiple" /></div>
 				</div>
 				<div class="container">
 					<div class="row">
@@ -9,10 +9,15 @@
 							
 							<!-- Intro -->
 								<section id="intro">
-									<p class="style1">Nahrávejte své soubory ...</p>
-								    <div id="details"></div>
-									<div id="response"></div>
-									<div id="previews"></div>
+									<div ng-show="uploaderInited">
+										<p class="style1">Nahrávejte své soubory ...</p>
+									    <div id="details"></div>
+										<div id="response"></div>
+										<div id="previews"></div>
+									</div>
+									<div ng-hide="uploaderInited">
+										<p class="style1">Načítám...</p>
+									</div>
 								</section>
 							<!-- /Intro -->
 							

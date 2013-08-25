@@ -1,5 +1,7 @@
-	function registerFileUploader(params){
-		var script_uri = "http://localhost:8888/upload";
+	function registerFileUploader(hostname,params){
+		if(typeof hostname !== 'string'){
+			throw new Error("registerFileUploader: hostname is not valid");
+		}
 		if(typeof params === "object"){
 			var delimiter,iterator=0;
 			for(param in params){
@@ -8,13 +10,13 @@
 				}else{
 					delimiter="&";
 				}
-				script_uri=script_uri+delimiter+param+"="+params[param];
+				hostname=hostname+delimiter+param+"="+params[param];
 				iterator++;
 			}
 		}
 		$("input:file[name='files']").off("change");
 		$("input:file[name='files']").liteUploader({
-			script: script_uri,
+			script: hostname,
 			disAllowedFileTypes: 'application/javascript',
 			maxSizeInBytes: 999999999999,
 			before: function() {

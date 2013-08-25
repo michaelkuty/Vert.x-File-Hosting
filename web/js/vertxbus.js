@@ -38,9 +38,23 @@ var vertx = vertx || {};
     var sessionID = null;
     var pingTimerID = null;
   
-    that.onopen = null;
-    that.onclose = null;
+    var onOpenCalls = [];
+    var onCloseCalls = [];
 
+    that.addOpenCall = function(call){
+      if(typeof call === 'function'){
+        onOpenCalls.push(call);
+      }else{
+        throw new Exception("EventBus.addOpenCall: Call cannot be added! It's not a function!");
+      }
+    }
+    that.addCloseCall = function(call){
+      if(typeof call === 'function'){
+        onCloseCalls.push(call);
+      }else{
+        throw new Exception("EventBus.addCloseCall: Call cannot be added! It's not a function!");
+      }
+    }
     that.login = function(username, password, replyHandler) {
       sendOrPub("send", 'vertx.basicauthmanager.login', {username: username, password: password}, function(reply) {
         if (reply.status === 'ok') {
@@ -63,7 +77,13 @@ var vertx = vertx || {};
     }
   
     that.send = function(address, message, replyHandler) {
-      sendOrPub("send", address, message, replyHandler)
+      if(typeof message === 'object' && typeof replyHandler === 'function'){
+          sendOrPub("send", address, message, replyHandler);
+      }else if(typeof message === 'function'){
+          sendOrPub("send",address,null,message);
+      }else{
+        throw new Error("EventBus.send: Wrong parameters");
+      }
     }
   
     that.publish = function(address, message, replyHandler) {
@@ -122,15 +142,19 @@ var vertx = vertx || {};
       sendPing();
       pingTimerID = setInterval(sendPing, 5000);
       state = vertx.EventBus.OPEN;
-      if (that.onopen) {
-        that.onopen();
+      if (onOpenCalls.length>0) {
+        for (var i = 0; i < onOpenCalls.length; i++) {
+          onOpenCalls[i]();
+        };
       }
     };
   
     sockJSConn.onclose = function() {
       state = vertx.EventBus.CLOSED;
-      if (that.onclose) {
-        that.onclose();
+      if (onCloseCalls.length>0) {
+        for (var i = 0; i < onCloseCalls.length; i++) {
+          onCloseCalls[i]();
+        };
       }
     };
   
@@ -176,9 +200,15 @@ var vertx = vertx || {};
       checkSpecified("address", 'string', address);
       checkSpecified("replyHandler", 'function', replyHandler, true);
       checkOpen();
-      var envelope = { type : sendOrPub,
+      if(message!==null){
+        var envelope = { type : sendOrPub,
                        address: address,
                        body: message };
+      }else{
+           var envelope = { type : sendOrPub,
+                       address: address,
+                       body: {}};
+      }
       if (that.sessionID) {
         envelope.sessionID = that.sessionID;
       }
