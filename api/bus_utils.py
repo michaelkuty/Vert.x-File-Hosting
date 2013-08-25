@@ -204,6 +204,7 @@ def user_save_or_update(message):
             #logger.info(msg.body)
             def save_result_handler(msg):
                 def login(login):
+                    if "password" in user: del user["password"]
                     message.reply({"user":user,"sessionID":login.body}) 
                 def reply(res):
                     logger.info(res.body)
