@@ -138,7 +138,10 @@ def mkdir_path(message):
 EventBus.register_handler('mkdir_path', handler=mkdir_path)
 
 #def get_locale_messages(req):
+def get_hostname(message):
+    message.reply("%s%s"% (app_config['host'],app_config['port']))
 
+EventBus.register_handler('get_hostname', handler=get_hostname)
 
 EventBus.register_handler('get_locale_messages', handler=bus_messages.get_locale_messages)
 
@@ -177,6 +180,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'update_user'
+        },
+        {
+            'address': 'get_hostname'
         },
         {
             'address': 'exist_in_db'

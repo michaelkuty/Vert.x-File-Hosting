@@ -204,7 +204,7 @@ def user_save_or_update(message):
             #logger.info(msg.body)
             def save_result_handler(msg):
                 def login(login):
-                    message.reply(login.body) 
+                    message.reply({"user":user,"sessionID":login.body}) 
                 def reply(res):
                     logger.info(res.body)
                 EventBus.send("login_user", {"username":user.get("username"),"password":user.get("password")}, login)
