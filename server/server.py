@@ -112,11 +112,12 @@ def simple_search(message):
     bus.simple_search(message)
 
 EventBus.register_handler('simple_search', handler=simple_search)
-def get_user(message):
-    message.body["collection"] = app_config.get("users_collection","users")
-    bus_utils.get_user(message)
 
-EventBus.register_handler('get_user', handler=get_user)
+def get_auth_user(message):
+    message.body["collection"] = app_config.get("users_collection","users")
+    bus_utils.get_auth_user(message)
+
+EventBus.register_handler('get_auth_user', handler=get_auth_user)
 
 def registration(message):
     message.body["collection"] = app_config.get("users_collection","users")
@@ -141,6 +142,9 @@ EventBus.register_handler('email_exist_in_db', handler=email_exist_in_db)
 def mkdir_path(message):
     bus.mkdir_path(message)
 EventBus.register_handler('mkdir_path', handler=mkdir_path)
+
+#def get_locale_messages(req):
+
 
 EventBus.register_handler('get_locale_messages', handler=bus_messages.get_locale_messages)
 
@@ -175,7 +179,7 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
             'address': 'mkdir_path'
         },
         {
-            'address': 'get_user'
+            'address': 'get_auth_user'
         },
         {
             'address': 'update_user'

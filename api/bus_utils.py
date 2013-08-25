@@ -11,7 +11,7 @@ mongopersistor_address = 'vertx.mongopersistor'
 path_upload = "files/private/"
 
 #reply Object {}
-#PUBLIC
+#PRIVATE
 def get_user(message):
     def reply_handler(msg):
         #logger.info(msg.body)
@@ -24,6 +24,25 @@ def get_user(message):
             message.reply(msg.body['result'])
             
     EventBus.send(mongopersistor_address, {'action': 'findone', 'collection': 'users', 'matcher': {"_id":message.body.get("userID")}}, reply_handler)
+
+EventBus.register_handler("get_user_private", handler = get_user)
+
+#{sessionID:sessionID}
+def get_auth_user(message):
+    
+    sessionID = message.body.get("sessionID", None)
+    if sessionID != None:
+        def get_auth_uid(uid):
+            if (uid.body == None): message.reply("AUTHORISE_FAIL")
+            else:
+                userID = uid.body
+                def user_handler(user):
+                    message.reply(user.body)
+                EventBus.send("get_user_private", {"userID":userID}, user_handler)
+        EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
+    else:
+        message.reply(None)
+    
 
 #return username or None
 #PRIVATE

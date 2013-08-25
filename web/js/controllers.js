@@ -80,7 +80,8 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 			console.log(JSON.stringify(reply));
 		});
 		$eb.login(user.login,user.pass,function(res){
-			$eb.send("get_user", { userID: $eb.userID},function(user){
+			$eb.send("get_auth_user", {sessionID: $eb.sessionID},function(user){
+				console.log(JSON.stringify(user));
 				$scope.user=user;
 				$rootScope.$broadcast('loggedIn',{user:$scope.user});
 				localStorageService.add('sessionID',$eb.sessionID);
