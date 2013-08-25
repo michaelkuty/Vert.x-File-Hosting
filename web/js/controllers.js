@@ -211,4 +211,17 @@ function SearchCtrl($scope, $eb){
 		}
 
 	};
+	$scope.privateSearch = function(search){
+	$scope.messages.initial=false;
+	//TODO check boxs for public private and both searchs for logged users
+	if ($eb.sessionID !== null) {
+		$eb.send("simple_search",{"sessionID":$eb.sessionID,"public":false,"matcher":{"filename": search.input, "type": "*",}}, function(reply){
+		console.log(JSON.stringify(reply.files));
+		setFiles(reply.files);
+		});
+	} else {
+		console.log("Nemáme sessionID ID");
+	}
+
+};
 }

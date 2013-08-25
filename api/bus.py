@@ -52,35 +52,29 @@ def simple_search(message):
     matcher = None
     sessionID = None
     public = None
-    try:
-        collection = message.body.get("collection")
-        tmp_matcher = message.body.get("matcher")
-        #use python $regex
-        matcher = {
-            "filename": {
-                '$regex': tmp_matcher.get("filename"),
-                '$options': 'ix'
-            },
-        }
-    except Exception, e:
-        logger.warn("search wrong params")
-        collection = None
-        matcher = None
-    try:
-        sessionID = message.body.get("sessionID")
-    except Exception, e:
-        sessionID = None
-
+    collection = message.body.get("collection", None)
+    tmp_matcher = message.body.get("matcher", None)
+    sessionID = message.body.get("sessionID", None)
     public = message.body.get("public", None)
 
+
+    #use python $regex
+    matcher = {
+        "filename": {
+            '$regex': tmp_matcher.get("filename"),
+            '$options': 'ix'
+        },
+    }
+    logger.info(public)
     if ((sessionID != None) and (collection != None) and (matcher != None)):
         def get_auth_uid(uid):
             if (uid.body == None): message.reply("AUTHORISE_FAIL")
             else:
                 userID = uid.body
-                if ((public != None) and (public == True)):
+                logger.info(userID)
+                if (public == None):
                     matcher["public"] = True
-                elif (public == False):
+                else:
                     matcher["userID"] = userID
                     matcher["public"] = False
                 def reply_handler(msg):
