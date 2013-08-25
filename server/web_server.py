@@ -3,8 +3,6 @@ from core.event_bus import EventBus
 from core.file_system import FileSystem
 from core.http import RouteMatcher 
 from core.event_bus import EventBus
-from core.sock_js import SockJSServer
-
 #from server.bus.messages import bus_messages
 
 from server.bus import bus
@@ -13,7 +11,7 @@ from server import upload
 
 #inicialize
 server = vertx.create_http_server()
-sock_server = vertx.create_http_server()
+
 route_matcher = RouteMatcher()
 logger = vertx.logger()
 fs = vertx.file_system()
@@ -151,45 +149,5 @@ EventBus.register_handler('get_hostname', handler=get_hostname)
 #logger.info("send buffer: %s"% server.send_buffer_size)
 #logger.info("receive buffer: %s"% server.receive_buffer_size)
 #logger.info(server.use_pooled_buffers)
-SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
-            'address': 'vertx.basicauthmanager.login'
-        },
-        {
-            'address': 'vertx.basicauthmanager.authorise'
-        },
-        {
-            'address': 'vertx.basicauthmanager.logout'
-        },
-        {
-            'address': 'simple_search'
-        },
-        {
-            'address': 'get_or_create'
-        },
-        {
-            'address': 'registration'
-        },
-        {
-            'address': 'read_dir'
-        },
-        {
-            'address': 'mkdir_path'
-        },
-        {
-            'address': 'get_auth_user'
-        },
-        {
-            'address': 'update_user'
-        },
-        {
-            'address': 'get_hostname'
-        },
-        {
-            'address': 'exist_in_db'
-        },
-        {
-            'address': 'get_locale_messages'
-        }], [{}])
 
-sock_server.listen(app_config['port_bridge'])
 server.request_handler(route_matcher).listen(app_config['port'], app_config['host'])

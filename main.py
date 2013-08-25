@@ -34,7 +34,15 @@ def web_server_deploy(err, dep_id):
     else:
         logger.info("WEB-SERVER-OK on port: %s host: %s uid: %s"% (config.main.get("port",None),config.main.get("host",None),dep_id))
 
-vertx.deploy_verticle('server/server.py', config.main, 1, handler=web_server_deploy)
+vertx.deploy_verticle('server/web_server.py', config.main, 1, handler=web_server_deploy)
+
+def sock_js_server_deploy(err, dep_id):
+    if err is not None:
+        err.printStackTrace()
+    else:
+        logger.info("SOCK-JS-SERVER-OK on port: %s host: %s uid: %s"% (config.main.get("port_bridge",None),config.main.get("host",None),dep_id))
+
+vertx.deploy_verticle('server/sock_js_server.py', config.main, 1, handler=sock_js_server_deploy)
 
 ##############################################MONGO#######################################################
 def deploy_mongo(err, dep_id):
