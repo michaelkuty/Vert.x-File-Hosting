@@ -67,6 +67,9 @@ function AppCtrl($scope,$eb,$rootScope,localStorageService){
 	$scope.$on('message',function(event,message){
 		viewMessage(message);
 	});
+	$scope.$on('loggedIn',function(event,data){
+		$scope.user=data.user;
+	});
 }
 
 function UploadCtrl($scope,$eb){
@@ -79,9 +82,8 @@ function UploadCtrl($scope,$eb){
 		registerFileUploader(params);
 	};
 }
-
+function FooterCtrl(){}
 function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
-
 	$scope.doLogin= function(user){
 		//example call
 		$eb.send("user_exist_in_db",{username:user.login}, function(reply){
@@ -89,8 +91,8 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 		});
 		$eb.login(user.login,user.pass,function(res){
 			$eb.send("get_auth_user", {sessionID: $eb.sessionID},function(user){
+				$scope.user=user;
 				$scope.$apply(function(){
-					$scope.user=user;
 					$rootScope.$broadcast('loggedIn',{user:$scope.user});
 					localStorageService.add('sessionID',$eb.sessionID);
 					$scope.$emit('message',{type:"error",text:"Přihlášeno"});
@@ -110,9 +112,9 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 	$scope.doRegistration = function(user){
 		$eb.send("registration",{user:user},function(response){
 			$scope.$apply(function(){
-				$scope.user=response.user;
+				//$scope.user=response.user;
 				$eb.sessionID=response.sessionID;
-				$rootScope.$broadcast('loggedIn',{user:user});
+				$rootScope.$broadcast('loggedIn',{user:response.user});
 				$location.path("upload");
 				$scope.$emit("message",{type:"success",text:"Registrace dopadla úspěšně"});
 			});
@@ -159,9 +161,6 @@ function HeaderCtrl($scope,$rootScope,$eb,localStorageService){
 	};
 };
 
-function FooterCtrl($scope){
-
-}
 function SearchCtrl($scope, $eb){
 	$scope.settings ={
 		gridSettings :{
