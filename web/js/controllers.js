@@ -5,26 +5,33 @@
 angular.module('filehosting.controllers', []);
 
 function AppCtrl($scope,$eb,localStorageService){
-	// init users
+	// first init
 	$eb.onopen=function(){
 		viewMessage({type:'info',text:"Spojení se serverem navázáno"});
-		$eb.send("get_locale_messages",{"locale":"EN"},function(messages){
-			console.log("messages");
+		this.send("get_locale_messages",{"locale":"EN"},function(messages){
+			console.log(messages);
 		});
-		if(typeof this.userID !== 'undefined' && $this.userID!==null){
-			$eb.send("get_user",{userID: $eb.userID},function(user){
-				$scope.$apply(function(){
-					$scope.user=user;
-				});
+		if(typeof this.sessionID !== 'undefined' && this.sessionID !== null){
+			$eb.send("get_auth_user",{sessionID: this.sessionID},function(user){
+				if(user !== null){
+					$scope.$apply(function(){
+						$scope.user=user;
+					});
+				}else{
+					this.sessionID = null;
+				}
 			});
 		}else if(localStorageService.get("sessionID")!=null){
 			var sessionID = localStorageService.get("sessionID");
-			$eb.sessionID=sessionID;
 			$eb.send("get_auth_user", {sessionID: sessionID},function(user){
-				$scope.$apply(function(){
-					$scope.user=user;
-					$eb.userID=user.id;
-				});
+				if(user !== null){
+					$scope.$apply(function(){
+						$scope.user=user;
+						$eb.sessionID=sessionID;
+					});
+				}else{
+					localStorageService.remove("sessionID");
+				}
 			});
 		}
 	}
