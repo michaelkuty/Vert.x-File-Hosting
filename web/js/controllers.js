@@ -89,6 +89,7 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 	}
 }
 
+
 function HeaderCtrl($scope,$eb){
 	//EXMAPLE CALL FOR LOCALE STRINGS
 	//EventBus.send("get_locale_messages",{"locale":"EN"},reply)
@@ -155,5 +156,36 @@ function SearchCtrl($scope, $eb){
 		}
 
 	};
+      
+/*$.pnotify.defaults.history = false;
+      $.pnotify.defaults.styling = 'bootstrap';
+ * method accept array of json [{}]
+ * param type, text
+ * anywhere you can call $scope.checkAlert([{}])
+ */$scope.checkAlerts = function(data) {
+  if (Object.prototype.toString.call(data) === '[object Array]') {
+    data.forEach(function(alert) {
+      //console.log(JSON.stringify(alert));
+      notice = {
+        type: alert.type,
+        text: alert.text,
+        opacity: 0.8,
+        delay: 3000,
+        hide: true,
+        nonblock: true,
+        closer_hover: true,
+        history: false
+      }
+      //console.log('notice', notice);
+      $.pnotify(notice);
+    });
+  } else {
+    $.pnotify({
+      type: "error",
+      text: "checkAlerts() data is not array of alerts"
+    });
+  }
+}
+
 
 }

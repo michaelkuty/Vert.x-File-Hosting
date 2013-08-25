@@ -9,9 +9,9 @@ messages = {
 	    "messages.upload": u"Nahrát soubory"
 	},
 	"EN": {
-	    "messages.login": u"Přihlášení",
-	    "messages.registration": u"Registrace",
-	    "messages.logout": u"Odhlášení",
+	    "messages.login": u"Login",
+	    "messages.registration": u"Registration",
+	    "messages.logout": u"Logout",
 	    "messages.profil": u"Profil",
 	    "messages.search": u"Vyhledávání",
 	    "messages.upload": u"Nahrát soubory"
