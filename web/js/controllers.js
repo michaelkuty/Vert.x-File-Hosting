@@ -126,10 +126,10 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 			}
 		});
 	};
-	$scope.validateFormInput = function(formName,inputName,value){
+	$scope.validateFormInput = function(formName,inputName,value,negation){
 		$eb.send("exist_in_db",{key:inputName,value:value},function(res){
 			$scope.$apply(function(){
-				if(res){
+				if(((typeof negation === 'undefined' || !negation ) && res) || (typeof negation !== 'undefined' && negation && !res)){
 					$scope[formName][inputName].$setValidity("exists",false);
 				}else{
 					$scope[formName][inputName].$setValidity("exists",true);
