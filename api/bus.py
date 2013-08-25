@@ -80,7 +80,7 @@ def simple_search(message):
                 userID = uid.body
                 if ((public != None) and (public == True)):
                     matcher["public"] = True
-                if (public == False):
+                elif (public == False):
                     matcher["userID"] = userID
                     matcher["public"] = False
                 def reply_handler(msg):

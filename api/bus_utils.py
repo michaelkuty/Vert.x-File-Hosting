@@ -221,7 +221,7 @@ def user_save_or_update(message):
                 def login(login):
                     message.reply(login.body) 
                 def reply(res):
-                    #logger.info(res.body)
+                    logger.info(res.body)
                 EventBus.send("login_user", {"username":user.get("username"),"password":user.get("password")}, login)
                 EventBus.send("registration_mail",{"user":user},reply)
             EventBus.send("vertx.mongopersistor",{"action":"save", "collection":message.body.get("collection"), "document": user},save_result_handler)
