@@ -95,7 +95,6 @@ function UploadCtrl($scope,$eb){
 		registerFileUploader(params);
 	};
 }
-function FooterCtrl(){}
 function LoginCtrl($scope,$location,$eb,localStorageService){
 	$scope.doLogin= function(user){
 		//example call
@@ -164,7 +163,7 @@ function HeaderCtrl($scope,$eb,localStorageService){
 		});
 	};
 };
-
+function FooterCtrl(){}
 function SearchCtrl($scope, $eb){
 	$scope.settings ={
 		gridSettings :{
@@ -191,7 +190,13 @@ function SearchCtrl($scope, $eb){
 					if(colIndex>$scope.settings.gridSettings.widgetsInRow){
 						rowIndex++;
 					}
-					$scope.file_widgets.push({type:$scope.files[i].ext,text:$scope.files[i].filename,row:rowIndex,col:colIndex,sizex:1,sizey:1});
+					$scope.file_widgets.push({
+						file:$scope.files[i],
+						row:rowIndex,
+						col:colIndex,
+						sizex:1,
+						sizey:1
+					});
 				};
 			}else{
 				$scope.messages.noFiles=true;
@@ -229,7 +234,7 @@ function SearchCtrl($scope, $eb){
 };
 
 }
-function MyFiles($scope, $eb, localStorageService){
+function MyFilesCtrl($scope, $eb, localStorageService){
 	$scope.settings ={
 		gridSettings :{
 			widgetsInRow: 8
@@ -262,7 +267,13 @@ function MyFiles($scope, $eb, localStorageService){
 					if(colIndex>$scope.settings.gridSettings.widgetsInRow){
 						rowIndex++;
 					}
-					$scope.file_widgets.push({type:$scope.files[i].ext,text:$scope.files[i].filename,row:rowIndex,col:colIndex,sizex:1,sizey:1});
+					$scope.file_widgets.push({
+						file:$scope.files[i],
+						row:rowIndex,
+						col:colIndex,
+						sizex:1,
+						sizey:1
+					});
 				};
 			}else{
 				$scope.messages.noFiles=true;
@@ -282,4 +293,7 @@ function MyFiles($scope, $eb, localStorageService){
 		console.log("Nemáme sessionID ID");
 	}
 	};
+}
+function FileDetailCtrl($scope,$routeParams,$eb){
+$scope.file={filename:$routeParams.filename};
 }

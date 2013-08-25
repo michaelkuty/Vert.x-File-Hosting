@@ -56,9 +56,7 @@ directive('gridster', function($timeout) {
             gridster.register_widget($w).add_faux_rows(1).set_dom_grid_height();
             $w.fadeIn();*/
         });
-
       };
-
       $scope.$watch('model', function() {
        $timeout(function() { 
           attachElementsToGridster(ul.find('li')); }); //attach to gridster
@@ -72,8 +70,8 @@ directive('filewidget', function() {
     scope: { widgetModel: '=' },
     replace: true,
     template:
-      '<li data-col="{{widgetModel.col}}" class="{{widgetModel.type}}" data-row="{{widgetModel.row}}" data-sizex="{{widgetModel.sizex}}" data-sizey="{{widgetModel.sizey}}">'+
-        '{{widgetModel.text}}' + 
+      '<li data-col="{{widgetModel.col}}" class="{{widgetModel.file.ext}}" data-row="{{widgetModel.row}}" data-sizex="{{widgetModel.sizex}}" data-sizey="{{widgetModel.sizey}}">'+
+        '<a href="#/file/{{widgetModel.file._id}}/{{widgetModel.file.filename}}">{{widgetModel.file.filename}}</a>'+
       '</li>',
     link: function($scope, $element, $attributes, $controller) {
     }
