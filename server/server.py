@@ -126,17 +126,11 @@ def registration(message):
 EventBus.register_handler('registration', handler=registration)
 EventBus.register_handler('update_user', handler=registration)
 
-def user_exist_in_db(message):
+def exist_in_db(message):
     message.body["collection"] = app_config.get("users_collection","users")
-    bus_utils.user_exist_in_db(message)
+    bus_utils.exist_in_db(message)
 
-EventBus.register_handler('user_exist_in_db', handler=user_exist_in_db)
-
-def email_exist_in_db(message):
-    message.body["collection"] = app_config.get("users_collection","users")
-    bus_utils.email_exist_in_db(message)
-
-EventBus.register_handler('email_exist_in_db', handler=email_exist_in_db)
+EventBus.register_handler('exist_in_db', handler=exist_in_db)
 
 #{sessionID, name}
 def mkdir_path(message):
@@ -185,10 +179,7 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
             'address': 'update_user'
         },
         {
-            'address': 'user_exist_in_db'
-        },
-        {
-            'address': 'email_exist_in_db'
+            'address': 'exist_in_db'
         },
         {
             'address': 'get_locale_messages'

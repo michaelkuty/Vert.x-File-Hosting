@@ -2,9 +2,6 @@
 ========
 
 ###TODO
-* update user SOLVED
-* * client HIGHT update user form
-* * server SOLVED
 * automatic css for gridster widget SOLVED
 * update form + validation SOLVED
 * rewrite client to english or two languages support and translate dictionary on server 
@@ -12,16 +9,7 @@
 * check boxs for public private and both searchs HIGHT
 * call user_exist_in_db on registration form HIGHT SOLVED
 * move 
-* email
-* * smtp SOLVED
-* * deploy mailer SOLVED
-* * email_exist_in_db SOLVED
-* * email_sender SOLVED
-* * email_model INITIAL
 * handle logout SOLVED
-* mkdir SOLVED
-* readprops SOLVED
-* save user with validation SOLVED
 * rename all files or dir
 * link(flag files)
 * mongo files

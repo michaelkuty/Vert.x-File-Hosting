@@ -103,34 +103,19 @@ def get_auth_uid(message):
 #collection
 #username
 #reply {boolean}
-def user_exist_in_db(message):
-    username = message.body.get("username", None)
+def exist_in_db(message):
+    key = message.body.get("key", None)
+    key = message.body.get("value", None)
     def reply_handler(msg):
         res = msg.body.get("result", None)
         if (res != None):
             message.reply(True)
         else:
             message.reply(False)
-    if (username != None):
-        EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {"username":username}}, reply_handler)
+    if (key != None and value != None):
+        EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {key:value}}, reply_handler)
     else: 
-        message.reply("wrong param name")
-#PUBLIC
-#collection
-#email
-#reply {boolean}
-def email_exist_in_db(message):
-    email = message.body.get("email", None)
-    def reply_handler(msg):
-        res = msg.body.get("result", None)
-        if (res != None):
-            message.reply(True)
-        else:
-            message.reply(False)
-    if (email != None):
-        EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': message.body.get("collection"), 'matcher': {"email":email}}, reply_handler)
-    else: 
-        message.reply("wrong param email")
+        message.reply(False)
 
 #simple unzip
 def unzip(filename, target, delete=None):
