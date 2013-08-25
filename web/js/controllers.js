@@ -6,25 +6,29 @@ angular.module('filehosting.controllers', []);
 
 function AppCtrl($scope,$eb,$rootScope,localStorageService){
 	// init users
-	if(typeof $eb.userID !== 'undefined' && $eb.userID!==null){
-		$eb.send("get_user",{userID: $eb.userID},function(user){
-			$scope.$apply(function(){
-				$scope.user=user;
+	$scope.initUsers = function(){
+		if(typeof $eb.userID !== 'undefined' && $eb.userID!==null){
+			$eb.send("get_user",{userID: $eb.userID},function(user){
+				$scope.$apply(function(){
+					$scope.user=user;
+				});
 			});
-		});
-	}else if(localStorageService.get("sessionID")!=null){
-		var sessionID = localStorageService.get("sessionID");
-		//login from localstorage
-		//$eb.auth
-		//$scope.user=storageUser;
-		//$rootScope.$broadcast("loggedIn",{user:storageUser});
-	}
+		}else if(localStorageService.get("sessionID")!=null){
+			var sessionID = localStorageService.get("sessionID");
+			$eb.send("get_auth_user", {sessionID: sessionID},function(user){
+				$scope.$apply(function(){
+					$scope.user=user;
+					$rootScope.$broadcast("loggedIn",{user:user});
+				});
+			});
+		}
+	};
 	//TODO: localizated strings
 	$scope.initMessages = function(){
 		$eb.send("get_locale_messages",{"locale":"EN"},function(messages){
 			console.log("messages");
 		});
-	}
+	};
 	var viewMessage = function(data) {
 		if(typeof data === 'object' && !(data instanceof Array)){
 			var notice = {
@@ -81,11 +85,12 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 		});
 		$eb.login(user.login,user.pass,function(res){
 			$eb.send("get_auth_user", {sessionID: $eb.sessionID},function(user){
-				console.log(JSON.stringify(user));
-				$scope.user=user;
-				$rootScope.$broadcast('loggedIn',{user:$scope.user});
-				localStorageService.add('sessionID',$eb.sessionID);
-				$scope.$emit('message',{type:"error",text:"Přihlášeno"});
+				$scope.$apply(function(){
+					$scope.user=user;
+					$rootScope.$broadcast('loggedIn',{user:$scope.user});
+					localStorageService.add('sessionID',$eb.sessionID);
+					$scope.$emit('message',{type:"error",text:"Přihlášeno"});
+				});
 			});
 			console.log("sessionID: " + $eb.sessionID);
 			console.log("userID: " + $eb.userID);
