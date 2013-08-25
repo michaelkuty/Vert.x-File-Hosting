@@ -6,8 +6,12 @@ angular.module('filehosting.controllers', []);
 
 function AppCtrl($scope,$eb,$rootScope,localStorageService){
 	// init users
-	$scope.initUsers = function(){
-		if(typeof $eb.userID !== 'undefined' && $eb.userID!==null){
+	$eb.onopen=function(){
+		viewMessage({type:'success',text:"Spojení se serverem navázáno"});
+		$eb.send("get_locale_messages",{"locale":"EN"},function(messages){
+			console.log("messages");
+		});
+		if(typeof this.userID !== 'undefined' && $this.userID!==null){
 			$eb.send("get_user",{userID: $eb.userID},function(user){
 				$scope.$apply(function(){
 					$scope.user=user;
@@ -15,20 +19,20 @@ function AppCtrl($scope,$eb,$rootScope,localStorageService){
 			});
 		}else if(localStorageService.get("sessionID")!=null){
 			var sessionID = localStorageService.get("sessionID");
+			$eb.sessionID=sessionID;
 			$eb.send("get_auth_user", {sessionID: sessionID},function(user){
 				$scope.$apply(function(){
 					$scope.user=user;
+					$eb.userID=user.id;
 					$rootScope.$broadcast("loggedIn",{user:user});
 				});
 			});
 		}
+	}
+	$eb.onclose=function(){
+		viewMessage({type:'warn',text:'Spojení se serverem bylo ukončeno'});
 	};
-	//TODO: localizated strings
-	$scope.initMessages = function(){
-		$eb.send("get_locale_messages",{"locale":"EN"},function(messages){
-			console.log("messages");
-		});
-	};
+
 	var viewMessage = function(data) {
 		if(typeof data === 'object' && !(data instanceof Array)){
 			var notice = {
@@ -36,10 +40,10 @@ function AppCtrl($scope,$eb,$rootScope,localStorageService){
 				text: data.text,
 				opacity: 0.8,
 				delay: 3000,
-				hide: false,
+				hide: true,
 				nonblock: true,
 				closer_hover: true,
-				history: true
+				history: false
 			}
 			$.pnotify(notice);
 		}else if(data instanceof Array){
@@ -69,7 +73,7 @@ function UploadCtrl($scope,$eb){
 	$scope.initUploader = function(){
 		var params={};
 		//send userID if exists
-		if($eb.userID != null){
+		if($eb.sessionID != null){
 			params.sessionID=$eb.sessionID;
 		}
 		registerFileUploader(params);
@@ -93,7 +97,6 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 				});
 			});
 			console.log("sessionID: " + $eb.sessionID);
-			console.log("userID: " + $eb.userID);
 			//minimal one file for result
 			$eb.send("mkdir_path",{"sessionID": $eb.sessionID,"name":"ahoj"}, function(res){
 				console.log(res);
@@ -104,12 +107,11 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 			$location.path("upload");
 		});
 	};
-	//$scope.doLog
 	$scope.doRegistration = function(user){
 
 		$eb.send("registration",{user:user},function(userID){
 			//console.log(JSON.stringify(userID));
-			$eb.send("get_user",{userID:userID},function(user){
+			$eb.send("get_auth_user",{userID:userID},function(user){
 				console.log(JSON.stringify(user));
 				
 				$scope.user=user;
@@ -126,27 +128,35 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 			}
 		});
 	};
-	$scope.checkUsername = function(username){
-		$eb.send("user_exist_in_db",{username:username},function(res){
-			console.log(res);
+	$scope.validateFormInput = function(formName,inputName,value){
+		$eb.send("exist_in_db",{key:inputName,value:value},function(res){
+			$scope.$apply(function(){
+				if(res){
+					$scope[formName][inputName].$setValidity("exists",false);
+				}else{
+					$scope[formName][inputName].$setValidity("exists",true);
+				}
+			});
 		});
-	}
-	$scope.checkEmail = function(email){
-		$eb.send("email_exist_in_db",{"email":email},function(res){
-			console.log(res);
-		});
-	}
+	};
 }
 
-
-function HeaderCtrl($scope,$eb){
+function HeaderCtrl($scope,$rootScope,$eb,localStorageService){
 	$scope.$on('loggedIn',function(event,data){
 		$scope.user=data.user;
 	});
-	//TODO
-	$scope.doLogout=function(user){
-		$eb.login($eb.sessionID,function(res){
-			$rootScope.$broadcast('loggedOut');
+	$scope.$on('loggedOut',function(event,data){
+		delete $scope.user;
+	});
+	$scope.doLogout=function(){
+		$eb.logout($eb.sessionID,function(res){
+			if(res.status==="ok"){
+				localStorageService.clearAll();
+				$scope.$apply(function(){
+					$scope.$emit("message",{type:"success",text:"Odhlášení proběhlo úspěšně"});
+					$rootScope.$broadcast('loggedOut');
+				});
+			}
 		});
 	};
 };

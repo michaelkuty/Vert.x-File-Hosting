@@ -37,7 +37,6 @@ var vertx = vertx || {};
     var state = vertx.EventBus.CONNECTING;
     var sessionID = null;
     var pingTimerID = null;
-    var userID = null;
   
     that.onopen = null;
     that.onclose = null;
@@ -46,25 +45,18 @@ var vertx = vertx || {};
       sendOrPub("send", 'vertx.basicauthmanager.login', {username: username, password: password}, function(reply) {
         if (reply.status === 'ok') {
           that.sessionID = reply.sessionID;
-          //console.log(that.sessionID);
-          sendOrPub("send","get_or_create",{username:username}, function(res){
-              //console.log(res); 
-            that.userID = res;
-            replyHandler(reply);
-          });
         } else {
           that.sessionID = null;
-          that.userID = null;
-          replyHandler(reply);
         }
+        replyHandler(reply);
       });
     }
-    that.logout = function(username, password, replyHandler) {
+    that.logout = function(sessionID, replyHandler) {
       sendOrPub("send", 'vertx.basicauthmanager.logout', {"sessionID": sessionID}, function(reply) {
         if (reply.status === 'ok') {
           that.sessionID = null;
-          that.userID = null;
-          //console.log(that.sessionID);
+        }else{
+          console.log(reply.message);
         } 
           replyHandler(reply);
       });
