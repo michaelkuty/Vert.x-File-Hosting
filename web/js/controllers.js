@@ -90,6 +90,8 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 }
 
 function HeaderCtrl($scope,$eb){
+	//EXMAPLE CALL FOR LOCALE STRINGS
+	//EventBus.send("get_locale_messages",{"locale":"EN"},reply)
 	$scope.$on('loggedIn',function(event,data){
 		$scope.user=data.user;
 	});

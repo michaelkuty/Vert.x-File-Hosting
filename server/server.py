@@ -33,7 +33,7 @@ upload.path_temp = app_config['paths']['path_temp']
 bus.path_upload = app_config['paths']['path_private']
 
 
-def index_handler(req):
+def index_handler(req):    
     req.response.send_file( "%sindex.html"% path_web)
 
 @route_matcher.no_match 
