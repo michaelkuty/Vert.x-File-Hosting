@@ -11,8 +11,6 @@ from server.bus import bus
 from server.bus import bus_utils
 from server import upload
 
-from server.bus import hovno
-
 #inicialize
 server = vertx.create_http_server()
 sock_server = vertx.create_http_server()
