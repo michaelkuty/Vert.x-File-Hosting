@@ -73,7 +73,7 @@ def file_handler(req):
                             if not err:
 
                                 req.response.status_code = 200
-                                #req.response.put_header("Content-Type", "image/jpeg")
+                                req.response.put_header("Content-Type", "image/png")
                                 req.response.send_file(path_symlink + uid + "/" + filename)
                             else:
                                 req.response.status_code = 200

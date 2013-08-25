@@ -26,17 +26,14 @@ def upload_handler(req):
 
     req.set_expect_multipart(True)
     logger.info(req.params.get('sessionID'))
-    try:
-        sessionID = req.params.get('sessionID')
-    except Exception, e:
-        sessionID = None
+    sessionID = req.params.get('sessionID', None)
     #create temp name
     filename = "%s"% path_temp 
     file_id = ""
     ##create more sofisticate uid
     for i in range(10):
         file_id += string.uppercase[random.randrange(26)]
-    filename = file_id + '.uploaded'
+    filename = filename +  file_id + '.uploaded'
     size = 0
     #call when fileupload was complete
     #file move and create link to file
