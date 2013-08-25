@@ -4,6 +4,7 @@ from core.file_system import FileSystem
 from core.http import RouteMatcher 
 from core.event_bus import EventBus
 from core.sock_js import SockJSServer
+from api.messages import bus_messages
 
 from api import bus
 from api import bus_utils
@@ -141,6 +142,7 @@ def mkdir_path(message):
     bus.mkdir_path(message)
 EventBus.register_handler('mkdir_path', handler=mkdir_path)
 
+EventBus.register_handler('get_locale_messages', handler=bus_messages.get_locale_messages)
 
 #set server
 #server.set_send_buffer_size(4 * 1024)
@@ -183,6 +185,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'email_exist_in_db'
+        },
+        {
+            'address': 'get_locale_messages'
         }], [{}])
 
 sock_server.listen(app_config['port_bridge'])

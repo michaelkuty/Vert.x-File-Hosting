@@ -130,7 +130,7 @@ function SearchCtrl($scope, $eb){
 					if(colIndex>$scope.settings.gridSettings.widgetsInRow){
 						rowIndex++;
 					}
-					$scope.file_widgets.push({text:$scope.files[i].filename,row:rowIndex,col:colIndex,sizex:1,sizey:1});
+					$scope.file_widgets.push({type:$scope.files[i].ext,text:$scope.files[i].filename,row:rowIndex,col:colIndex,sizex:1,sizey:1});
 				};
 			}else{
 				$scope.messages.noFiles=true;
