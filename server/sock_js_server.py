@@ -40,6 +40,9 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'get_locale_messages'
+        },
+        {
+            'address': 'get_version'
         }], [{}])
 
 sock_server.listen(app_config['port_bridge'])
