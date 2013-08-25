@@ -36,8 +36,7 @@
       'js/controllers.js',
       'js/directives.js',
       'js/upload.js',
-      'js/vertxbus.js',
-      'js/jquery.pnotify.min.js'
+      'js/vertxbus.js'
     ]); 
   </script>
 		<title>Filehosting PRO3</title>
@@ -50,12 +49,13 @@
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script type="text/javascript" src="js/vendor/jquery.liteuploader.min.js"></script>
 		<script type="text/javascript" src="js/vendor/jquery.gridster.js"></script>
+		<script type="text/javascript" src="js/jquery.pnotify.min.js"></script>
 		<script type="text/javascript" src="js/jquery.dropotron.js"></script>
 		<script type="text/javascript" src="js/config.js"></script>
 		<script type="text/javascript" src="js/skel.min.js"></script>
 		<script type="text/javascript" src="js/skel-panels.min.js"></script>
 		<link rel="stylesheet" href="css/jquery.gridster.css" />
-		<link rel="stylesheet" href="css/jquery.pnotify.default.css" />
+		<link rel="stylesheet" href="css/jquery.pnotify.css" />
 
 		<noscript>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
@@ -68,7 +68,7 @@
     		}
     	</style>
 	</head>
-	<body class="homepage" ng-cloak ng-controller="AppCtrl" ng-init="initUsers()">
+	<body class="homepage" ng-cloak ng-controller="AppCtrl">
 		<!--<script type="text/javascript">
 			$(function(){
 				$.pnotify.defaults.history = false;

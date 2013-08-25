@@ -4,10 +4,10 @@
 
 angular.module('filehosting.controllers', []);
 
-function AppCtrl($scope,$eb,$rootScope,localStorageService){
+function AppCtrl($scope,$eb,localStorageService){
 	// init users
 	$eb.onopen=function(){
-		viewMessage({type:'success',text:"Spojení se serverem navázáno"});
+		viewMessage({type:'info',text:"Spojení se serverem navázáno"});
 		$eb.send("get_locale_messages",{"locale":"EN"},function(messages){
 			console.log("messages");
 		});
@@ -24,18 +24,23 @@ function AppCtrl($scope,$eb,$rootScope,localStorageService){
 				$scope.$apply(function(){
 					$scope.user=user;
 					$eb.userID=user.id;
-					$rootScope.$broadcast("loggedIn",{user:user});
 				});
 			});
 		}
 	}
 	$eb.onclose=function(){
-		viewMessage({type:'warn',text:'Spojení se serverem bylo ukončeno'});
+		viewMessage({type:'info',text:'Spojení se serverem bylo ukončeno'});
 	};
 
 	var viewMessage = function(data) {
+		var stack_left = {"dir1": "down", "dir2": "right", "push": "top"};
 		if(typeof data === 'object' && !(data instanceof Array)){
 			var notice = {
+				icon: false,
+				closer: false,
+				sticker: false,
+				addclass:'stack-topleft',
+				stack:stack_left, 
 				type: data.type,
 				text: data.text,
 				opacity: 0.8,
@@ -49,14 +54,19 @@ function AppCtrl($scope,$eb,$rootScope,localStorageService){
 		}else if(data instanceof Array){
 			angular.forEach(data, function(value, key){
 				var notice = {
+					icon: false,
+					closer: false,
+					sticker: false,
+					addclass:'stack-topleft',
+					stack:stack_left, 
 					type: alert.type,
 					text: alert.text,
 					opacity: 0.8,
 					delay: 3000,
-					hide: true,
-					nonblock: true,
+					hide: false,
+					nonblock: false,
 					closer_hover: true,
-					history: false
+					history: true
 				}
 				$.notify(notice);
 			});
@@ -69,6 +79,9 @@ function AppCtrl($scope,$eb,$rootScope,localStorageService){
 	});
 	$scope.$on('loggedIn',function(event,data){
 		$scope.user=data.user;
+	});
+	$scope.$on('loggedOut',function(){
+		delete $scope.user;
 	});
 }
 
@@ -83,7 +96,7 @@ function UploadCtrl($scope,$eb){
 	};
 }
 function FooterCtrl(){}
-function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
+function LoginCtrl($scope,$location,$eb,localStorageService){
 	$scope.doLogin= function(user){
 		//example call
 		$eb.send("user_exist_in_db",{username:user.login}, function(reply){
@@ -93,9 +106,9 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 			$eb.send("get_auth_user", {sessionID: $eb.sessionID},function(user){
 				$scope.user=user;
 				$scope.$apply(function(){
-					$rootScope.$broadcast('loggedIn',{user:$scope.user});
+					$scope.$emit('loggedIn',{user:$scope.user});
 					localStorageService.add('sessionID',$eb.sessionID);
-					$scope.$emit('message',{type:"error",text:"Přihlášeno"});
+					$scope.$emit('message',{type:"info",text:"Příhlášení proběhlo úspěšně"});
 				});
 			});
 			console.log("sessionID: " + $eb.sessionID);
@@ -114,9 +127,9 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 			$scope.$apply(function(){
 				//$scope.user=response.user;
 				$eb.sessionID=response.sessionID;
-				$rootScope.$broadcast('loggedIn',{user:response.user});
+				$scope.$emit('loggedIn',{user:response.user});
 				$location.path("upload");
-				$scope.$emit("message",{type:"success",text:"Registrace dopadla úspěšně"});
+				$scope.$emit("message",{type:"info",text:"Registrace dopadla úspěšně"});
 			});
 		});
 	};
@@ -141,20 +154,14 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 	};
 }
 
-function HeaderCtrl($scope,$rootScope,$eb,localStorageService){
-	$scope.$on('loggedIn',function(event,data){
-		$scope.user=data.user;
-	});
-	$scope.$on('loggedOut',function(event,data){
-		delete $scope.user;
-	});
+function HeaderCtrl($scope,$eb,localStorageService){
 	$scope.doLogout=function(){
 		$eb.logout($eb.sessionID,function(res){
 			if(res.status==="ok"){
 				localStorageService.clearAll();
 				$scope.$apply(function(){
-					$scope.$emit("message",{type:"success",text:"Odhlášení proběhlo úspěšně"});
-					$rootScope.$broadcast('loggedOut');
+					$scope.$emit("message",{type:"info",text:"Odhlášení proběhlo úspěšně"});
+					$scope.$emit('loggedOut');
 				});
 			}
 		});
