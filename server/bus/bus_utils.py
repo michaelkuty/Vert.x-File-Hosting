@@ -33,7 +33,7 @@ def get_auth_user(message):
     sessionID = message.body.get("sessionID", None)
     if sessionID != None:
         def get_auth_uid(uid):
-            if (uid.body == None): message.reply("AUTHORISE_FAIL")
+            if (uid.body == None): message.reply(None)
             else:
                 userID = uid.body
                 def user_handler(user):
