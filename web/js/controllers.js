@@ -4,7 +4,27 @@
 
 angular.module('filehosting.controllers', []);
 
-function AppCtrl($scope){
+function AppCtrl($scope,$eb,$rootScope,localStorageService){
+	// init users
+	if(typeof $eb.userID !== 'undefined' && $eb.userID!==null){
+		$eb.send("get_user",{userID: $eb.userID},function(user){
+			$scope.$apply(function(){
+				$scope.user=user;
+			});
+		});
+	}else if(localStorageService.get("sessionID")!=null){
+		var sessionID = localStorageService.get("sessionID");
+		//login from localstorage
+		//$eb.auth
+		//$scope.user=storageUser;
+		//$rootScope.$broadcast("loggedIn",{user:storageUser});
+	}
+	//TODO: localizated strings
+	$scope.initMessages = function(){
+		$eb.send("get_locale_messages",{"locale":"EN"},function(messages){
+			console.log("messages");
+		});
+	}
 	var viewMessage = function(data) {
 		if(typeof data === 'object' && !(data instanceof Array)){
 			var notice = {
@@ -53,21 +73,7 @@ function UploadCtrl($scope,$eb){
 }
 
 function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
-	if(typeof $eb.userID !== 'undefined' && $eb.userID!==null){
-		$eb.send("get_user",{userID: $eb.userID},function(user){
-			$scope.$apply(function(){
-				$scope.user=user;
-			});
-		});
-	}else if(localStorageService.get("user")!=null){
-		var storageUser = localStorageService.get("user");
-		//login from localstorage
-		//$eb.login(storageUser.username,storageUser)
-		$scope.user=storageUser;
-		$rootScope.$broadcast("loggedIn",{user:storageUser});
-	}else{
-		$scope.user={};
-	}
+
 	$scope.doLogin= function(user){
 		//example call
 		$eb.send("user_exist_in_db",{username:user.login}, function(reply){
@@ -77,7 +83,7 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 			$eb.send("get_user", { userID: $eb.userID},function(user){
 				$scope.user=user;
 				$rootScope.$broadcast('loggedIn',{user:$scope.user});
-				localStorageService.add('user',$scope.user);
+				localStorageService.add('sessionID',$eb.sessionID);
 				$scope.$emit('message',{type:"error",text:"Přihlášeno"});
 			});
 			console.log("sessionID: " + $eb.sessionID);
@@ -91,9 +97,8 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 			});
 			$location.path("upload");
 		});
-
-		alert(JSON.stringify("Logged in: "+user.login));
 	};
+	//$scope.doLog
 	$scope.doRegistration = function(user){
 
 		$eb.send("registration",{user:user},function(userID){
@@ -129,8 +134,6 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 
 
 function HeaderCtrl($scope,$eb){
-	//EXMAPLE CALL FOR LOCALE STRINGS
-	//EventBus.send("get_locale_messages",{"locale":"EN"},reply)
 	$scope.$on('loggedIn',function(event,data){
 		$scope.user=data.user;
 	});
@@ -194,36 +197,4 @@ function SearchCtrl($scope, $eb){
 		}
 
 	};
-	  
-/*$.pnotify.defaults.history = false;
-	  $.pnotify.defaults.styling = 'bootstrap';
- * method accept array of json [{}]
- * param type, text
- * anywhere you can call $scope.checkAlert([{}])
- */$scope.checkAlerts = function(data) {
- 	if (Object.prototype.toString.call(data) === '[object Array]') {
-	data.forEach(function(alert) {
-	  //console.log(JSON.stringify(alert));
-	  notice = {
-		type: alert.type,
-		text: alert.text,
-		opacity: 0.8,
-		delay: 3000,
-		hide: true,
-		nonblock: true,
-		closer_hover: true,
-		history: false
-	  }
-	  //console.log('notice', notice);
-	  $.pnotify(notice);
-	});
-  } else {
-	$.pnotify({
-	  type: "error",
-	  text: "checkAlerts() data is not array of alerts"
-	});
-  }
-}
-
-
 }
