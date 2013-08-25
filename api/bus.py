@@ -19,29 +19,26 @@ bus_utils.path_upload = path_upload
 def get_or_create(message):
     username = message.body.get("username")
     #logger.info(username)
-    def reply_handler(msg):
-        #logger.info(msg.body["result"])
-        uid = ""
-        if (msg.body.get("result")):
-            #try
-            uid = msg.body["result"]["_id"]
-            def exists_handler(msg):
-                #logger.info(msg)
-                if (msg.body == True):
-                    message.reply(uid)
-                if(msg.body == False):
-                    def reply_handler(msg):
-                         #logger.info(msg.body["result"]["_id"])
-                         #TODO call utils mkdir eventbus
-                         fs.mkdir(path_upload+uid, perms=None, handler=None)
-                         message.reply(uid)
-                    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
-                else: message.reply("error")
-                #logger.info(msg.body["result"]["_id"])
-            EventBus.send("exists.handler", {"uid":uid} , exists_handler)
-        else: message.reply("user not exists")
-    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":username}}, reply_handler)
-
+    sessionID = message.body.get("sessionID", None)
+    userID = ""
+    if sessionID != None:
+        def get_auth_uid(uid):
+            if (uid.body == None): message.reply("AUTHORISE_FAIL")
+            else:
+                userID = uid.body
+                def exists_handler(msge):
+                    #logger.info(msge.body)
+                    if (msge.body == True) or (msge.body == False):
+                        if (msge.body == True):
+                            def mkdir_handler(result):
+                                logger.info(result.body)
+                                message.reply(result.body)
+                            EventBus.send("mkdir_handler",{"userID":userID},mkdir_handler)
+                        if (msge.body == False): message.reply("user directory not found")
+                    else:
+                        message.reply("error")
+                EventBus.send("exists.handler", {"uid":userID} , exists_handler)
+        EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
 #public
 #message{collection:collection,matcher:json
 #if sessionID else only pulic files
@@ -132,14 +129,21 @@ def mkdir_path(message):
         if (uid.body == None): message.reply("AUTHORISE_FAIL")
         else:
             userID = uid.body
+            logger.info(userID)
+
             def exists_handler(msge):
-                #logger.info(msge.body)
+                logger.info(msge.body)
                 if (msge.body == True) or (msge.body == False):
                     if (msge.body == True):
                         def mkdir_handler(result):
                             logger.info(result.body)
                             message.reply(result.body)
-                        EventBus.send("mkdir_handler",{"userID":userID,"name":message.body.get("name")},mkdir_handler)
+                        folder = message.body.get("name", None)
+                        if (folder != None):
+                            EventBus.send("mkdir_handler",{"userID":userID,"name":folder},mkdir_handler)
+                        else: 
+                            EventBus.send("mkdir_handler",{"userID":userID,"name":""},mkdir_handler)
+
                     if (msge.body == False): message.reply("user directory not found")
                 else:
                     message.reply("error")

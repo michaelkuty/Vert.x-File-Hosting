@@ -100,9 +100,6 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 			});
 			console.log("sessionID: " + $eb.sessionID);
 			//minimal one file for result
-			$eb.send("mkdir_path",{"sessionID": $eb.sessionID,"name":"ahoj"}, function(res){
-				console.log(res);
-			});
 			$eb.send("read_dir",{"sessionID": $eb.sessionID}, function(res){
 				console.log(res);
 			});
@@ -223,4 +220,59 @@ function SearchCtrl($scope, $eb){
 	}
 
 };
+
+}
+function MyFiles($scope, $eb){
+	$scope.settings ={
+		gridSettings :{
+			widgetsInRow: 8
+		},
+	};
+	$scope.messages = {
+		initial: true,
+		noFile : false
+	};
+	$eb.onopen = function(){
+			if ($eb.sessionID !== null){
+		$eb.send("mkdir_path",{"sessionID": $eb.sessionID}, function(res){
+			console.log(res);
+		});
+	}
+	}
+	var setFiles = function(files){
+		$scope.$apply(function(){
+			$scope.files=files;
+			setWidgets();
+		});
+	};
+	var setWidgets=function(){
+		$scope.file_widgets=[];
+		if($scope.files.length!=0){
+			$scope.messages.noFiles=false;
+			var rowIndex=1,colIndex;
+				for (var i = 0; i < $scope.files.length; i++) {
+					var colIndex = i+1;
+					if(colIndex>$scope.settings.gridSettings.widgetsInRow){
+						rowIndex++;
+					}
+					$scope.file_widgets.push({type:$scope.files[i].ext,text:$scope.files[i].filename,row:rowIndex,col:colIndex,sizex:1,sizey:1});
+				};
+			}else{
+				$scope.messages.noFiles=true;
+			}
+	};
+
+
+	$scope.privateSearch = function(search){
+	$scope.messages.initial=false;
+	//TODO check boxs for public private and both searchs for logged users
+	if ($eb.sessionID !== null) {
+		$eb.send("simple_search",{"sessionID":$eb.sessionID,"public":false,"matcher":{"filename": search.input, "type": "*",}}, function(reply){
+		console.log(JSON.stringify(reply.files));
+		setFiles(reply.files);
+		});
+	} else {
+		console.log("Nemáme sessionID ID");
+	}
+	};
 }
