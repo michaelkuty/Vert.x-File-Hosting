@@ -108,16 +108,14 @@ function LoginCtrl($scope,$rootScope,$location,$eb,localStorageService){
 		});
 	};
 	$scope.doRegistration = function(user){
-
-		$eb.send("registration",{user:user},function(userID){
-			//console.log(JSON.stringify(userID));
-			$eb.send("get_auth_user",{userID:userID},function(user){
-				console.log(JSON.stringify(user));
-				
-				$scope.user=user;
-				$rootScope.$broadcast('loggedIn');
+		$eb.send("registration",{user:user},function(response){
+			$scope.$apply(function(){
+				$scope.user=response.user;
+				$eb.sessionID=response.sessionID;
+				$rootScope.$broadcast('loggedIn',{user:user});
 				$location.path("upload");
-			})
+				$scope.$emit("message",{type:"success",text:"Registrace dopadla úspěšně"});
+			});
 		});
 	};
 	$scope.updateUser = function(user){
