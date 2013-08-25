@@ -18,9 +18,6 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
             'address': 'simple_search'
         },
         {
-            'address': 'get_or_create'
-        },
-        {
             'address': 'registration'
         },
         {
