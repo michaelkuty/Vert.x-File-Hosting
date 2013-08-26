@@ -184,11 +184,16 @@ margin: 0 auto;
   bottom: 200px;
   right: 200px;
 }
-/* This one is totally different. It stacks at the top and looks
-  like a Microsoft-esque browser notice bar. */
+/* !our stack! */
 .ui-pnotify.stack-bar-top {
   right: 0;
   top: 0;
+  height: 30px;
+  line-height: 10px;
+  text-align:center;
+  font-size:17px;
+  letter-spacing: 0.1em;
+  font-family: arial;
 }
 .ui-pnotify.stack-bar-bottom {
   margin-left: 15%;

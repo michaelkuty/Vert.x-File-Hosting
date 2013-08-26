@@ -10,7 +10,7 @@
 
 	body, input, select, textarea
 	{
-		font-size: 13pt;
+		font-size: 15pt;
 		line-height: 1.75em;
 		letter-spacing: 0.025em;
 	}
@@ -65,7 +65,6 @@
 	{
 		padding: 0 2.25em 0 2.25em;
 		font-size: 0.9em;
-		min-width: 12em;
 		height: 3em;
 		line-height: 4em;
 	}
@@ -265,7 +264,8 @@
 
 	.wrapper
 	{
-		padding: 6em 0 9em 0;
+		padding: 3em 0 9em 0;
+		min-height: 300px;
 	}
 
 		.wrapper .title
@@ -283,12 +283,13 @@
 	#header-wrapper
 	{
 		padding: 0;
-		height: 300px;
+		height: 350px;
 	}
 
 	#intro-wrapper
 	{
 		padding-bottom: 2em;
+		min-height: 0px!important;
 	}
 
 /*********************************************************************************/
@@ -298,7 +299,7 @@
 	#header
 	{
 		position: relative;
-		height: 300px;
+		height: 350px;
 	}
 
 /*********************************************************************************/
@@ -456,7 +457,8 @@
 
 		#intro .style1
 		{
-			font-size: 1.5em;
+			color: black;
+			font-size: 1.3em;
 			letter-spacing: 0.075em;
 		}	
 		

@@ -70,7 +70,7 @@ directive('filewidget', function() {
     scope: { widgetModel: '=' },
     replace: true,
     template:
-      '<li data-col="{{widgetModel.col}}" class="{{widgetModel.file.ext}}" data-row="{{widgetModel.row}}" data-sizex="{{widgetModel.sizex}}" data-sizey="{{widgetModel.sizey}}">'+
+      '<li data-col="{{widgetModel.col}}" class="{{widgetModel.file.type}}" data-row="{{widgetModel.row}}" data-sizex="{{widgetModel.sizex}}" data-sizey="{{widgetModel.sizey}}">'+
         '<a href="#/file/{{widgetModel.file._id}}/{{widgetModel.file.filename}}">{{widgetModel.file.filename}}</a>'+
       '</li>',
     link: function($scope, $element, $attributes, $controller) {

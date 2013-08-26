@@ -40,18 +40,18 @@ function AppCtrl($scope,$eb,localStorageService){
 	});
 
 	var viewMessage = function(data) {
-		var stack_bar_bottom = {"dir1": "up", "dir2": "right", "spacing1": 0, "spacing2": 0};
+		var stack_bar_top = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
 		if(typeof data === 'object' && !(data instanceof Array)){
 			var notice = {
 				icon: false,
 				closer: false,
 				sticker: false,
-				addclass:'stack-bar-bottom',
-				stack:stack_bar_bottom, 
+				addclass:'stack-bar-top',
+				stack:stack_bar_top,
+				width:"100%", 
 				type: data.type,
 				text: data.text,
-				width: "70%",
-				opacity: 0.8,
+				opacity: 0.85,
 				delay: 3000,
 				hide: true,
 				nonblock: true,
@@ -70,7 +70,7 @@ function AppCtrl($scope,$eb,localStorageService){
 					type: alert.typ,
 					text: alert.text,
 					width: "70%",
-					opacity: 0.8,
+					opacity: 0.9,
 					delay: 3000,
 					hide: false,
 					nonblock: false,
@@ -94,10 +94,35 @@ function AppCtrl($scope,$eb,localStorageService){
 	});
 }
 
-function UploadCtrl($scope,$eb){	
-	var uploadSuccess = function(response){
-		if(response.result === "ok"){
-			alert('uploaded');
+function UploadCtrl($scope,$eb){
+	var callbacks={
+		before: function(){
+			$scope.$apply(function(){
+				$scope.files=[];
+				$scope.uploading = true;
+				$scope.uploaderMessage="Nahrávám..."
+				$scope.$emit("message",{type:"info",text:"Nahrávání souboru začalo"});
+			});
+		},
+		each : function(file,errors){
+			$scope.$apply(function(){
+				$scope.files.push(file);
+			});
+		},
+		success: function(response){
+			if(response.result === "ok"){
+				$scope.$apply(function(){
+					delete $scope.uploading;
+					$scope.uploaded=true;
+					$scope.uploaderMessage="Nahrávání dokončeno";
+					$scope.$emit("message",{type:"ok",text:"Nahrávání souboru dokončeno"});
+				});
+			}
+		},
+		fail: function(xhr){
+			$scope.$apply(function(){
+				$scope.$emit("message",{type:"error",text:"Došlo k chybě při nahrávání souboru"});
+			});
 		}
 	}
 	$scope.init_upload = function(){
@@ -106,7 +131,7 @@ function UploadCtrl($scope,$eb){
 		if($eb.sessionID != null){
 			params.sessionID=$eb.sessionID;
 		}
-		registerFileUploader("/upload",params,uploadSuccess);
+		registerFileUploader("/upload",params,callbacks);
 		$scope.uploaderInited=true;
 	};
 	if($eb.readyState()){
@@ -215,6 +240,12 @@ function SearchCtrl($scope, $eb){
 					if(colIndex>$scope.settings.gridSettings.widgetsInRow){
 						rowIndex++;
 					}
+					//resolve is directory or not
+					if($scope.files[i].ext==="dir"){
+						$scope.files[i].type="dir";
+					}else{
+						$scope.files[i].type="file";
+					}
 					$scope.file_widgets.push({
 						file:$scope.files[i],
 						row:rowIndex,
@@ -291,6 +322,12 @@ function MyFilesCtrl($scope, $eb, localStorageService){
 					var colIndex = i+1;
 					if(colIndex>$scope.settings.gridSettings.widgetsInRow){
 						rowIndex++;
+					}
+					//resolve is directory or not
+					if($scope.files[i].ext==="dir"){
+						$scope.files[i].type="dir";
+					}else{
+						$scope.files[i].type="file";
 					}
 					$scope.file_widgets.push({
 						file:$scope.files[i],

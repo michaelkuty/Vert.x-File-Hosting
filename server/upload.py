@@ -82,11 +82,11 @@ def upload_handler(req):
                 end_time = datetime.now()
                 logger.info("Uploaded %d bytes to %s in %s"%(pump.bytes_pumped, filename, end_time-start_time))
                 size = pump.bytes_pumped
-                req.response.chunked = True
-                req.response.status_code = 201
+                #req.response.chunked = True
+                req.response.status_code = 201;
                 req.response.status_message = "File uploaded"
-                res = "{\"result\":\"%s\"\"size\":\"%s\"}"% ("ok",pump.bytes_pumped)
-                req.response.put_header("Content-Type","application/json")
+                res = "{\"result\":\"%s\",\"size\":\"%s\"}"% ("ok",pump.bytes_pumped)
+                req.response.put_header("Content-Type","application/json;charset=UTF-8")
                 req.response.end(res)
             file.close(file_close)
         req.end_handler(end_handler)

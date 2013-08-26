@@ -19,27 +19,23 @@
     background: url("images/bg_dir.png") no-repeat;
     background-size: 100% 100%;
 }
-.zip {
-    background: url("images/bg_zip.png") no-repeat;
-    background-size: 100% 100%;
-}
-.rar {
-    background: url("images/bg_rar.png") no-repeat;
-    background-size: 100% 100%;
-}
-.pdf {
-    background: url("images/bg_pdf.png") no-repeat;
-    background-size: 100% 100%;
-}
-.jpg {
-    background: url("images/bg_jpg.png") no-repeat;
-    background-size: 100% 100%;
+.file{
+    background-color:#282E3C;
 }
 
 .gridster .gs_w{
+    font-size:15px;
+    word-wrap:break-word;
+    overflow: hidden;
     padding:5px 10px;
     z-index: 2;
     position: absolute;
+}
+.gridster .gs_w a{
+    text-decoration: none;
+}
+.gridster .gs_w:hover a{
+    color:white!important;
 }
 
 .ready .gs_w:not(.preview-holder) {
