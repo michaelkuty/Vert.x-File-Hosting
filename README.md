@@ -1,6 +1,12 @@
 ﻿## vertxapp LIVE DEMO - http://master.majklk.cz
 ========
 
+![vertx](https://0.gravatar.com/avatar/801d7eaea86a4bb5f8a58ef86041f56e?d=https%3A%2F%2Fidenticons.github.com%2F94ff688120f54501e463d0ddcc075542.png&s=420)
+
+![mongodb](http://media.mongodb.org/logo-mongodb.png)
+
+![angular](http://www.airpair.com/images/tech/angularjs.jpeg)
+
 ### Main config - WEB server SockJS server MONGO connection
 
     {
