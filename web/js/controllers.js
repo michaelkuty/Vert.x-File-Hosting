@@ -94,8 +94,8 @@ function AppCtrl($scope,$eb,localStorageService){
 	});
 }
 
-function UploadCtrl($scope,$eb){
-	$eb.addOpenCall(function(){
+function UploadCtrl($scope,$eb){	
+	var init_upload = function(){
 		var params={};
 		$eb.send("get_hostname",function(hostname){
 			//send userID if exists
@@ -105,8 +105,12 @@ function UploadCtrl($scope,$eb){
 			registerFileUploader(hostname,params);
 			$scope.$apply(function(){$scope.uploaderInited=true});
 		});
-
-	});
+	};
+	if($eb.readyState()){
+		init_upload();
+	}else{
+		$eb.addOpenCall(init_upload);
+	}
 }
 function LoginCtrl($scope,$location,$eb,localStorageService){
 	$scope.doLogin= function(user){

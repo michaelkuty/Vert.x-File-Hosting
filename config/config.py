@@ -1,7 +1,7 @@
 enviroments = [
     {
         "name": "PRODUCTION",
-        "enabled": True,
+        "enabled": False,
         "version": "0.9.0",
         "port": 80,
         "port_bridge": 8889,
