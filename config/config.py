@@ -1,9 +1,6 @@
-"""
-GLOBAL config
-"""
 enviroments = [
     {
-        "name": "production",
+        "name": "PRODUCTION",
         "enabled": True,
         "version": "0.9.0",
         "port": 80,
@@ -23,6 +20,8 @@ enviroments = [
             "db_name": "default_db",
             "pool_size": 20,
         },
+        "files_collection": "files",
+        "users_collection": "users"
         "mailer": {
             "address": "mailer",
             "host": "smtp.googlemail.com",
@@ -32,14 +31,12 @@ enviroments = [
             "username": "kuty@koncepthk.cz",
             "password": "MKmk+987",
             "content-type": "text/html"
-        },
-        "files_collection": "files",
-        "users_collection": "users"
+        }
     },
     {
         "name": "TEST",
         "enabled": True,
-        "version": "0.9.0",
+        "version": "0.9.0-TEST-ENV",
         "port": 8888,
         "port_bridge": 8889,
         "host": "0.0.0.0",
@@ -57,6 +54,8 @@ enviroments = [
             "db_name": "default_db",
             "pool_size": 20,
         },
+        "files_collection": "files",
+        "users_collection": "users",
         "mailer": {
             "address": "mailer",
             "host": "smtp.googlemail.com",
@@ -66,26 +65,6 @@ enviroments = [
             "username": "kuty@koncepthk.cz",
             "password": "MKmk+987",
             "content-type": "text/html"
-        },
-        "files_collection": "files",
-        "users_collection": "users"
+        }
     }
 ]
-mongopersistor_address = "vertx.mongopersistor"
-
-"""
-mongo db persistor 
-ligh vrstva EB || Mongo db server
-"""
-
-
-"""
-default
-zatim None
-"""
-auth = {
-    "address": "vertx.basicauthmanager.login",
-    "user_collection": "users",
-    "persistor_address": mongopersistor_address,
-    "session_timeout": 30000
-}
