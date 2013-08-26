@@ -10,7 +10,7 @@
 				}else{
 					delimiter="&";
 				}
-				hostname=hostname+delimiter+param+"="+params[param];
+				hostname= hostname + "/upload" +delimiter+param+"="+params[param];
 				iterator++;
 			}
 		}
