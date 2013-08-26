@@ -108,7 +108,7 @@ EventBus.register_handler('mkdir_path', handler=mkdir_path)
 
 #def get_hostname
 def get_hostname(message):
-    message.reply("%s://%s"% ("htpp",app_config['host']))
+    message.reply("%s://%s"% ("http",app_config['host']))
 EventBus.register_handler('get_hostname',handler=get_hostname)
 
 def get_version(message):
