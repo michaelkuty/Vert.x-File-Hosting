@@ -95,21 +95,24 @@ function AppCtrl($scope,$eb,localStorageService){
 }
 
 function UploadCtrl($scope,$eb){	
-	var init_upload = function(){
+	var uploadSuccess = function(response){
+		if(response.result === "ok"){
+			alert('uploaded');
+		}
+	}
+	$scope.init_upload = function(){
 		var params={};
-		$eb.send("get_hostname",function(hostname){
-			//send userID if exists
-			if($eb.sessionID != null){
-				params.sessionID=$eb.sessionID;
-			}
-			registerFileUploader(hostname,params);
-			$scope.$apply(function(){$scope.uploaderInited=true});
-		});
+		//add sessionID if exists
+		if($eb.sessionID != null){
+			params.sessionID=$eb.sessionID;
+		}
+		registerFileUploader("/upload",params,uploadSuccess);
+		$scope.uploaderInited=true;
 	};
 	if($eb.readyState()){
-		init_upload();
+		$scope.init_upload();
 	}else{
-		$eb.addOpenCall(init_upload);
+		$eb.addOpenCall($scope.init_upload);
 	}
 }
 function LoginCtrl($scope,$location,$eb,localStorageService){

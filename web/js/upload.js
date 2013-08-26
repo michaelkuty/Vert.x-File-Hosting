@@ -1,8 +1,6 @@
-	function registerFileUploader(hostname,params){
-		if(typeof hostname !== 'string'){
-			throw new Error("registerFileUploader: hostname is not valid");
-		}else{
-			hostname=hostname+"/upload";
+	function registerFileUploader(upload_url,params,successFunction){
+		if(typeof upload_url !== 'string'){
+			throw new Error("registerFileUploader: upload_url is not valid");
 		}
 		if(typeof params === "object"){
 			var delimiter,iterator=0;
@@ -12,13 +10,13 @@
 				}else{
 					delimiter="&";
 				}
-				hostname= hostname +delimiter+param+"="+params[param];
+				upload_url= upload_url +delimiter+param+"="+params[param];
 				iterator++;
 			}
 		}
 		$("input:file[name='files']").off("change");
 		$("input:file[name='files']").liteUploader({
-			script: hostname,
+			script: upload_url,
 			disAllowedFileTypes: 'application/javascript',
 			maxSizeInBytes: 999999999999,
 			before: function() {
@@ -41,17 +39,11 @@
 				$('#details').append('<p>name: ' + file.name + ', type: ' + file.type + ', size:' + file.size + errorsDisp + '</p>');
 			},
 			success: function(response) {
-				console.log(response);
-				var response = $.parseJSON(response);
-
-				$.each(response.urls, function(i, url) {
-					$('#previews').append($('<img>', {
-						'src': url,
-						'width': 200
-					}));
-				});
-
-				$('#response').html(response.message);
+				alert("success");
+				successFunction(JSON.parse(response));
+			},
+			fail: function(xhr){
+				alert('fail');
 			}
 		});
 }
