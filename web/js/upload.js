@@ -1,6 +1,8 @@
 	function registerFileUploader(hostname,params){
 		if(typeof hostname !== 'string'){
 			throw new Error("registerFileUploader: hostname is not valid");
+		}else{
+			hostname=hostname+"/upload";
 		}
 		if(typeof params === "object"){
 			var delimiter,iterator=0;
@@ -10,7 +12,7 @@
 				}else{
 					delimiter="&";
 				}
-				hostname= hostname + "/upload" +delimiter+param+"="+params[param];
+				hostname= hostname +delimiter+param+"="+params[param];
 				iterator++;
 			}
 		}
