@@ -8,7 +8,7 @@ enviroments = [
         "version": "0.9.0",
         "port": 80,
         "port_bridge": 8889,
-        "host": "http://master.majklk.cz",
+        "host": "master.majklk.cz",
         "paths": {
             "web": "web/",
             "path_private":"files/private/",
