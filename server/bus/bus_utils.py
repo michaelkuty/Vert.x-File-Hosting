@@ -31,7 +31,6 @@ def get_user(message):
 #reply None, USER
 #these method register own eb.method get user which call DB
 def get_auth_user(message):
-    
     sessionID = message.body.get("sessionID", None)
     if sessionID != None:
         def get_auth_uid(uid):
@@ -75,13 +74,16 @@ def get_exists(message):
 #PUBLIC
 def get_user_uid(message):
     def reply_handler(msg):
+        uid = None
+        try:
+            uid = msg.body["result"].get("_id")
+        except Exception, e:
+            uid = None
         #logger.info(msg.body["result"]["_id"])
-        uid = msg.body["result"].get("_id", None)
         if (uid == None):
             message.reply(None)
-        else: 
-            message.reply(uid)
-            
+        elif (uid != None): message.reply(uid)
+        else: logger.info("get_user_uid error in result" )          
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":message.body.get("username")}}, reply_handler)
 
 #PRIVATE from sessionID reply user uid
