@@ -6,7 +6,7 @@ fs = vertx.file_system()
 #get config for spec enviroment
 logger = vertx.logger()
 
-logger.info("deploy filehosting app in python start   ")
+logger.info("START-INICIALIZE-FILEHOSTING")
 
 ###only create path from config
 for env in config.enviroments:
@@ -25,26 +25,17 @@ for env in config.enviroments:
 
         create_upload_dirs(paths)
 
-#TODO rewrite this module
-
-#called when deploy finish
 def web_server_deploy(err, dep_id):
     if err is not None:
         err.printStackTrace()
     else:
         logger.info("WEB-SERVER-OK on port: %s host: %s uid: %s"% (global_config.get("port",None),global_config.get("host",None),dep_id))
-
-vertx.deploy_verticle('server/web_server.py', global_config, 1, handler=web_server_deploy)
-
 def sock_js_server_deploy(err, dep_id):
     if err is not None:
         err.printStackTrace()
     else:
         logger.info("SOCK-JS-SERVER-OK on port: %s host: %s uid: %s"% (global_config.get("port_bridge",None),global_config.get("host",None),dep_id))
-
-vertx.deploy_verticle('server/sock_js_server.py', global_config, 1, handler=sock_js_server_deploy)
-
-##############################################MONGO#######################################################
+#deploy mongo mod and after load static data by enviroment
 def deploy_mongo(err, dep_id):
     if err is not None:
         err.printStackTrace()
@@ -54,28 +45,24 @@ def deploy_mongo(err, dep_id):
             else: 
                 logger.info("MOD-STATIC-DATA-OK")
         logger.info("STATIC-DATA-START-DEPLOY")
-        vertx.deploy_verticle('server/utils/static_data.py', handler=static_handler)
+        if (global_config.get("name") == "PRODUCTION"):
+            logger.info("PRODUCTION ENVIROMENT")
+            vertx.deploy_verticle('server/utils/prod_static_data.py', handler=static_handler)
+        elif (global_config.get("name") == "TEST"):
+            logger.info("TEST ENVIROMENT")
+            vertx.deploy_verticle('server/utils/test_static_data.py', handler=static_handler)
         logger.info("MOD-MONGO-OK uid: %s"% dep_id)
-
-vertx.deploy_module('io.vertx~mod-mongo-persistor~2.0.0-final', global_config.get("mongodb"), 1,handler=deploy_mongo)
-##############################################AUTH#######################################################
 def deploy_auth(err, dep_id):
     if err is not None:
         err.printStackTrace()
     else:
         logger.info("MOD-AUTH-MGR uid: %s" %dep_id)
-
-vertx.deploy_module('io.vertx~mod-auth-mgr~2.0.0-final', None, 1,handler=deploy_auth)
-
-##############################################MAILER#######################################################
 def deploy_mailer(err, dep_id):
     if err is not None:
         err.printStackTrace()
     else:
         logger.info("MOD-MAILER uid: %s" %dep_id)
 
-vertx.deploy_module('io.vertx~mod-mailer~2.0.0-final', global_config.get("mailer"), 1,handler=deploy_mailer)
-###########################################################################################################
 
 #vertx.deploy_module('io.vertx~mod-unzip~1.0.0-final', {"address":"unzip.module"}, 1,handler=deploy_handler)
 
@@ -84,6 +71,12 @@ logger.info("WEB-SERVER-START-DEPLOY")
 logger.info("MOD-MONGO-START-DEPLOY")
 logger.info("MOD-AUTH-MGR-START-DEPLOY")
 logger.info("MOD-MAILER-START-DEPLOY")
+
+vertx.deploy_module('io.vertx~mod-mongo-persistor~2.0.0-final', global_config.get("mongodb"), 1,handler=deploy_mongo)
+vertx.deploy_module('io.vertx~mod-auth-mgr~2.0.0-final', None, 1,handler=deploy_auth)
+vertx.deploy_module('io.vertx~mod-mailer~2.0.0-final', global_config.get("mailer"), 1,handler=deploy_mailer)
+vertx.deploy_verticle('server/web_server.py', global_config, 1, handler=web_server_deploy)
+vertx.deploy_verticle('server/sock_js_server.py', global_config, 1, handler=sock_js_server_deploy)
 
 #logger.info("load config : %s"% config)
 #logger.info("webserver config : %s"% config.main)

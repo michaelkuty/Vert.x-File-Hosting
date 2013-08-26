@@ -13,7 +13,7 @@ path_private = "files/private/"
 #TODO with private
 #only public files
 #content type headers
-def get_public_file(req, path, uid, filename):
+def get_file(req, path, uid, filename):
     def uid_exists(err, res):
         if not err:
             def mkdir(err, res):
@@ -45,10 +45,11 @@ def file_handler(req):
     if (filename != None and uid != None):
         def get_auth_uid(msg):
             if (msg.body != None):
+                logger.info(uid.body)
                 userID = uid.body
-                get_public_file(req, path_private, userID,filename)
+                get_file(req, path_private, userID,filename)
             else:
-        		get_public_file(req, path_public, uid,filename) 
+        		get_file(req, path_public, uid,filename) 
         EventBus.send("get_auth_uid", {"sessionID":uid}, get_auth_uid)
     else:
         req.response.status_code = 404

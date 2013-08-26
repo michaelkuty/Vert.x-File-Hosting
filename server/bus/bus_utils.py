@@ -10,8 +10,10 @@ mongopersistor_address = 'vertx.mongopersistor'
 
 path_upload = "files/private/"
 
-#reply Object {}
+#{userID}
+#reply USER JSON{} without pass
 #PRIVATE
+#YOU MUST REGISTER THIS METHOD!
 def get_user(message):
     def reply_handler(msg):
         #logger.info(msg.body)
@@ -22,12 +24,12 @@ def get_user(message):
             message.reply(None)
         else:
             message.reply(msg.body['result'])
-            
     EventBus.send(mongopersistor_address, {'action': 'findone', 'collection': 'users', 'matcher': {"_id":message.body.get("userID")}}, reply_handler)
 
-EventBus.register_handler("get_user_private", handler = get_user)
-
+#PUBLIC
 #{sessionID:sessionID}
+#reply None, USER
+#these method register own eb.method get user which call DB
 def get_auth_user(message):
     
     sessionID = message.body.get("sessionID", None)
@@ -36,23 +38,22 @@ def get_auth_user(message):
             if (uid.body == None): message.reply(None)
             else:
                 userID = uid.body
+                get_user = EventBus.register_handler("get_user_private", handler = get_user)
                 def user_handler(user):
                     message.reply(user.body)
+                    EventBus.unregister_handler(get_user)
                 EventBus.send("get_user_private", {"userID":userID}, user_handler)
         EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
-    else:
-        message.reply(None)
+    else:message.reply(None)
     
-
-#return username or None
-#PRIVATE
+#PUBLIC
+#sessionID
+#reply None, username
 def authorize(message):
     def authorise_handler(msg):
         if (msg.body.get("status") == "ok"):
             message.reply(msg.body.get("username"))
-        else: 
-            #logger.info("%s !!! %s"% (msg.body.get("session_id"), msg.body.get("status")))
-            message.reply(None)
+        else: message.reply(None)
     EventBus.send('vertx.basicauthmanager.authorise', {"sessionID":message.body.get("sessionID")},authorise_handler)
 
 #string uid
@@ -75,13 +76,10 @@ def get_exists(message):
 def get_user_uid(message):
     def reply_handler(msg):
         #logger.info(msg.body["result"]["_id"])
-        uid = ""
-        try:
-            uid = msg.body["result"].get("_id")
-        except Exception, e:
-            uid = None
+        uid = msg.body["result"].get("_id", None)
+        if (uid == None):
             message.reply(None)
-        else:
+        else: 
             message.reply(uid)
             
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'users', 'matcher': {"username":message.body.get("username")}}, reply_handler)
@@ -92,7 +90,7 @@ def get_auth_uid(message):
         if (msg.body != None):
             def get_user_id(uid):
                 if (uid.body != None):
-                    message.reply(uid.body)
+                    message.reply(uid.booleanody)
                 else: message.reply(None)
             EventBus.send("get_user_uid", {"username":msg.body}, get_user_id)
         else: 
@@ -177,7 +175,7 @@ def read_dir(message):
                 message.reply(reply)
             else: logger.info(None)
     fs.read_dir(name, handler=reply_handler)
-    
+
 #{username,pass}
 def login_user(message):
     username = message.body.get("username", None)
