@@ -77,10 +77,14 @@ var vertx = vertx || {};
     }
   
     that.send = function(address, message, replyHandler) {
-      if(typeof message === 'object' && typeof replyHandler === 'function'){
+      if(typeof address === 'string' && typeof message === 'object' && typeof replyHandler === 'function'){
           sendOrPub("send", address, message, replyHandler);
-      }else if(typeof message === 'function'){
+      }else if(typeof address === 'string' && typeof message === 'object' && typeof replyHandler === 'undefined'){
+          sendOrPub("send",address,message,null);        
+      }else if(typeof address === 'string' && typeof message === 'function'){
           sendOrPub("send",address,null,message);
+      }else if(typeof address === 'string' && typeof message === 'undefined'){
+          sendOrPub("send",address,null,null);
       }else{
         throw new Error("EventBus.send: Wrong parameters");
       }

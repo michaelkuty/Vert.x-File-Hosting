@@ -136,6 +136,7 @@ function LoginCtrl($scope,$location,$eb,localStorageService){
 				$location.path("upload");
 				$scope.$emit("message",{type:"info",text:"Registrace dopadla úspěšně"});
 			});
+			$eb.send("mkdir_path",{"sessionID":$eb.sessionID});
 		});
 	};
 	$scope.updateUser = function(user){

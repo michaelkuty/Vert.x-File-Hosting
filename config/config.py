@@ -21,7 +21,7 @@ enviroments = [
             "pool_size": 20,
         },
         "files_collection": "files",
-        "users_collection": "users"
+        "users_collection": "users",
         "mailer": {
             "address": "mailer",
             "host": "smtp.googlemail.com",
@@ -39,7 +39,7 @@ enviroments = [
         "version": "0.9.0-TEST-ENV",
         "port": 8888,
         "port_bridge": 8889,
-        "host": "0.0.0.0",
+        "host": "localhost",
         "paths": {
             "web": "web/",
             "path_private":"files/private/",
