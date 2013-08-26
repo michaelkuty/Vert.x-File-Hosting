@@ -38,10 +38,10 @@ def get_auth_user(message):
             if (uid.body == None): message.reply(None)
             else:
                 userID = uid.body
-                get_user = EventBus.register_handler("get_user_private", handler = get_user)
+                get_user_eb = EventBus.register_handler("get_user_private", handler = get_user)
                 def user_handler(user):
                     message.reply(user.body)
-                    EventBus.unregister_handler(get_user)
+                    EventBus.unregister_handler(get_user_eb)
                 EventBus.send("get_user_private", {"userID":userID}, user_handler)
         EventBus.send("get_auth_uid", {"sessionID":sessionID}, get_auth_uid)
     else:message.reply(None)
@@ -90,7 +90,7 @@ def get_auth_uid(message):
         if (msg.body != None):
             def get_user_id(uid):
                 if (uid.body != None):
-                    message.reply(uid.booleanody)
+                    message.reply(uid.body)
                 else: message.reply(None)
             EventBus.send("get_user_uid", {"username":msg.body}, get_user_id)
         else: 

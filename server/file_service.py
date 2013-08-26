@@ -20,7 +20,6 @@ def get_file(req, path, uid, filename):
                 if not err:
                     def handle_symlink(err,res):
                         if not err:
-
                             req.response.status_code = 200
                             #req.response.put_header("Content-Type", "image/png")
                             req.response.send_file(path + uid + "/" + filename)
