@@ -16,7 +16,7 @@
 											<div class="info">
 												<p class="style1">{{file.name}}</p>
 												<strong>Typ:</strong> {{file.type}}<br/>
-												<strong>Velikost:</strong> {{file.size}}
+												<strong>Velikost:</strong> {{bytesToSize(file.size)}}
 											</div>
 											<div class="state">
 												<img ng-show="uploading" src="/css/images/loading.gif"/>
