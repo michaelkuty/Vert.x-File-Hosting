@@ -63,6 +63,10 @@ def get_version(message):
     message.reply("%s"% (app_config.get("version", None)))
 EventBus.register_handler('get_version', handler=get_version)
 
+def get_file(message):
+    bus_utils.get_file(message)
+EventBus.register_handler('get_file', handler=get_file)
+
 def send_mail_handler(message):
     body = message.body.get("body", None)
     subject = message.body.get("subject", None)
@@ -116,6 +120,10 @@ SockJSServer(sock_server).bridge({"prefix": "/eventbus"}, [{
         },
         {
             'address': 'send_mail'
+        },
+        {
+            'address': 'get_file'
         }], [{}])
+
 
 sock_server.listen(app_config['port_bridge'])

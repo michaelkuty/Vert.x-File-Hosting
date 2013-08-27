@@ -19,14 +19,13 @@ path_public = app_config['paths']['path_public']
 path_symlink = app_config['paths']['path_symlink']
 
 #cros module variable
-##TODO  
+##TODO
 upload.path_public = path_public
 file_service.path_public = path_public
 file_service.path_private = app_config['paths']['path_private']
 upload.path_symlink = path_symlink
 upload.path_upload = app_config['paths']['path_private']
 upload.path_temp = app_config['paths']['path_temp']
-
 
 def index_handler(req):    
     req.response.send_file( "%sindex.html"% path_web)

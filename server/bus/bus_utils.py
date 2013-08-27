@@ -99,6 +99,46 @@ def get_auth_uid(message):
             message.reply(None)
     EventBus.send("local.authorize", {"sessionID":message.body.get("sessionID")}, authorize_handler)
 
+#PRIVATE
+def get_file_from_db(message):
+    fileID = message.body.get("fileID", None)
+    def reply_handler(msg):
+        file_props = msg.body.get("result", None)
+        if (file_props == None):
+            message.reply(None)
+        elif (uid != None): message.reply(file_props)
+        else: logger.info("get_file_from_db error in result" )          
+    EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'files', 'matcher': {"_id":fileID}}, reply_handler)
+
+EventBus.register_handler("get_file_from_db", handler = get_file_from_db)
+
+def get_file(message):
+    sessionID = message.body.get("sessionID", None)
+    fileID = message.body.get("fileID", None)
+    if (sessionID != None and fileID != None):
+        def authorize_handler(msg):
+            if (msg.body != None):
+                def get_user_id(uid):
+                    if (uid.body != None):
+                        def reply_handler(msg):
+                            logger.info(msg.body)
+                            if msg.body != None:
+                                message.reply(msg.body)
+                            else: message.reply(None)
+                        EventBus.send("get_file_from_db",{"fileID":fileID},reply_handler)
+                    else: message.reply(None)
+                EventBus.send("get_user_uid", {"username":msg.body}, get_user_id)
+            else: message.reply(None)
+        EventBus.send("local.authorize", {"sessionID":sessionID}, authorize_handler)
+    elif (fileID != None):
+        def reply_handler(msg):
+            logger.info(msg.body)
+            if msg.body != None:
+                message.reply(msg.body)
+            else: message.reply(None)
+        EventBus.send("get_file_from_db",{"fileID":fileID},reply_handler)
+
+
 #PUBLIC
 #collection
 #username

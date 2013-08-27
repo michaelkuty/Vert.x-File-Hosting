@@ -77,6 +77,7 @@ vertx.deploy_module('io.vertx~mod-auth-mgr~2.0.0-final', None, 1,handler=deploy_
 vertx.deploy_module('io.vertx~mod-mailer~2.0.0-final', global_config.get("mailer"), 1,handler=deploy_mailer)
 vertx.deploy_verticle('server/web_server.py', global_config, 1, handler=web_server_deploy)
 vertx.deploy_verticle('server/sock_js_server.py', global_config, 1, handler=sock_js_server_deploy)
+vertx.deploy_verticle('server/presenation_server.py', global_config, 1, handler=sock_js_server_deploy)
 
 #logger.info("load config : %s"% config)
 #logger.info("webserver config : %s"% config.main)
