@@ -55,7 +55,7 @@
 		<script type="text/javascript" src="js/skel.min.js"></script>
 		<script type="text/javascript" src="js/skel-panels.min.js"></script>
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-		<script type="text/javascript" src="js/vedor/graph/sparkline.js"></script>
+		<script type="text/javascript" src="js/vendor/graph/sparkline.js"></script>
 		<link rel="stylesheet" href="css/jquery.gridster.css" />
 		<link rel="stylesheet" href="css/jquery.pnotify.css" />
 		<link rel="stylesheet" href="css/fonts/stylesheet.css"/>
@@ -123,7 +123,7 @@
 				
 		<!-- Footer Wrapper -->
 			<div id="footer-wrapper" class="wrapper" ng-controller="FooterCtrl">
-				<div class="title">FILEHOSTING</div>
+				<div class="title">KONTAKT</div>
 				<div class="container">
 					<div class="row">
 						<div class="12u">
@@ -136,7 +136,7 @@
 															<div>
 																<div class="row half">
 																	<div class="6u">
-																		<input type="text" class="text" ng-model="email.name" name="name" id="contact-name" placeholder="Name" />
+																		<input type="text" class="text" ng-model="email.name" name="name" id="contact-name" placeholder="Jméno" />
 																	</div>
 																	<div class="6u">
 																		<input type="email" class="text" ng-model="email.email" name="email" id="contact-email" required placeholder="Email" />
@@ -146,13 +146,13 @@
 																</div>
 																<div class="row half">
 																	<div class="12u">
-																		<textarea ng-model="email.body" name="body" id="contact-message" placeholder="Message"></textarea>
+																		<textarea ng-model="email.body" name="body" id="contact-message" placeholder="Text vaší zprávy"></textarea>
 																	</div>
 																</div>
 																<div class="row">
 																	<div class="12u">
 																		<ul class="actions">
-																			<li><input type="submit" class="button button-style1" value="Send" ng-disabled="sendMailForm.$invalid"/></li>
+																			<li><input type="submit" class="button button-style1" value="Napište nám" ng-disabled="sendMailForm.$invalid"/></li>
 																			<!--<li><input type="reset" class="button button-style2" value="Reset" /></li>-->
 																		</ul>
 																	</div>
@@ -172,18 +172,19 @@
 																<div class="row">
 																	<div class="6u">
 																		<section>
-																			<h3 class="icon icon-home"></h3>
+																			<h3>Autoři</h3>
 																			<p>
-																				BANER
+																				Client: Jakub Josef<br/>
+																				Server: Michael Kutý
 																			</p>
 																		</section>
 																	</div>
 																	<div class="6u">
 																		<section>
-																			<h3 class="icon icon-comment">Social</h3>
+																			<h3>Social</h3>
 																			<p>
-																				<a href="http://google.com/n33">googleplus/filehosting</a><br />
-																				<a href="#">facebook.com/filehosting</a>
+																				<a href="#">Google Plus</a><br />
+																				<a href="#">Facebook</a>
 																			</p>
 																		</section>
 																	</div>
@@ -191,7 +192,7 @@
 																<div class="row">
 																	<div class="6u">
 																		<section>
-																			<h3 class="icon icon-envelope">Email</h3>
+																			<h3>Email</h3>
 																			<p>
 																				<a href="#">filehosting@filehosting.cz</a>
 																			</p>
@@ -199,7 +200,7 @@
 																	</div>
 																	<div class="6u">
 																		<section>
-																			<h3 class="icon icon-phone">Phone</h3>
+																			<h3 class="icon icon-phone">Telefon</h3>
 																			<p>
 																				775 90 60 90
 																			</p>
