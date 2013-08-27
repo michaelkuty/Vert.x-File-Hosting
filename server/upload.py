@@ -41,7 +41,8 @@ def upload_handler(req):
         #TODO SEPARATION collections
         document = {
             "filename": upload.filename,
-            "size": size,
+            "size": upload.size,
+            "content_type":upload.content_type,
             "ext": upload.filename.split('.')[len(upload.filename.split('.'))-1],
             "content_transfer_encoding": upload.content_transfer_encoding,
             "charset": upload.charset,

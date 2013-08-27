@@ -45,14 +45,14 @@ var vertx = vertx || {};
       if(typeof call === 'function'){
         onOpenCalls.push(call);
       }else{
-        throw new Exception("EventBus.addOpenCall: Call cannot be added! It's not a function!");
+        console.log("EventBus.addOpenCall: Call cannot be added! It's not a function!");
       }
     }
     that.addCloseCall = function(call){
       if(typeof call === 'function'){
         onCloseCalls.push(call);
       }else{
-        throw new Exception("EventBus.addCloseCall: Call cannot be added! It's not a function!");
+        console.log("EventBus.addCloseCall: Call cannot be added! It's not a function!");
       }
     }
     that.login = function(username, password, replyHandler) {

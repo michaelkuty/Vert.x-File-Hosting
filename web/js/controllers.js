@@ -83,7 +83,38 @@ function AppCtrl($scope,$eb,localStorageService){
 			console.log("error in message");
 		}
 	}
+	//common functions
+	$scope.bytesToSize = function (bytes) {
+	    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+	    if (bytes == 0) return 'n/a';
+	    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+	    if (i == 0) return bytes + ' ' + sizes[i]; 
+	    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+	};
+	$scope.formatDate = function(inputDate,format){
+		if(typeof inputDate !== "undefined"){
+			var inputDate = inputDate.split('-').join(' ');
+			var date = new Date(inputDate);
+			  var o = {
+			    "M+" : date.getMonth()+1, //month
+			    "d+" : date.getDate(),    //day
+			    "h+" : date.getHours(),   //hour
+			    "m+" : date.getMinutes(), //minute
+			    "s+" : date.getSeconds(), //second
+			    "q+" : Math.floor((date.getMonth()+3)/3),  //quarter
+			    "S" : date.getMilliseconds() //millisecond
+			  }
 
+			  if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+			    (date.getFullYear()+"").substr(4 - RegExp.$1.length));
+			  for(var k in o)if(new RegExp("("+ k +")").test(format))
+			    format = format.replace(RegExp.$1,
+			      RegExp.$1.length==1 ? o[k] :
+			        ("00"+ o[k]).substr((""+ o[k]).length));
+			  return format;
+		}
+	}
+	//event handlers
 	$scope.$on('message',function(event,message){
 		viewMessage(message);
 	});
@@ -126,7 +157,7 @@ function UploadCtrl($scope,$eb){
 			});
 		}
 	}
-	$scope.init_upload = function(){
+	var init_upload = function(){
 		var params={};
 		//add sessionID if exists
 		if($eb.sessionID != null){
@@ -135,18 +166,7 @@ function UploadCtrl($scope,$eb){
 		registerFileUploader("/upload",params,callbacks);
 		$scope.uploaderInited=true;
 	};
-	$scope.bytesToSize = function (bytes) {
-	    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-	    if (bytes == 0) return 'n/a';
-	    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-	    if (i == 0) return bytes + ' ' + sizes[i]; 
-	    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
-	};
-	if($eb.readyState()){
-		$scope.init_upload();
-	}else{
-		$eb.addOpenCall($scope.init_upload);
-	}
+	init_upload();
 }
 function LoginCtrl($scope,$location,$eb,localStorageService){
 	$scope.doLogin= function(user){
@@ -315,7 +335,7 @@ function MyFilesCtrl($scope, $eb, localStorageService){
 		noFile : false
 	};
 	$eb.onopen = function(){
-		console.log(this.sessionID);
+		console.log(date.sessionID);
 		$eb.send("mkdir_path",{"sessionID":localStorageService.get("sessionID")}, function(res){
 			console.log(res);
 		});
@@ -371,14 +391,27 @@ function MyFilesCtrl($scope, $eb, localStorageService){
 	};
 }
 function FileDetailCtrl($scope,$routeParams,$eb){
-$scope.file={filename:$routeParams.filename};
+	var initFileDetail = function(){
+		$eb.send("get_file",{fileID:$routeParams.fileID},function(response){
+			console.log(JSON.stringify(response));
+			$scope.$apply(function(){
+				$scope.file=response;
+			});
+			
+		});
+	}
+	if($eb.readyState()){
+		initFileDetail();
+	}else{
+		$eb.addOpenCall(initFileDetail);
+	}
 }
 
 function TestCtrl($scope,$eb){
 			// create an SVG element inside the #graph div that fills 100% of the div
 		var graph = d3.select("#graph").append("svg:svg").attr("width", "100%").attr("height", "100%");
 
-		// create a simple data array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
+		// create a simple data array that we'll plot with a line (date array represents only the Y values, X will just be the index location)
 		var data = [3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9];
 
 		// X scale will fit values from 0-10 within pixels 0-100
@@ -392,13 +425,13 @@ function TestCtrl($scope,$eb){
 			.x(function(d,i) { 
 				// verbose logging to show what's actually being done
 				console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
-				// return the X coordinate where we want to plot this datapoint
+				// return the X coordinate where we want to plot date datapoint
 				return x(i); 
 			})
 			.y(function(d) { 
 				// verbose logging to show what's actually being done
 				console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
-				// return the Y coordinate where we want to plot this datapoint
+				// return the Y coordinate where we want to plot date datapoint
 				return y(d); 
 			})
 	

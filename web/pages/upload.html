@@ -19,14 +19,14 @@
 												<strong>Velikost:</strong> {{bytesToSize(file.size)}}
 											</div>
 											<div class="state">
-												<img ng-show="uploading" src="/css/images/loading.gif"/>
+												<loading ng-show="uploading"/>
 												<img ng-show="uploaded" src="/css/images/done.png"/>
 											</div>
 											<div class="cleaner"></div>
-										</ul>
+										</div>
 									</div>
 									<div ng-hide="uploaderInited">
-										<p class="style1">Načítám...</p>
+										<loading/>
 									</div>
 								</section>
 							<!-- /Intro -->

@@ -106,7 +106,7 @@ def get_file_from_db(message):
         file_props = msg.body.get("result", None)
         if (file_props == None):
             message.reply(None)
-        elif (uid != None): message.reply(file_props)
+        elif (file_props != None): message.reply(file_props)
         else: logger.info("get_file_from_db error in result" )          
     EventBus.send('vertx.mongopersistor', {'action': 'findone', 'collection': 'files', 'matcher': {"_id":fileID}}, reply_handler)
 

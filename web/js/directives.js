@@ -76,4 +76,15 @@ directive('filewidget', function() {
     link: function($scope, $element, $attributes, $controller) {
     }
   }
+}).
+directive('loading', function(){
+  // Runs during compile
+  return {
+     restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
+     template: '<img src="/css/images/loading.gif"/>',
+     replace: true,
+    link: function($scope, iElm, iAttrs, controller) {
+    }
+  };
 });
+
