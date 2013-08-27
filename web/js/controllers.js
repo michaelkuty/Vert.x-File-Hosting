@@ -83,6 +83,7 @@ function AppCtrl($scope,$eb,localStorageService){
 			console.log("error in message");
 		}
 	}
+
 	$scope.$on('message',function(event,message){
 		viewMessage(message);
 	});
@@ -213,13 +214,19 @@ function HeaderCtrl($scope,$eb,localStorageService){
 	};
 };
 function FooterCtrl($scope,$eb){
-$eb.addOpenCall(function(){
-	$eb.send("get_version",function(version){
-		$scope.$apply(function(){
-			$scope.version = version;
+	$eb.addOpenCall(function(){
+		$eb.send("get_version",function(version){
+			$scope.$apply(function(){
+				$scope.version = version;
+			});
 		});
 	});
-});
+	$scope.sendEmail =function(email){
+		console.log(JSON.stringify(email));
+		$eb.send("send_mail", email, function(reply){
+
+		});
+	}
 }
 function SearchCtrl($scope, $eb){
 	$scope.settings ={

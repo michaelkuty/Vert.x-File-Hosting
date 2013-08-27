@@ -2,11 +2,7 @@ import vertx
 from core.event_bus import EventBus
 from core.file_system import FileSystem
 from core.http import RouteMatcher 
-from core.event_bus import EventBus
-#from server.bus.messages import bus_messages
 
-from server.bus import bus
-from server.bus import bus_utils
 from server import upload
 from server import file_service
 #inicialize
@@ -28,10 +24,8 @@ upload.path_public = path_public
 file_service.path_public = path_public
 file_service.path_private = app_config['paths']['path_private']
 upload.path_symlink = path_symlink
-bus.path_upload = app_config['paths']['path_private']
 upload.path_upload = app_config['paths']['path_private']
 upload.path_temp = app_config['paths']['path_temp']
-bus.path_upload = app_config['paths']['path_private']
 
 
 def index_handler(req):    
@@ -65,63 +59,10 @@ route_matcher.post('/upload', upload.upload_handler)
 route_matcher.get('/dl/:uid/:filename', file_service.file_handler)
 route_matcher.get('/', index_handler)
 
-def get_or_create(message):
-    bus.get_or_create(message)
-
-EventBus.register_handler('get_or_create', handler=get_or_create)
-
-#
-def read_dir(message):
-    logger.info("read_dir_comment")
-    bus.read_dir(message)
-EventBus.register_handler('read_dir', handler=read_dir)
-
-def simple_search(message):
-    message.body["collection"] = app_config.get("files_collection","files")
-    bus.simple_search(message)
-
-EventBus.register_handler('simple_search', handler=simple_search)
-
-def get_auth_user(message):
-    message.body["collection"] = app_config.get("users_collection","users")
-    bus_utils.get_auth_user(message)
-
-EventBus.register_handler('get_auth_user', handler=get_auth_user)
-
-def registration(message):
-    message.body["collection"] = app_config.get("users_collection","users")
-    bus_utils.user_save_or_update(message)
-
-EventBus.register_handler('registration', handler=registration)
-EventBus.register_handler('update_user', handler=registration)
-
-def exist_in_db(message):
-    message.body["collection"] = app_config.get("users_collection","users")
-    bus_utils.exist_in_db(message)
-
-EventBus.register_handler('exist_in_db', handler=exist_in_db)
-
-#{sessionID, name}
-def mkdir_path(message):
-    bus.mkdir_path(message)
-EventBus.register_handler('mkdir_path', handler=mkdir_path)
-
-#def get_hostname
-def get_hostname(message):
-    message.reply("%s://%s"% ("http",app_config['host']))
-EventBus.register_handler('get_hostname',handler=get_hostname)
-
-def get_version(message):
-    message.reply("%s"% (app_config.get("version", None)))
-EventBus.register_handler('get_version', handler=get_version)
-
-#EventBus.register_handler('get_locale_messages', handler=bus_messages.get_locale_messages)
-
 #set server
 #server.set_send_buffer_size(4 * 1024)
 #server.set_receive_buffer_size(100 * 1024)
 #logger.info("send buffer: %s"% server.send_buffer_size)
 #logger.info("receive buffer: %s"% server.receive_buffer_size)
 #logger.info(server.use_pooled_buffers)
-
 server.request_handler(route_matcher).listen(app_config['port'], app_config['host'])
