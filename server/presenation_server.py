@@ -21,7 +21,6 @@ def index_handler(req):
 @route_matcher.no_match 
 def source_handler(req):
     if ("js" in req.uri) or ("css" in req.uri) or ("images" in req.uri) or ("pages" in req.uri):
-        logger.info(req.uri)
         req.response.send_file("%spresentation/%s"% (path_web,req.uri))
 
 route_matcher.get('/', index_handler)
