@@ -1,11 +1,11 @@
 enviroments = [
     {
         "name": "PRODUCTION",
-        "enabled": False,
+        "enabled": True,
         "version": "0.9.0",
         "port": 80,
-        "port_bridge": 8889,
-        "host": "master.majklk.cz",
+        "port_bridge": 17000,
+        "host": "vertx.samsung.majklk.cz",
         "paths": {
             "web": "web/",
             "path_private":"files/private/",
@@ -35,7 +35,7 @@ enviroments = [
     },
     {
         "name": "TEST",
-        "enabled": True,
+        "enabled": False,
         "version": "0.9.0-TEST-ENV",
         "port": 8888,
         "port_bridge": 8889,
