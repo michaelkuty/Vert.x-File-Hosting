@@ -1,0 +1,31 @@
+@font-face {
+    font-family: 'rexliafree';
+    src: url('rexlia_free-webfont.eot');
+    src: url('rexlia_free-webfont.eot?#iefix') format('embedded-opentype'),
+         url('rexlia_free-webfont.woff') format('woff'),
+         url('rexlia_free-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+.rexlia{font-family:rexliafree,arial,sans-serif;}
+@font-face {
+    font-family: 'Erie';
+    src: url('erielitn-webfont.eot');
+    src: url('erielitn-webfont.eot?#iefix') format('embedded-opentype'),
+         url('erielitn-webfont.woff') format('woff'),
+         url('erielitn-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+.erie{font-family:Erie,arial,sans-serif;}
+@font-face {
+    font-family: 'Gaebi';
+    src: url('gaebi-webfont.eot');
+    src: url('gaebi-webfont.eot?#iefix') format('embedded-opentype'),
+         url('gaebi-webfont.woff') format('woff'),
+         url('gaebi-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+.gaebi{font-family:Gaebi,arial,sans-serif;}

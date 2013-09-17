@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>FILEHOSTING</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1></h1>
+					<h3></h3>
+					<p>	
+						<big>FILEHOSTING</big></br>
+						<medium>Created by Michael Kutý @ Jakub Josef </medium>
+						</br></br></br>
+						<medium>
+							<UL>
+								<li>Vert.x</li>	
+								<li>AngularJS</li>	
+								<li>MongoDB</li>	
+								<li>Skel</li>		
+							</UL>
+						</medium>
+						</p>
+							<img width="438" height="364" src="http://fii.cz/sfcvgwhc" alt="vertx">
+						
+					</p>
+				</section>
+				<section>
+					<h2>O projektu</h2>
+					<p>
+						<big>FILEHOSTING</big>
+						<ul>
+						<li>Souborové úložiště
+							<ul>
+								<li>možnost vytváření složek</li>
+								<li>přesouvání mezi složkami</li>
+								<li>přejmenování</li>
+								<li>sdílení souborů</li>
+							</ul>
+						</li>
+						<li>"single page" aplikace</li>
+						<li>vyzkoušení nových technologií</li>
+						</ul>
+					</p>
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+					<section>
+						<h2>Vert.x</h2>
+						<p>
+							web - framework
+						</p>
+						<a href="#/2/1" class="image">
+							<img width="350" height="238" src="http://front-back.com/wp-content/uploads/2012/11/vertx_black.jpg" alt="vertx">
+						</a>
+					</section>
+					<section>
+						<h2>Vert.x</h2>
+						<big>Vert.x</big>
+						<ul>
+							<li><medium>Python</medium>, Java, Javascript, Groovy, Scala, Google clojure,PHP</li>
+							<li>Jednoduchý vývoj</li>
+							<li>EventBus ( WebSocket )</li>
+							<li>Jenoduchý konkurentní model</li>
+						</ul>
+						<a class="test" href="#/3">
+							<img width="20" height="20" src="http://red-badger.com/blog/wp-content/uploads/2013/01/AngularJS-large-resized-e1359375316590.png" alt="AngularJS">
+						</a>
+						<p></p>
+					</section>
+				</section>
+				<section>
+					<section>
+					<p>AngularJS</p>
+					<a class="test" href="#/4">
+						<img width="540" height="326" src="http://red-badger.com/blog/wp-content/uploads/2013/01/AngularJS-large-resized-e1359375316590.png" alt="Unicorn">
+					</a>
+					</section>
+					<section>
+											<img width="150" height="150" src="http://glennstovall.com/images/angular.png" alt="Unicorn"></br>
+					
+						<medium>MVW framework</medium> </br></br></br>
+						<ul>
+							<li>Model-View-Whatever</li>
+							<li>Two way data binding</li>
+							<li>Validace formulářů</li>
+							<li>Propagace zpráv</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<big>Mongo DB</big> </br></br>
+						<a href="#/6" class="image">
+							<img width="350" height="150" src="http://media.mongodb.org/logo-mongodb.png" alt="mongodb">
+						</a>
+					</section>
+					<section>
+										<a href="#/6" class="image">
+							<img width="350" height="150" src="http://media.mongodb.org/logo-mongodb.png" alt="mongodb">
+						</a>
+						<ul>
+							<li>No SQL</li>
+							<li>Plně asynchronní zpracování</li>
+							<li>Žádný definovaný model</li>
+							<li>Mongo Files</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<big>Další plány projektu</big>
+					<ul>
+					<li>Nahrávání souborů do databáze</li>
+					<li>Kreditový systém</li>
+					<li>Sdílení souborů</li>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

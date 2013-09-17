@@ -1,0 +1,32 @@
+<!-- Intro Wrapper -->
+<div id="intro-wrapper" class="wrapper wrapper-style2">
+	<div class="title">
+		Stáhnout soubor
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="12u">
+				<!-- Intro -->
+					<section id="intro">
+						<p class="style1">{{file.filename}}</p>
+					</section>
+				<!-- /Intro -->
+				
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Intro Wrapper -->
+<!-- Main Wrapper -->
+<div class="container wrapper pagewrapper">
+<div class="txtCenter" ng-show="file">
+<strong>Nahráno:</strong> {{formatDate(file.create_time,"dd.MM.yyyy")}}<br/>
+<strong>Typ:</strong> {{file.content_type}}<br/>
+<strong>Velikost:</strong> {{bytesToSize(file.size)}}<br/><br/>
+<a class="button" href="dl/{{file._id}}/{{file.filename}}">Stáhnout</a>
+</div>
+<div class="w150 marginAuto" ng-hide="file">
+<img src="/css/images/loading.gif"/>
+</div>
+</div>
+<!-- /Main Wrapper -->

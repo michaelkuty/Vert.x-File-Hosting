@@ -1,0 +1,32 @@
+		<!-- Intro Wrapper -->
+			<div id="intro-wrapper" class="wrapper wrapper-style2">
+				<div class="title">
+					Vyhledávání souborů
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="12u">
+							
+							<!-- Intro -->
+								<section id="intro">
+									<form name="searchForm" ng-submit="publicSearch(search)">
+										<input type="text" class="text left w1000" name="search" placeholder="Název souboru" ng-model="search.input" required/> 
+										<input type="Submit" class="button white left marginLeft10" value="Hledat" ng-disabled="searchForm.$invalid"/>
+									</form>
+								</section>
+							<!-- /Intro -->
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		<!-- /Intro Wrapper -->
+		<!-- Main Wrapper -->
+		<div class="container wrapper pagewrapper">
+		<p ng-show="messages.initial" class="txtCenter">Nejdříve vyhledejte soubor </p>
+		<p ng-show="messages.noFiles" class="txtCenter">Nic nenalezeno</p>
+			<div ng-show="files.length != 0">
+				<div class="gridster" model="file_widgets" options="{ widget_margins: [3, 3],widget_base_dimensions: [140, 140] }"></div>
+			</div>
+		</div>
+		<!-- /Main Wrapper -->
