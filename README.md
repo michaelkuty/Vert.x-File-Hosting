@@ -3,6 +3,8 @@
 
 `vertx runmod io.uhk~filehosting~0.0.9`
 
+[More about Vert.x mods](http://vertx.io/mods_manual.html)
+
 ### Main config - WEB server SockJS server MONGO connection
 
     {
