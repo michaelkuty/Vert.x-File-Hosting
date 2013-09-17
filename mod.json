@@ -1,8 +1,0 @@
-{
-	"developers": ["Michael Kutý, Jakub Josef"],
-	"name": "filehosting",
-	"version": "0.0.9",
-	"main": "main.py",
-	"description": "Simple filehosting using mongodb and angularjs",
-	"keywords": ["vert.x,angularjs,mongodb,skel.js"]
-}

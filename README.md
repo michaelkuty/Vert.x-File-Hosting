@@ -1,15 +1,7 @@
-﻿## vertxapp LIVE DEMO - http://master.majklk.cz
+﻿## vertxapp
 ========
 
-<div class="figure">
-<img src="https://0.gravatar.com/avatar/801d7eaea86a4bb5f8a58ef86041f56e?d=https%3A%2F%2Fidenticons.github.com%2F94ff688120f54501e463d0ddcc075542.png&s=420" width="200px" height="100px" alt="angularJS"/><p class="caption">Vert.x</p>
-</div>
-<div class="figure">
-<img src="https://si0.twimg.com/profile_images/2149314222/square.png" width="200px" height="200px" alt="angularJS" /><p class="caption">AngularJS</p>
-</div>
-<div class="figure">
-<img src="http://media.mongodb.org/logo-mongodb.png" alt="MONGODB" /><p class="caption">MONGODB</p>
-</div>
+`vertx runmod io.uhk~filehosting~0.0.9`
 
 ### Main config - WEB server SockJS server MONGO connection
 
