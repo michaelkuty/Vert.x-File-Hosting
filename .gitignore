@@ -5,11 +5,10 @@
 *.uploaded
 *.pdf
 *.zip
-mods/
-files/symlink/
-files/temp/
-files/public/
-files/private/
+mods/io.uhk~filehosting~0.0.9/files/symlink/
+mods/io.uhk~filehosting~0.0.9/files/temp/
+mods/io.uhk~filehosting~0.0.9/files/public/
+mods/io.uhk~filehosting~0.0.9/files/private/
 
 *.pydevproject
 .project
