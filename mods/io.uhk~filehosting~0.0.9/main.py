@@ -1,8 +1,10 @@
 import vertx
 from server.utils import cleaner
-from config import config
 from core.file_system import FileSystem
+from server.config import config
+
 fs = vertx.file_system()
+
 #get config for spec enviroment
 logger = vertx.logger()
 
