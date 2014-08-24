@@ -1,9 +1,7 @@
-﻿## vertxapp
+﻿## File Hosting - School project
 ========
 
 `vertx runmod io.uhk~filehosting~0.0.9`
-
-[More about Vert.x mods](http://vertx.io/mods_manual.html)
 
 ### Main config - WEB server SockJS server MONGO connection
 
@@ -42,56 +40,6 @@
         }
     }
     
-## EventBus API
+## Screenshots
 
-### def simple_search(message):
-* public
-* message
-* sessionID = nullable
-* collection:collection
-* matcher:json
-* * filename
-* * TODO content-type
-* * public:true,false,none (PRIVATE/PUBLIC/BOTH)
-* `reply {status:ok, files: []}`
-
-### def read_dir(message):
-* public
-* `messageJSON`
-* collection:collection:serverSide}
-* sessionID
-* relative path e.x uid/file.zip or uid/hello
-* `reply {status:ok, files: [{filename,props}]}`
-
-### def get_user(message):
-* `message{sessionID:sessionID}`
-* reply JSON{user}
-
-//todo rename save_or_update
-### def registration(message):
-* `message user:JSON`
-* * if user._id == update !!!
-* `method register && login`
-* `reply {sessionID:sessionID,user:user(JSON)}`
-
-###def mkdir_path(message):
-* public
-* `messageJSON`
-* collection:collection:serverSide
-* sessionID
-* relative path e.x uid/hello
-* `reply JSON{boolean}`
-
-###def user_exist_in_db(message):
-* public
-* collection:serverSide
-* username
-* `reply JSON{boolean}`
-
-###TODO
-* client messages (locale)
-* forgot pass mail form LOW
-* move 
-* rename all files or dir
-* link(flag files) PUBLIC link to private files 
-* `mongo files` 
+![web app](screenshots/file_hosting.gif)
