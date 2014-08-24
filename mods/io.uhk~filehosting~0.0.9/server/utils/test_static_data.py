@@ -18,6 +18,12 @@ def album_delete_handler(reply):
             'email': 'jakub.josef@uhk.cz',
             'username': 'kuba',
             'password': 'kuba'
+        },{
+            'firstname': 'Test',
+            'lastname': 'Test',
+            'email': 'test.test@test.cz',
+            'username': 'test',
+            'password': 'pass'
         }
     ]
 
@@ -36,7 +42,7 @@ EventBus.send('vertx.mongopersistor', {'action': 'delete', 'collection': 'users'
 def files_delete_handler(reply):
 
     files = [ {
-            'filename': 'ahoj hovnnaaa.jpg',
+            'filename': 'ahoj.jpg',
             'size': 1554645,
             "public": True,
             "ext": "jpg",
@@ -59,6 +65,10 @@ def files_delete_handler(reply):
         ,{
             'filename': 'ahoj',
             "public": False
+        },{
+            'filename': 'test',
+            "public": True,
+            "ext": "dir"
         }
     ]
 
