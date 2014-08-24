@@ -36,6 +36,14 @@ local.properties
 # PDT-specific
 .buildpath
 
+#java
+*.class
+
+#mods
+mods/io.vertx~mod-auth-mgr~2.0.0-final/*
+mods/io.vertx~mod-mailer~2.0.0-final/*
+mods/io.vertx~mod-mongo-persistor~2.0.0-final/*
+
 
 #################
 ## Visual Studio
