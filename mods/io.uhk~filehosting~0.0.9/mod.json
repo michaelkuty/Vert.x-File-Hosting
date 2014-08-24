@@ -1,6 +1,6 @@
 {
 	"developers": ["Michael Kutý, Jakub Josef"],
-	"name": "filehosting",
+	"name": "File hosting - school project",
 	"version": "0.0.9",
 	"main": "main.py",
 	"description": "Simple filehosting using mongodb and angularjs",
